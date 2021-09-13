@@ -4,9 +4,9 @@ using namespace gstd;
 
 /**********************************************************
 //MersenneTwister
-//Mersenne Twister‚ÍA¼–{áÁ E¼‘º‘ñmiƒAƒ‹ƒtƒ@ƒxƒbƒg‡j
-//‚É‚æ‚è1996”N‚©‚ç1997”N‚É“n‚Á‚ÄŠJ”­‚³‚ê‚½
-//‹^——”¶¬ƒAƒ‹ƒSƒŠƒYƒ€‚Å‚·B
+//Mersenne Twisterã¯ã€æ¾æœ¬çœ ãƒ»è¥¿æ‘æ‹“å£«ï¼ˆã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆé †ï¼‰
+//ã«ã‚ˆã‚Š1996å¹´ã‹ã‚‰1997å¹´ã«æ¸¡ã£ã¦é–‹ç™ºã•ã‚ŒãŸ
+//ç–‘ä¼¼ä¹±æ•°ç”Ÿæˆã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã§ã™ã€‚
 // http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/what-is-mt.html
 **********************************************************/
 typedef unsigned long cardinal;
@@ -15,7 +15,7 @@ const cardinal MATRIX_A = 0x9908b0dfUL;
 const cardinal UPPER_MASK = 0x80000000UL;
 const cardinal LOWER_MASK = 0x7fffffffUL;
 
-#define FIX32(value) value // 32bit‚ÌŒ^‚ª–³‚¢ŠÂ‹«‚Å‚Í value & 0xffffffffUL ‚Æ‚©
+#define FIX32(value) value // 32bitã®å‹ãŒç„¡ã„ç’°å¢ƒã§ã¯ value & 0xffffffffUL ã¨ã‹
 static cardinal const mag01[2]={0x0UL, MATRIX_A};
 
 MersenneTwister::MersenneTwister()

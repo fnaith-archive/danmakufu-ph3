@@ -120,7 +120,7 @@ void MenuTask::_MoveCursor()
 
 		if(pageLast != pageCurrent_)
 		{
-			//ページ変更
+			//ﾆ馳ﾂーﾆ淡窶｢ﾃ渉更
 			_ChangePage();
 		}
 	}

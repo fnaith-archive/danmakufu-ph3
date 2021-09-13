@@ -26,7 +26,7 @@ class MainWindow : public WindowBase , public Singleton<MainWindow>, Thread
 		WStatusBar wndStatus_;
 
 		std::wstring pathArchive_;
-		std::set<std::wstring> listFile_;//d•¡“o˜^‚ğ–h‚®
+		std::set<std::wstring> listFile_;//Âdâ€¢Â¡â€œoËœ^â€šÃ°â€“hâ€šÂ®
 
 		BOOL _DropFiles(WPARAM wParam,LPARAM lParam);
 		void _AddFileFromDialog();

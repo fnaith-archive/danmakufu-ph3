@@ -36,7 +36,7 @@ int WINAPI wWinMain(HINSTANCE hInstance,
 	}
 //	catch(...)
 //	{
-//		Logger::WriteTop("不明なエラー");
+//		Logger::WriteTop("窶｢s窶督ｾ窶堙鞍竪ﾆ停ｰﾂー");
 //	}
 
 	EApplication::DeleteInstance();
@@ -47,4 +47,3 @@ int WINAPI wWinMain(HINSTANCE hInstance,
 
 	return 0;
 }
-

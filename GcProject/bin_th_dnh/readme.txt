@@ -1,33 +1,32 @@
-�E�[�Ő܂�Ԃ��Ȃ��ق����ǂ݂₷���ł��B
+右端で折り返さないほうが読みやすいです。
 
-��DnhViewer�ɂ��āB
-�@�X�N���v�g�𒼐ڍĐ�����c�[���ł��B
-�@���@�X�N���v�g�ƓG�X�N���v�g���h���b�O���h���b�v�œo�^��
-�@�Đ��ł��܂��B
+○DnhViewerについて。
+　スクリプトを直接再生するツールです。
+　自機スクリプトと敵スクリプトをドラッグ＆ドロップで登録し
+　再生できます。
 
-�@�T���v���ł͈ȉ����܂߂Ă��܂��B
-�@���@�F/script/player/default_player/Default_Player_Rumia.txt
-�@�G�F/script/ExRumia/ExRumiaSpell01.txt
+　サンプルでは以下を含めています。
+　自機：/script/player/default_player/Default_Player_Rumia.txt
+　敵：/script/ExRumia/ExRumiaSpell01.txt
       /script/ExRumia/ExRumia_Plural.txt
       /script/ExRumia/ExRumia_Stage.txt
 
 
-���{�\�t�g�̓t���[�\�t�g�ł��B
-�@�A�v���P�[�V������p���Ĕ����������Q�Ȃǂ̕ۏ؂͂��������ł��܂���B
-�@���ȐӔC�ł��肢���܂��B
+○本ソフトはフリーソフトです。
+　アプリケーションを用いて発生した損害などの保証はいっさいできません。
+　自己責任でお願いします。
 
-���C���X�g�[�����@
-�@�K���ȏꏊ�Ɉ��k�t�@�C����W�J���Ă��������B
+○インストール方法
+　適当な場所に圧縮ファイルを展開してください。
 
-���A���C���X�g�[�����@
-�@�t�H���_���ƍ폜���Ă��������B���W�X�g���͎g���Ă܂���B
+○アンインストール方法
+　フォルダごと削除してください。レジストリは使ってません。
 
-���L�[�{�[�h����
-�@�@�J�[�\���L�[�F�ړ�
-�@�@Z�F�e(�������ςȂ��ŃI�[�g�A��)�A����
-�@�@X�F�{���A�L�����Z��
-�@�@��Shift�F�����ړ�
-�@�@��Ctrl�F�����Đ�
-�@�@R�F���Z�b�g(�^�C�g����ʂɖ߂�)
-�@�@BackSpace�F���g���C
-
+○キーボード操作
+　　カーソルキー：移動
+　　Z：弾(押しっぱなしでオート連射)、決定
+　　X：ボム、キャンセル
+　　左Shift：減速移動
+　　左Ctrl：高速再生
+　　R：リセット(タイトル画面に戻る)
+　　BackSpace：リトライ

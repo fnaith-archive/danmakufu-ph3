@@ -12,9 +12,9 @@ namespace gstd
 		public:
 			enum Status
 			{
-				RUN,//‰Ò“­’†
-				STOP,//’â~’†
-				REQUEST_STOP,//’â~—v‹’† 
+				RUN,//â€°Ã’â€œÂ­â€™â€ 
+				STOP,//â€™Ã¢Å½~â€™â€ 
+				REQUEST_STOP,//â€™Ã¢Å½~â€”vâ€¹Ââ€™â€  
 			};
 		private:
 			static unsigned int __stdcall _StaticRun(LPVOID data);

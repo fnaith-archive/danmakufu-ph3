@@ -1,44 +1,44 @@
 //================================================================
-//‘åˆæİ’è’l
+//å¤§åŸŸè¨­å®šå€¤
 //Texture
 sampler sampler0_ : register(s0);
 
 //================================================================
 //--------------------------------
-//ƒsƒNƒZƒ‹ƒVƒF[ƒ_“ü—Í’l
+//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€å…¥åŠ›å€¤
 struct PS_INPUT
 {
-	float4 diffuse : COLOR0;  //ƒfƒBƒtƒ…[ƒYF
-	float2 texCoord : TEXCOORD0; //ƒeƒNƒXƒ`ƒƒÀ•W
-	float2 vPos : VPOS; //•`‰ææÀ•W
+	float4 diffuse : COLOR0;  //ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºè‰²
+	float2 texCoord : TEXCOORD0; //ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™
+	float2 vPos : VPOS; //æç”»å…ˆåº§æ¨™
 };
 
 //--------------------------------
-//ƒsƒNƒZƒ‹ƒVƒF[ƒ_o—Í’l
+//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€å‡ºåŠ›å€¤
 struct PS_OUTPUT
 {
-    float4 color : COLOR0; //o—ÍF
+    float4 color : COLOR0; //å‡ºåŠ›è‰²
 };
 
 
 //================================================================
-// ƒVƒF[ƒ_
+// ã‚·ã‚§ãƒ¼ãƒ€
 //--------------------------------
-//ƒsƒNƒZƒ‹ƒVƒF[ƒ_
+//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€
 PS_OUTPUT PsMonotone( PS_INPUT In ) : COLOR0
 {
 	PS_OUTPUT Out;
 
-	//ƒeƒNƒXƒ`ƒƒ‚ÌF
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è‰²
 	float4 colorTexture = tex2D(sampler0_, In.texCoord);
 
-	//’¸“_ƒfƒBƒt[ƒYF
+	//é ‚ç‚¹ãƒ‡ã‚£ãƒ•ãƒ¼ã‚ºè‰²
 	float4 colorDiffuse = In.diffuse;
 
-	//‡¬
+	//åˆæˆ
 	float4 color = colorTexture * colorDiffuse;
 
-	//ƒ‚ƒmƒg[ƒ“‚ÌŒvZ
+	//ãƒ¢ãƒãƒˆãƒ¼ãƒ³ã®è¨ˆç®—
 	Out.color.rgb = ( color.r + color.g + color.b ) * 0.3333f;
 	Out.color.a = color.a;
 
@@ -56,4 +56,3 @@ technique TecMonotone
 		PixelShader = compile ps_3_0 PsMonotone();
 	}
 }
-

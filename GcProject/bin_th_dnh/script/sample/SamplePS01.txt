@@ -1,7 +1,7 @@
-#“Œ•û’e–‹•—[Stage]
+#±æ–¹å¼¾åé¢¨[Stage]
 #ScriptVersion[3]
 #Title["SamplePS01"]
-#Text["SamplePS01FƒsƒNƒZƒ‹ƒVƒF[ƒ_Fƒ‚ƒmƒg[ƒ“"]
+#Text["SamplePS01ï¼šã¯ã‚»«ã‚·§ãƒ¼€ï¼šãƒ¢ã¼ãƒ³"]
 #Background["script/default_system/Default_Background_IceMountain.txt"]
 
 @Initialize
@@ -16,25 +16,24 @@
 
 task TSamplePS1
 {
-	//ƒpƒXİ’è
+	//‘ã‚¹è¨­å
 	let dir = GetCurrentScriptDirectory();
 	let pathShader = dir ~ "SamplePS01_HLSL.txt";
 
-	//ƒVƒF[ƒ_¶¬
+	//·ã‚§¼ãŸæ
 	let objShader = ObjShader_Create();
 	ObjShader_SetShaderF(objShader, pathShader);
 	ObjShader_SetTechnique(objShader, "TecMonotone");
 
 	loop
 	{
-		//“Á’è‚Ì•`‰æ—Dæ“x‚ÉƒVƒF[ƒ_‚ğ“K‰
+		//¹å®æ»å„ªˆåº¦«ã‚·§ãƒ¼€’é©å¿
 		SetShaderI(objShader, 0, 100);
 		loop(180){yield;}
 
-		//ƒVƒF[ƒ_‰ğœ
+		//·ã‚§¼ãè§™¤
 		ResetShaderI(0, 100);
 		loop(180){yield;}
 	}
 
 }
-

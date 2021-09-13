@@ -16,14 +16,14 @@ EApplication::~EApplication()
 bool EApplication::_Initialize()
 {
 	ELogger* logger = ELogger::GetInstance();
-	Logger::WriteTop(L"ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‰Šú‰»");
+	Logger::WriteTop(L"¢ãªã‚±¼ã‚·§ãƒ³æ);
 
 	EFileManager* fileManager = EFileManager::CreateInstance();
 	fileManager->Initialize();
 
 	EFpsController* fpsController = EFpsController::CreateInstance();
 
-	std::wstring appName = L"“Œ•û’e–‹•— ph3 ";
+	std::wstring appName = L"±æ–¹å¼¾åé¢ph3 ";
 	appName += DNH_VERSION;
 
 	DnhConfiguration* config = DnhConfiguration::CreateInstance();
@@ -31,13 +31,12 @@ bool EApplication::_Initialize()
 	if(configWindowTitle.size() > 0)
 		appName = configWindowTitle;
 
-	//ƒ}ƒEƒX•\¦
+	//ã‚¦¹è¡¨ç¤
 	if(!config->IsMouseVisible())
 		WindowUtility::SetMouseVisible(false);
 
-	//DirectX‰Šú‰»
+	//DirectXæ
 	EDirectGraphics* graphics = EDirectGraphics::CreateInstance();
-	graphics->Initialize();
 	HWND hWndMain = graphics->GetWindowHandle();
 	WindowLogger::InsertOpenCommandInSystemMenu(hWndMain);
 	::SetWindowText(hWndMain, appName.c_str());
@@ -97,7 +96,7 @@ bool EApplication::_Initialize()
 	SystemController* systemController = SystemController::CreateInstance();
 	systemController->Reset();
 
-	Logger::WriteTop(L"ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‰Šú‰»Š®—¹");
+	Logger::WriteTop(L"¢ãªã‚±¼ã‚·§ãƒ³æ–åäº);
 
 	return true;
 }
@@ -113,7 +112,7 @@ bool EApplication::_Loop()
 	HWND hWndLogger = ELogger::GetInstance()->GetWindowHandle();
 	if(hWndFocused != hWndGraphics && hWndFocused != hWndLogger)
 	{
-		//”ñƒAƒNƒeƒBƒu‚Í“®ì‚µ‚È‚¢
+		//ã‚¢¯ã‚ã¯•ä—ãª
 		::Sleep(10);
 		return true;
 	}
@@ -124,7 +123,7 @@ bool EApplication::_Loop()
 		input->GetKeyState(DIK_LSHIFT) == KEY_HOLD &&
 		input->GetKeyState(DIK_R) == KEY_PUSH)
 	{
-		//ƒŠƒZƒbƒg
+		//ªã‚»ƒã
 		SystemController* systemController = SystemController::CreateInstance();
 		systemController->Reset();
 	}
@@ -140,10 +139,10 @@ bool EApplication::_Loop()
 
 	fpsController->Wait();
 
-	//ƒƒOŠÖ˜A
+	//­ã‚°¢é€
 	SYSTEMTIME time;
 	GetLocalTime(&time);
-	std::wstring fps = StringUtility::Format(L"WorkF%.2ffpsADrawF%.2ffps",
+	std::wstring fps = StringUtility::Format(L"Workï¼.2ffpsDrawï¼.2ffps",
 		fpsController->GetCurrentWorkFps(), 
 		fpsController->GetCurrentRenderFps());
 	logger->SetInfo(0, L"fps", fps);
@@ -153,7 +152,7 @@ bool EApplication::_Loop()
 	int widthScreen = widthConfig * graphics->GetScreenWidthRatio();
 	int heightScreen = heightConfig * graphics->GetScreenHeightRatio();
 
-	std::wstring screen = StringUtility::Format(L"widthF%d/%dAheightF%d/%d",
+	std::wstring screen = StringUtility::Format(L"widthï¼d/%dheightï¼d/%d",
 		widthScreen, widthConfig, 
 		heightScreen, heightConfig);
 	logger->SetInfo(1, L"screen", screen);
@@ -161,7 +160,7 @@ bool EApplication::_Loop()
 	logger->SetInfo(2, L"font cache", 
 		StringUtility::Format(L"%d", EDxTextRenderer::GetInstance()->GetCacheCount() ));
 	
-	//‚‘¬“®ì
+	//é«˜é€Ÿåä½
 	int fastModeKey = fpsController->GetFastModeKey();
 	if(input->GetKeyState(fastModeKey) == KEY_HOLD)
 	{
@@ -177,7 +176,7 @@ bool EApplication::_Loop()
 }
 bool EApplication::_Finalize()
 {
-	Logger::WriteTop(L"ƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹ˆ—ŠJn");
+	Logger::WriteTop(L"¢ãªã‚±¼ã‚·§ãƒ³çµ‚ä¦ç‹å");
 	SystemController::DeleteInstance();
 	ETaskManager::DeleteInstance();
 	EFileManager::GetInstance()->EndLoadThread();
@@ -194,7 +193,7 @@ bool EApplication::_Finalize()
 	ELogger* logger = ELogger::GetInstance();
 	logger->SaveState();
 
-	Logger::WriteTop(L"ƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹ˆ—Š®—¹");
+	Logger::WriteTop(L"¢ãªã‚±¼ã‚·§ãƒ³çµ‚ä¦çå®Œä");
 	return true;
 }
 
@@ -248,7 +247,7 @@ bool EDirectGraphics::Initialize()
 	int wHeight = ::GetSystemMetrics(SM_CYFULLSCREEN);
 	bool bFullScreenEnable = screenWidth <= wWidth && screenHeight <= wHeight;
 	
-	//ƒRƒ“ƒtƒBƒO”½‰f
+	//³ãƒ³•ã‚£°å
 	if(screenMode == DirectGraphics::SCREENMODE_FULLSCREEN && bFullScreenEnable)
 	{
 		ChangeScreenMode();

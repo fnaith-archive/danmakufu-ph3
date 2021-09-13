@@ -1,53 +1,53 @@
-#“Œ•û’e–‹•—[Single]
+#æ±æ–¹å¼¾å¹•é¢¨[Single]
 #ScriptVersion[3]
 #Title["SamplePS03"]
-#Text["SamplePS03FƒsƒNƒZƒ‹ƒVƒF[ƒ_Fƒ{ƒXüˆÍ‚Ì‚ä‚ç‚¬ƒGƒtƒFƒNƒg"]
+#Text["SamplePS03ï¼šãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ï¼šãƒœã‚¹å‘¨å›²ã®ã‚†ã‚‰ãã‚¨ãƒ•ã‚§ã‚¯ãƒˆ"]
 #Background["script/default_system/Default_Background_IceMountain.txt"]
 
 
-//ƒfƒtƒHƒ‹ƒg’e‰æ‘œ‚ğƒ[ƒh
+//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå¼¾ç”»åƒã‚’ãƒ­ãƒ¼ãƒ‰
 #include"script/default_system/Default_ShotConst.txt"
 
 //----------------------------------------------------
-//ƒOƒ[ƒoƒ‹•Ï”éŒ¾
-//‚±‚ÌˆÊ’u‚ÅéŒ¾‚µ‚½•Ï”‚ÍƒXƒNƒŠƒvƒg‘S‘Ì‚Å—LŒø‚Å‚·B
-//‚½‚¾‚µ‚±‚Ì‰ÓŠ‚Å‚Ì•Ï”‚Ö‚Ì‘ã“ü‚ÍA’è”ˆÈŠO‚Ì‘ã“ü‚Ís‚¦‚Ü‚¹‚ñB
-//(Às‡˜‚ª•Ûá‚³‚ê‚È‚¢‚½‚ß—”‚È‚Ç‚Ìg—p‚Í‚Å‚«‚Ü‚¹‚ñ)
+//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°å®£è¨€
+//ã“ã®ä½ç½®ã§å®£è¨€ã—ãŸå¤‰æ•°ã¯ã‚¹ã‚¯ãƒªãƒ—ãƒˆå…¨ä½“ã§æœ‰åŠ¹ã§ã™ã€‚
+//ãŸã ã—ã“ã®ç®‡æ‰€ã§ã®å¤‰æ•°ã¸ã®ä»£å…¥ã¯ã€å®šæ•°ä»¥å¤–ã®ä»£å…¥ã¯è¡Œãˆã¾ã›ã‚“ã€‚
+//(å®Ÿè¡Œé †åºãŒä¿éšœã•ã‚Œãªã„ãŸã‚ä¹±æ•°ãªã©ã®ä½¿ç”¨ã¯ã§ãã¾ã›ã‚“)
 //----------------------------------------------------
-let objEnemy; //“GƒIƒuƒWƒFƒNƒg
-let objPlayer; //©‹@ƒIƒuƒWƒFƒNƒg
-let frame = 0; //“G“®ì‚Ég—p‚·‚éƒJƒEƒ“ƒ^(@MainLoop‚Å1‚Ã‚Â‘‰Á‚³‚¹‚Ü‚·)
+let objEnemy; //æ•µã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+let objPlayer; //è‡ªæ©Ÿã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+let frame = 0; //æ•µå‹•ä½œã«ä½¿ç”¨ã™ã‚‹ã‚«ã‚¦ãƒ³ã‚¿(@MainLoopã§1ã¥ã¤å¢—åŠ ã•ã›ã¾ã™)
 
 //----------------------------------------------------
-//“G‚Ì“®ì
+//æ•µã®å‹•ä½œ
 //----------------------------------------------------
 @Event
 {
 	alternative(GetEventType())
 	case(EV_REQUEST_LIFE)
 	{
-		//“Gƒ‰ƒCƒt‚ğ—v‹‚³‚ê‚½
-		SetScriptResult(500);//ƒ‰ƒCƒt‚ğ500‚Éİ’è
+		//æ•µãƒ©ã‚¤ãƒ•ã‚’è¦æ±‚ã•ã‚ŒãŸ
+		SetScriptResult(500);//ãƒ©ã‚¤ãƒ•ã‚’500ã«è¨­å®š
 	}
 }
 
 @Initialize
 {
-	//©‹@ƒIƒuƒWƒFƒNƒgæ“¾
+	//è‡ªæ©Ÿã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–å¾—
 	objPlayer = GetPlayerObjectID();
 
-	//“GƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ“o˜^
+	//æ•µã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ç™»éŒ²
 	objEnemy = ObjEnemy_Create(OBJ_ENEMY_BOSS);
 	ObjEnemy_Regist(objEnemy);
 
-	//“G‰æ‘œ‚Ìİ’è
-	let imgExRumia = GetCurrentScriptDirectory ~ "ExRumia.png"; //“G‰æ‘œƒtƒ@ƒCƒ‹
-	ObjPrim_SetTexture(objEnemy, imgExRumia); //‰æ‘œƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
-	ObjSprite2D_SetSourceRect(objEnemy, 64, 1, 127, 64); //•`‰æŒ³‹éŒ`‚ğ(64,1) - (127,64)‚Éİ’è
-	ObjSprite2D_SetDestCenter(objEnemy); //•`‰ææ‚ğ’†S(0, 0)‚Éİ’è
+	//æ•µç”»åƒã®è¨­å®š
+	let imgExRumia = GetCurrentScriptDirectory ~ "ExRumia.png"; //æ•µç”»åƒãƒ•ã‚¡ã‚¤ãƒ«
+	ObjPrim_SetTexture(objEnemy, imgExRumia); //ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
+	ObjSprite2D_SetSourceRect(objEnemy, 64, 1, 127, 64); //æç”»å…ƒçŸ©å½¢ã‚’(64,1) - (127,64)ã«è¨­å®š
+	ObjSprite2D_SetDestCenter(objEnemy); //æç”»å…ˆã‚’ä¸­å¿ƒ(0, 0)ã«è¨­å®š
 
-	//À•W(cx, 120)‚Ö60ƒtƒŒ[ƒ€‚©‚¯‚ÄˆÚ“®‚·‚é
-	let cx = GetStgFrameWidth() / 2;//STGƒV[ƒ“‚Ì’†SxÀ•W‚ğæ“¾
+	//åº§æ¨™(cx, 120)ã¸60ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‘ã¦ç§»å‹•ã™ã‚‹
+	let cx = GetStgFrameWidth() / 2;//STGã‚·ãƒ¼ãƒ³ã®ä¸­å¿ƒxåº§æ¨™ã‚’å–å¾—
 	ObjMove_SetDestAtFrame(objEnemy, cx, 120, 60);
 
 	//let objScene = GetEnemyBossSceneObjectID();
@@ -58,7 +58,7 @@ let frame = 0; //“G“®ì‚Ég—p‚·‚éƒJƒEƒ“ƒ^(@MainLoop‚Å1‚Ã‚Â‘‰Á‚³‚¹‚Ü‚·)
 
 @MainLoop
 {
-	//“G‚ÌÀ•W‚ğæ“¾
+	//æ•µã®åº§æ¨™ã‚’å–å¾—
 	let ex = ObjMove_GetX(objEnemy);
 	let ey = ObjMove_GetY(objEnemy);
 
@@ -70,42 +70,42 @@ let frame = 0; //“G“®ì‚Ég—p‚·‚éƒJƒEƒ“ƒ^(@MainLoop‚Å1‚Ã‚Â‘‰Á‚³‚¹‚Ü‚·)
 
 	if(frame == 180)
 	{
-		//frame‚ª180‚É‚È‚Á‚½‚çÀs‚³‚ê‚é•”•ª
-		//©‹@‚ÌÀ•W‚ğæ“¾
+		//frameãŒ180ã«ãªã£ãŸã‚‰å®Ÿè¡Œã•ã‚Œã‚‹éƒ¨åˆ†
+		//è‡ªæ©Ÿã®åº§æ¨™ã‚’å–å¾—
 		let px = GetPlayerX();
 		let py = GetPlayerY();
 
-		//“G‚©‚ç‚İ‚½©‹@•ûŒü‚ÌŠp“x‚ğ‹‚ß‚éB
+		//æ•µã‹ã‚‰ã¿ãŸè‡ªæ©Ÿæ–¹å‘ã®è§’åº¦ã‚’æ±‚ã‚ã‚‹ã€‚
 		let angleToPlayer = atan2(py - ey, px - ex);
 
-		//angle‚ğ-30‚©‚ç15‚¸‚Â‘‰Á‚³‚¹5WAY‚É‚·‚é
+		//angleã‚’-30ã‹ã‚‰15ãšã¤å¢—åŠ ã•ã›5WAYã«ã™ã‚‹
 		let angle=0;
 		while(angle<360)
-		{//(angleF15‹ŠÔŠu‚Å0`360‚Ü‚Å)
-			//ˆê’èŠÔ‚Å©‹@•ûŒü‚ÖŠp“x‚ğ•Ï‚¦‚é’e
-			//’e‚ğì¬‚·‚éB
+		{//(angleï¼š15Â°é–“éš”ã§0ï½360ã¾ã§)
+			//ä¸€å®šæ™‚é–“ã§è‡ªæ©Ÿæ–¹å‘ã¸è§’åº¦ã‚’å¤‰ãˆã‚‹å¼¾
+			//å¼¾ã‚’ä½œæˆã™ã‚‹ã€‚
 			let obj = CreateShotA2(ex, ey, 5, angle, -0.10, 1, DS_RICE_S_BLUE, 30);
-			//”­ËŒã60ƒtƒŒ[ƒ€–Ú‚ÉA©‹@•ûŒü‚ğŠî€‚ÉŠp“x•ÏX‚·‚é‚æ‚¤‚Éİ’è
+			//ç™ºå°„å¾Œ60ãƒ•ãƒ¬ãƒ¼ãƒ ç›®ã«ã€è‡ªæ©Ÿæ–¹å‘ã‚’åŸºæº–ã«è§’åº¦å¤‰æ›´ã™ã‚‹ã‚ˆã†ã«è¨­å®š
 			ObjMove_AddPatternA4(obj, 60, 3, 0, 0, 0, 3, objPlayer, NO_CHANGE);
 			angle += 15;
 		}
 
-		frame = 0;//’e‚ğo‚µ‚½‚çframe‚ğ0‚É‚·‚é
+		frame = 0;//å¼¾ã‚’å‡ºã—ãŸã‚‰frameã‚’0ã«ã™ã‚‹
 	}
 
-	//“–‚½‚è”»’è“o˜^
-	ObjEnemy_SetIntersectionCircleToShot(objEnemy, ex, ey, 32);//“–‚½‚è”»’è(©‹@’e—p)“o˜^
-	ObjEnemy_SetIntersectionCircleToPlayer(objEnemy, ex, ey, 24);//“–‚½‚è”»’è(‘Ì“–‚½‚è—p)“o˜^
+	//å½“ãŸã‚Šåˆ¤å®šç™»éŒ²
+	ObjEnemy_SetIntersectionCircleToShot(objEnemy, ex, ey, 32);//å½“ãŸã‚Šåˆ¤å®š(è‡ªæ©Ÿå¼¾ç”¨)ç™»éŒ²
+	ObjEnemy_SetIntersectionCircleToPlayer(objEnemy, ex, ey, 24);//å½“ãŸã‚Šåˆ¤å®š(ä½“å½“ãŸã‚Šç”¨)ç™»éŒ²
 
-	//ƒJƒEƒ“ƒ^‚É1’Ç‰Á
+	//ã‚«ã‚¦ãƒ³ã‚¿ã«1è¿½åŠ 
 	frame++;
 
-	//ƒ‰ƒCƒt0ˆ—
+	//ãƒ©ã‚¤ãƒ•0å‡¦ç†
 	if(ObjEnemy_GetInfo(objEnemy, INFO_LIFE) <= 0)
 	{
-		//ƒ‰ƒCƒt‚ª0‚É‚È‚Á‚½‚ç‘¦À‚ÉI—¹
-		//–{—ˆ‚Í”š”­ƒGƒtƒFƒNƒg‚Ìƒ^ƒXƒN‚ğ“o˜^‚µA
-		//ƒGƒtƒFƒNƒgI—¹‚ğ‘Ò‚Á‚ÄAƒXƒNƒŠƒvƒg‚ğI—¹‚µ‚Ü‚·B
+		//ãƒ©ã‚¤ãƒ•ãŒ0ã«ãªã£ãŸã‚‰å³åº§ã«çµ‚äº†
+		//æœ¬æ¥ã¯çˆ†ç™ºã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ã‚¿ã‚¹ã‚¯ã‚’ç™»éŒ²ã—ã€
+		//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆçµ‚äº†ã‚’å¾…ã£ã¦ã€ã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’çµ‚äº†ã—ã¾ã™ã€‚
 		yield;
 		Obj_Delete(objEnemy);
 		CloseScript(GetOwnScriptID());
@@ -117,25 +117,25 @@ let frame = 0; //“G“®ì‚Ég—p‚·‚éƒJƒEƒ“ƒ^(@MainLoop‚Å1‚Ã‚Â‘‰Á‚³‚¹‚Ü‚·)
 
 
 //----------------------------------------------------
-//ƒ{ƒXüˆÍ‚Ì‚ä‚ç‚¬ƒGƒtƒFƒNƒg
+//ãƒœã‚¹å‘¨å›²ã®ã‚†ã‚‰ãã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 //----------------------------------------------------
 task TWaveCircle()
 {
-	//ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ^[ƒQƒbƒg‚Ég—p‚·‚éƒeƒNƒXƒ`ƒƒ
+	//ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã«ä½¿ç”¨ã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	let renderTexture = GetReservedRenderTargetName(0);
 
-	let frame = 0; //ƒtƒŒ[ƒ€
-	let baseEffectRadius = 128; //Šî€ƒGƒtƒFƒNƒg”¼Œa
-	let outerFluct = 16; //ƒGƒtƒFƒNƒg”¼Œa‚ÌÅ‘å•Ï‰»—Ê
-	let effectRadius = 0; //ƒGƒtƒFƒNƒg”¼Œa
+	let frame = 0; //ãƒ•ãƒ¬ãƒ¼ãƒ 
+	let baseEffectRadius = 128; //åŸºæº–ã‚¨ãƒ•ã‚§ã‚¯ãƒˆåŠå¾„
+	let outerFluct = 16; //ã‚¨ãƒ•ã‚§ã‚¯ãƒˆåŠå¾„ã®æœ€å¤§å¤‰åŒ–é‡
+	let effectRadius = 0; //ã‚¨ãƒ•ã‚§ã‚¯ãƒˆåŠå¾„
 
 
-	let priEffectMin = 20; //ƒGƒtƒFƒNƒg‚ğ‚©‚¯‚éÅ¬—Dæ“x
-	let priEffectMax = 28; //ƒGƒtƒFƒNƒg‚ğ‚©‚¯‚éÅ‘å—Dæ“x
+	let priEffectMin = 20; //ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ã‹ã‘ã‚‹æœ€å°å„ªå…ˆåº¦
+	let priEffectMax = 28; //ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ã‹ã‘ã‚‹æœ€å¤§å„ªå…ˆåº¦
 
-	//”wŒi‚Ì‚İƒGƒtƒFƒNƒg‚Ì‘ÎÛ‚Æ‚·‚é
-	//ƒGƒtƒFƒNƒg‚Ì•`‰æ‚Å‚Ü‚©‚È‚¦‚é‚½‚ßA
-	//—Dæ“x20`28‚Ì’Êí•`‰æ‚ğ–³Œø‚É‚·‚éB
+	//èƒŒæ™¯ã®ã¿ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®å¯¾è±¡ã¨ã™ã‚‹
+	//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»ã§ã¾ã‹ãªãˆã‚‹ãŸã‚ã€
+	//å„ªå…ˆåº¦20ï½28ã®é€šå¸¸æç”»ã‚’ç„¡åŠ¹ã«ã™ã‚‹ã€‚
 	SetInvalidRenderPriorityA1(priEffectMin, priEffectMax);
 
 	let frameWidth = GetStgFrameWidth();
@@ -147,37 +147,37 @@ task TWaveCircle()
 
 
 	//--------------------------------
-	//‚ä‚ª‚İƒIƒuƒWƒFƒNƒg
-	let objWave = ObjPrim_Create(OBJ_SPRITE_2D); //2DƒXƒvƒ‰ƒCƒgƒIƒuƒWƒFƒNƒg¶¬
-	Obj_SetRenderPriorityI(objWave, 25); //•`‰æ—Dæ“x‚ğİ’è
-	ObjPrim_SetTexture(objWave, renderTexture); //ƒeƒNƒXƒ`ƒƒ‚ğİ’è
+	//ã‚†ãŒã¿ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	let objWave = ObjPrim_Create(OBJ_SPRITE_2D); //2Dã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
+	Obj_SetRenderPriorityI(objWave, 25); //æç”»å„ªå…ˆåº¦ã‚’è¨­å®š
+	ObjPrim_SetTexture(objWave, renderTexture); //ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¨­å®š
 	ObjSprite2D_SetSourceRect(objWave, frameLeft, frameTop, frameRight, frameBottom);
 	ObjSprite2D_SetDestRect(objWave, 0, 0, frameWidth, frameHeight);
 	Obj_SetRenderPriorityI(objWave, priEffectMax + 1);
 
-	//‚ä‚ª‚İƒIƒuƒWƒFƒNƒg‚ÉƒVƒF[ƒ_‚ğİ’è
+	//ã‚†ãŒã¿ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã‚·ã‚§ãƒ¼ãƒ€ã‚’è¨­å®š
 	let pathShader = GetCurrentScriptDirectory ~ "SamplePS03_HLSL.txt";
 	ObjShader_SetShaderF(objWave, pathShader);
 	ObjShader_SetTechnique(objWave, "TecWave");
 
 
-	//ƒ{ƒX‚Ìƒ‰ƒCƒt‚ª0‚É‚È‚é‚Ü‚ÅƒGƒtƒFƒNƒg‚ğ‚©‚¯‚éB
+	//ãƒœã‚¹ã®ãƒ©ã‚¤ãƒ•ãŒ0ã«ãªã‚‹ã¾ã§ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ã‹ã‘ã‚‹ã€‚
 	let objEnemy = GetEnemyBossObjectID[0];
 	while(ObjEnemy_GetInfo(objEnemy, INFO_LIFE) > 0)
 	{
-		//ƒGƒtƒFƒNƒg”¼Œa
+		//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆåŠå¾„
 		effectRadius = baseEffectRadius + outerFluct * sin(frame*4);
 
-		let enemyX = ObjMove_GetX(objEnemy); //“GÀ•WX
-		let enemyY = ObjMove_GetY(objEnemy); //“GÀ•WY
+		let enemyX = ObjMove_GetX(objEnemy); //æ•µåº§æ¨™X
+		let enemyY = ObjMove_GetY(objEnemy); //æ•µåº§æ¨™Y
 
 		//--------------------------------
-		//—Dæ“x20`28(”wŒi)‚ğƒGƒtƒFƒNƒg—p‚ÌƒeƒNƒXƒ`ƒƒ‚É•`‰æ
-		//ƒVƒF[ƒ_‰ğœ
+		//å„ªå…ˆåº¦20ï½28(èƒŒæ™¯)ã‚’ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç”¨ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã«æç”»
+		//ã‚·ã‚§ãƒ¼ãƒ€è§£é™¤
 		RenderToTextureA1(renderTexture, priEffectMin, priEffectMax, true);
 
 		//--------------------------------
-		//ƒVƒF[ƒ_‚Éƒpƒ‰ƒ[ƒ^‚ğİ’è
+		//ã‚·ã‚§ãƒ¼ãƒ€ã«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®š
 		ObjShader_SetFloat(objWave, "frame_", frame);
 		ObjShader_SetFloat(objWave, "enemyX_", enemyX + frameLeft);
 		ObjShader_SetFloat(objWave, "enemyY_", enemyY + frameTop);
@@ -187,7 +187,7 @@ task TWaveCircle()
 		yield;
 	}
 
-	//ƒGƒtƒFƒNƒg—pƒIƒuƒWƒFƒNƒgíœ
+	//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‰Šé™¤
 	Obj_Delete(objWave);
 	ClearInvalidRenderPriority();
 }

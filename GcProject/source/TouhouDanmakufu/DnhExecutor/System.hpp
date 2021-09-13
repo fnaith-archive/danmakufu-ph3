@@ -42,7 +42,7 @@ class SceneManager
 		SceneManager();
 		virtual ~SceneManager();
 
-		//シーン変更
+		//ﾆ歎ﾂーﾆ停懌｢ﾃ渉更
 		void TransTitleScene();
 
 		void TransScriptSelectScene(int type);
@@ -146,5 +146,4 @@ class SystemResidentTask : public TaskBase
 };
 
 #endif
-
 

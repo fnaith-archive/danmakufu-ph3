@@ -102,12 +102,12 @@ void DebugTask::Work()
 			ref_count_ptr<StgPlayerObject>::unsync objPlayer = stageController->GetPlayerObject();
 			if(bPlayerInvincivility && objPlayer->GetInvincibilityFrame() < FRAME_PLAYER_INVINCIVILITY)
 			{
-				//Ž©‹@–³“G
+				//Å½Â©â€¹@â€“Â³â€œG
 				objPlayer->SetInvincibilityFrame(FRAME_PLAYER_INVINCIVILITY);
 			}
 			else if(bPlayerInvincivility_ && !bPlayerInvincivility)
 			{
-				//Ž©‹@–³“G‰ðœ
+				//Å½Â©â€¹@â€“Â³â€œGâ€°Ã°ÂÅ“
 				objPlayer->SetInvincibilityFrame(0);
 			}
 		}

@@ -52,7 +52,7 @@ void TitleScene::Work()
 	{
 		SceneManager* sceneManager = SystemController::GetInstance()->GetSceneManager();
 
-		//‘I‘ðƒCƒ“ƒfƒbƒNƒX•Û‘¶
+		//â€˜Iâ€˜Ã°Æ’CÆ’â€œÆ’fÆ’bÆ’NÆ’Xâ€¢Ã›â€˜Â¶
 		SystemController::GetInstance()->GetSystemInformation()->SetLastTitleSelectedIndex(cursorY_);
 
 		switch(cursorY_)

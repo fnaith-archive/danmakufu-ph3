@@ -1,11 +1,11 @@
 //================================================================
-//���ݒ�l
+//大域設定値
 //Texture
 sampler sampler0_ : register(s0);
 
 //--------------------------------
-//�}�X�N�p�e�N�X�`��
-//��ʕ�(�}�X�N�e�N�X�`���T�C�Y)
+//マスク用テクスチャ
+//画面幅(マスクテクスチャサイズ)
 const float SCREEN_WIDTH = 640;
 const float SCREEN_HEIGHT = 480;
 texture textureMask_;
@@ -17,53 +17,53 @@ sampler samplerMask_ = sampler_state
 
 //================================================================
 //--------------------------------
-//�s�N�Z���V�F�[�_���͒l
+//ピクセルシェーダ入力値
 struct PS_INPUT
 {
-	float4 diffuse : COLOR0;  //�f�B�t���[�Y�F
-	float2 texCoord : TEXCOORD0; //�e�N�X�`�����W
-	float2 vPos : VPOS; //�`�����W
+	float4 diffuse : COLOR0;  //ディフューズ色
+	float2 texCoord : TEXCOORD0; //テクスチャ座標
+	float2 vPos : VPOS; //描画先座標
 };
 
 //--------------------------------
-//�s�N�Z���V�F�[�_�o�͒l
+//ピクセルシェーダ出力値
 struct PS_OUTPUT
 {
-    float4 color : COLOR0; //�o�͐F
+    float4 color : COLOR0; //出力色
 };
 
 
 //================================================================
-// �V�F�[�_
+// シェーダ
 //--------------------------------
-//�s�N�Z���V�F�[�_
+//ピクセルシェーダ
 PS_OUTPUT PsMask( PS_INPUT In ) : COLOR0
 {
 	PS_OUTPUT Out;
 
-	//�e�N�X�`���̐F
+	//テクスチャの色
 	float4 colorTexture = tex2D(sampler0_, In.texCoord);
 
-	//���_�f�B�t�[�Y�F
+	//頂点ディフーズ色
 	float4 colorDiffuse = In.diffuse;
 
-	//����
+	//合成
 	float4 color = colorTexture * colorDiffuse;
 	Out.color = color;
 	if(color.a > 0)
 	{
 		//--------------------------------
-		//�}�X�N�p�̃e�N�X�`������F�������擾
-		//UV�ł̈ʒu�͉摜�t�@�C���̉����ƍ�������̊���
-		//�Ⴆ�΁A640x480�̉摜�̈ʒu(320,240)��UV�ł�0.5,0.5�ɂȂ�B
+		//マスク用のテクスチャから色成分を取得
+		//UVでの位置は画像ファイルの横幅と高さからの割合
+		//例えば、640x480の画像の位置(320,240)はUVでは0.5,0.5になる。
 		float2 maskUV;
 
-		//�`��悩��}�X�N�p�e�N�X�`���̈ʒu���v�Z
+		//描画先からマスク用テクスチャの位置を計算
 		maskUV.x = In.vPos.x / SCREEN_WIDTH;
 		maskUV.y = In.vPos.y / SCREEN_HEIGHT;
 		float4 colorMask = tex2D(samplerMask_, maskUV);
 
-		//�}�X�N��RGB�l���o�͌��ʂ̃��l�Ƃ��č�������
+		//マスクのRGB値を出力結果のα値として合成する
 		Out.color.a = ( colorMask.r + colorMask.g + colorMask.b ) * 0.3333f * color.a;
 	}
 
@@ -82,4 +82,3 @@ technique TecMask
 		PixelShader = compile ps_3_0 PsMask();
 	}
 }
-

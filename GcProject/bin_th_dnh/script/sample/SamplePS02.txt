@@ -1,7 +1,7 @@
-#“Œ•û’e–‹•—[Stage]
+#æ±æ–¹å¼¾å¹•é¢¨[Stage]
 #ScriptVersion[3]
 #Title["SamplePS02"]
-#Text["SamplePS02FƒsƒNƒZƒ‹ƒVƒF[ƒ_Fƒ}ƒXƒN"]
+#Text["SamplePS02ï¼šãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ï¼šãƒã‚¹ã‚¯"]
 #Background["script/default_system/Default_Background_IceMountain.txt"]
 
 @Initialize
@@ -16,21 +16,20 @@
 
 task TSamplePS2
 {
-	//ƒpƒXİ’è
+	//ãƒ‘ã‚¹è¨­å®š
 	let dir = GetCurrentScriptDirectory();
 	let pathShader = dir ~ "SamplePS02_HLSL.txt";
 
-	//ƒVƒF[ƒ_¶¬
+	//ã‚·ã‚§ãƒ¼ãƒ€ç”Ÿæˆ
 	let objShader = ObjShader_Create();
 	ObjShader_SetShaderF(objShader, pathShader);
 	ObjShader_SetTechnique(objShader, "TecMask");
 
-	//ƒVƒF[ƒ_‚Éƒ}ƒXƒN‰æ‘œ‚ğİ’è
+	//ã‚·ã‚§ãƒ¼ãƒ€ã«ãƒã‚¹ã‚¯ç”»åƒã‚’è¨­å®š
 	let pathMask = dir ~ "SamplePS02_Mask.png";
 	ObjShader_SetTexture(objShader, "textureMask_", pathMask);
 
-	//“Á’è‚Ì•`‰æ—Dæ“x‚ÉƒVƒF[ƒ_‚ğ“K‰
+	//ç‰¹å®šã®æç”»å„ªå…ˆåº¦ã«ã‚·ã‚§ãƒ¼ãƒ€ã‚’é©å¿œ
 	SetShaderI(objShader, 30, 100);
 
 }
-

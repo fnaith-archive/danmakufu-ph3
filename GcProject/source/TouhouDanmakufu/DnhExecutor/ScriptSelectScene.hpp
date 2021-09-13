@@ -223,7 +223,7 @@ class PlayerSelectScene : public TaskBase , public MenuTask
 };
 class PlayerSelectMenuItem : public TextLightUpMenuItem
 {
-		ref_count_ptr<ScriptInformation> info_;//©‹@î•ñ
+		ref_count_ptr<ScriptInformation> info_;//Å½Â©â€¹@ÂÃ®â€¢Ã±
 
 		PlayerSelectScene* _GetTitleScene(){return (PlayerSelectScene*)menu_;}
 	public:
@@ -237,4 +237,3 @@ class PlayerSelectMenuItem : public TextLightUpMenuItem
 
 
 #endif
-

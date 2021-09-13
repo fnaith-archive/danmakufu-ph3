@@ -163,7 +163,7 @@ bool ETextureManager::Initialize()
 
 	if(!res)
 	{
-		throw gstd::wexception(L"ETextureManager‰Šú‰»Ž¸”s");
+		throw gstd::wexception(L"ETextureManagerÂâ€°Å Ãºâ€°Â»Å½Â¸â€s");
 	}
 	return res;
 }
@@ -191,7 +191,7 @@ void EDirectInput::ResetVirtualKeyMap()
 {
 	ClearKeyMap();
 
-	//ƒL[“o˜^
+	//Æ’LÂ[â€œoËœ^
 	DnhConfiguration* config = DnhConfiguration::GetInstance();
 
 	AddKeyMap(KEY_LEFT, config->GetVirtualKey(KEY_LEFT));

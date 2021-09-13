@@ -64,7 +64,6 @@ bool ShaderManager::Initialize()
 		int size = file.GetSize();
 		str.resize(size);
 		file.Read(&str[0], size);
-
 		ref_count_ptr<Shader> shaderTestFile = new Shader();
 		shaderTestFile->CreateFromText(str);
 	}
@@ -85,9 +84,9 @@ void ShaderManager::_ReleaseShaderData(std::wstring name)
 		Lock lock(lock_);
 		if(IsDataExists(name))
 		{
-			mapShaderData_[name]->bLoad_ = true;//“Ç‚İ‚İŠ®—¹ˆµ‚¢
+			mapShaderData_[name]->bLoad_ = true;//èª­ã¿è¾¼ã¿å®Œäº†æ‰±ã„
 			mapShaderData_.erase(name);
-			Logger::WriteTop(StringUtility::Format(L"ShaderManagerFShader‚ğ‰ğ•ú‚µ‚Ü‚µ‚½(Shader Released)[%s]", name.c_str()));
+			Logger::WriteTop(StringUtility::Format(L"ShaderManagerï¼šShaderã‚’è§£æ”¾ã—ã¾ã—ãŸ(Shader Released)[%s]", name.c_str()));
 		}
 	}
 }
@@ -103,7 +102,7 @@ bool ShaderManager::_CreateFromFile(std::wstring path)
 	ref_count_ptr<FileReader> reader = FileManager::GetBase()->GetFileReader(path);
 	if(reader == NULL || !reader->Open())
 	{
-		std::wstring log = StringUtility::Format(L"Shader“Ç‚İ‚İ¸”s(Shader Load Failed)F\r\n%s", path.c_str());
+		std::wstring log = StringUtility::Format(L"Shaderèª­ã¿è¾¼ã¿å¤±æ•—(Shader Load Failed)ï¼š\r\n%s", path.c_str());
 		Logger::WriteTop(log);
 		lastError_ = log;
 		return false;
@@ -143,13 +142,13 @@ bool ShaderManager::_CreateFromFile(std::wstring path)
 			char* cText = (char*)pErr->GetBufferPointer();
 			err = StringUtility::ConvertMultiToWide(cText);
 		}
-		std::wstring log = StringUtility::Format(L"Shader“Ç‚İ‚İ¸”s(Shader Load Failed)F\r\n%s\r\n[%s]", path.c_str(), err.c_str());
+		std::wstring log = StringUtility::Format(L"Shaderèª­ã¿è¾¼ã¿å¤±æ•—(Shader Load Failed)ï¼š\r\n%s\r\n[%s]", path.c_str(), err.c_str());
 		Logger::WriteTop(log);
 		lastError_ = log;
 	}
 	else
 	{
-		std::wstring log = StringUtility::Format(L"Shader“Ç‚İ‚İ(Shader Load Success)F\r\n%s", path.c_str());
+		std::wstring log = StringUtility::Format(L"Shaderèª­ã¿è¾¼ã¿(Shader Load Success)ï¼š\r\n%s", path.c_str());
 		Logger::WriteTop(log);
 
 		mapShaderData_[path] = data;
@@ -189,13 +188,13 @@ bool ShaderManager::_CreateFromText(std::string& source)
 		res = false;
 		char* err = "";
 		if(pErr != NULL)err = (char*)pErr->GetBufferPointer();
-		std::wstring log = StringUtility::Format(L"Shader“Ç‚İ‚İ¸”s(Load Shader Failed)F\r\n%s\r\n[%s]", tStr.c_str(), err);
+		std::wstring log = StringUtility::Format(L"Shaderèª­ã¿è¾¼ã¿å¤±æ•—(Load Shader Failed)ï¼š\r\n%s\r\n[%s]", tStr.c_str(), err);
 		Logger::WriteTop(log);
 		lastError_ = log;
 	}
 	else
 	{
-		std::wstring log = L"Shader“Ç‚İ‚İ(Load Shader Success)F";
+		std::wstring log = L"Shaderèª­ã¿è¾¼ã¿(Load Shader Success)ï¼š";
 		log += StringUtility::FormatToWide("%s", tStr.c_str());
 		Logger::WriteTop(log);
 
@@ -250,7 +249,7 @@ void ShaderManager::_EndShader(Shader* shader)
 	}
 
 	if(shader != preShader)
-		throw gstd::wexception(L"EndShaderˆÙí");
+		throw gstd::wexception(L"EndShaderç•°å¸¸");
 
 	preShader = NULL;
 	if(listExecuteShader_.size() > 0)
@@ -258,7 +257,7 @@ void ShaderManager::_EndShader(Shader* shader)
 		preShader = *listExecuteShader_.rbegin();
 	}
 
-	//“¯‚¶Shader‚È‚ç‰½‚à‚µ‚È‚¢
+	//åŒã˜Shaderãªã‚‰ä½•ã‚‚ã—ãªã„
 	if(shader == preShader)return;
 	shader->_EndPass();
 	shader->_End();
@@ -555,7 +554,7 @@ void Shader::Release()
 			if(manager != NULL && manager->IsDataExists(data_->name_))
 			{
 				int countRef = data_.GetReferenceCount();
-				//©g‚ÆTextureManager“à‚Ì”‚¾‚¯‚É‚È‚Á‚½‚çíœ
+				//è‡ªèº«ã¨TextureManagerå†…ã®æ•°ã ã‘ã«ãªã£ãŸã‚‰å‰Šé™¤
 				if(countRef == 2)
 				{
 					manager->_ReleaseShaderData(data_->name_);
@@ -661,7 +660,6 @@ void Shader::_BeginPass(int pass)
 		//http://www.gamedev.net/topic/646178-given-an-effect-technique-pass-handle-how-to-get-the-pixelshader/
 		D3DXHANDLE hTechnique = effect->GetCurrentTechnique();
 		D3DXHANDLE hPass = effect->GetPass(hTechnique, pass);
-
 		D3DXPASS_DESC passDesc;
 		effect->GetPassDesc(hPass, &passDesc);
 		if(passDesc.pVertexShaderFunction != NULL)
@@ -670,7 +668,6 @@ void Shader::_BeginPass(int pass)
 			device->CreatePixelShader(passDesc.pPixelShaderFunction, &pPixelShader_);
 		bLoadShader_ = true;
 	}
-
 //	device->SetVertexShader(pVertexShader_);
 	device->SetPixelShader(pPixelShader_);
 */	
@@ -826,4 +823,3 @@ bool Shader::SetTexture(std::string name, gstd::ref_count_ptr<Texture> texture)
 	param->SetTexture(texture);
 	return true;
 }
-
