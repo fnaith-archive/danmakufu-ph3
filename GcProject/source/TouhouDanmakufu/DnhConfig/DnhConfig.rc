@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "windows.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -65,7 +65,9 @@ END
 //
 // Dialog
 //
-
+#ifndef IDC_STATIC
+#define IDC_STATIC				-1
+#endif
 IDD_DIALOG_MAIN DIALOG DISCARDABLE  0, 0, 269, 209
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Dnh Config ph3"
@@ -91,7 +93,7 @@ BEGIN
     COMBOBOX        IDC_COMBO_WINDOWSIZE,13,43,71,30,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Screen Refresh Rate (•`‰æŠÔŠu)",IDC_STATIC,6,65,171,24
-    CONTROL         "1/1(–ˆ‰ñ)",IDC_RADIO_FPS_1,"Button",BS_AUTORADIOBUTTON | 
+    CONTROL         "1/1(?‰ñ)",IDC_RADIO_FPS_1,"Button",BS_AUTORADIOBUTTON | 
                     WS_GROUP,11,75,42,10
     CONTROL         "1/2",IDC_RADIO_FPS_2,"Button",BS_AUTORADIOBUTTON,58,75,
                     26,10
