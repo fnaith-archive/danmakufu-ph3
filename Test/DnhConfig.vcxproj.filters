@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{dccc814a-1ff9-4718-8d5e-b68ba78bebbb}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="source\GcLib">
+      <UniqueIdentifier>{63411f7a-2e33-4086-932b-ec0b00668d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\GcLib\gstd">
+      <UniqueIdentifier>{b1bf247d-0fdf-4f49-99c0-8947f0bf841f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{5729d24a-873a-4c5e-978c-e72543cec9d5}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\GcLib\gstd\GstdUtility.cpp">
+      <Filter>source\GcLib\gstd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GcLib\gstd\Script.cpp">
+      <Filter>source\GcLib\gstd</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TouhouDanmakufu\DnhConfig\WinMain.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\GcLib\gstd\GstdConstant.hpp">
+      <Filter>source\GcLib\gstd</Filter>
+    </ClInclude>
+    <ClInclude Include="source\GcLib\gstd\GstdUtility.hpp">
+      <Filter>source\GcLib\gstd</Filter>
+    </ClInclude>
+    <ClInclude Include="source\GcLib\gstd\Script.hpp">
+      <Filter>source\GcLib\gstd</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
