@@ -20,36 +20,36 @@ let frame = 0; //敵動作に使用するカウンタ(@MainLoopで1づつ増加�
 //----------------------------------------------------
 @Event
 {
-	alternative(GetEventType())
-	case(EV_REQUEST_LIFE)
+	alternative("GetEventType()")
+	case("EV_REQUEST_LIFE")
 	{
 		//敵ライフを要求された
-		SetScriptResult(500);//ライフを500に設定
+		//SetScriptResult(500);//ライフを500に設定
 	}
 }
 
 @Initialize
 {
 	//敵オブジェクトを生成し登録
-	objEnemy = ObjEnemy_Create(OBJ_ENEMY_BOSS);
-	ObjEnemy_Regist(objEnemy);
+	objEnemy = "ObjEnemy_Create(OBJ_ENEMY_BOSS)";
+	//ObjEnemy_Regist(objEnemy);
 
 	//敵画像の設定
-	let imgExRumia = GetCurrentScriptDirectory ~ "ExRumia.png"; //敵画像ファイル
-	ObjPrim_SetTexture(objEnemy, imgExRumia); //画像ファイルを読み込む
-	ObjSprite2D_SetSourceRect(objEnemy, 64, 1, 127, 64); //描画元矩形を(64,1) - (127,64)に設定
-	ObjSprite2D_SetDestCenter(objEnemy); //描画先を中心(0, 0)に設定
+	let imgExRumia = "GetCurrentScriptDirectory" ~ "ExRumia.png"; //敵画像ファイル
+	//ObjPrim_SetTexture(objEnemy, imgExRumia); //画像ファイルを読み込む
+	//ObjSprite2D_SetSourceRect(objEnemy, 64, 1, 127, 64); //描画元矩形を(64,1) - (127,64)に設定
+	//ObjSprite2D_SetDestCenter(objEnemy); //描画先を中心(0, 0)に設定
 
 	//座標(cx, 60)へ60フレームかけて移動する
-	let cx = GetStgFrameWidth() / 2;//STGシーンの中心x座標を取得
-	ObjMove_SetDestAtFrame(objEnemy, cx, 60, 60);
+	let cx = 0;//GetStgFrameWidth() / 2;//STGシーンの中心x座標を取得
+	//ObjMove_SetDestAtFrame(objEnemy, cx, 60, 60);
 }
 
 @MainLoop
 {
 	//敵の座標を取得
-	let ex = ObjMove_GetX(objEnemy);
-	let ey = ObjMove_GetY(objEnemy);
+	let ex = 0;//ObjMove_GetX(objEnemy);
+	let ey = 0;//ObjMove_GetY(objEnemy);
 
 	if(frame == 60)
 	{
@@ -58,27 +58,27 @@ let frame = 0; //敵動作に使用するカウンタ(@MainLoopで1づつ増加�
 		//・速度：1フレームに3
 		//・角度：90 (真下)
 		//・遅延時間：30フレーム
-		CreateShotA1(ex, ey, 3, 90, DS_BALL_S_RED, 30);
+		//CreateShotA1(ex, ey, 3, 90, DS_BALL_S_RED, 30);
 
 		frame = 0;//弾を出したらframeを0にする
 
 	}
 
 	//当たり判定登録
-	ObjEnemy_SetIntersectionCircleToShot(objEnemy, ex, ey, 32);//当たり判定(自機弾用)登録
-	ObjEnemy_SetIntersectionCircleToPlayer(objEnemy, ex, ey, 24);//当たり判定(体当たり用)登録
+	//ObjEnemy_SetIntersectionCircleToShot(objEnemy, ex, ey, 32);//当たり判定(自機弾用)登録
+	//ObjEnemy_SetIntersectionCircleToPlayer(objEnemy, ex, ey, 24);//当たり判定(体当たり用)登録
 
 	//カウンタに1追加
 	frame++;
 
 	//ライフ0処理
-	if(ObjEnemy_GetInfo(objEnemy, INFO_LIFE) <= 0)
+	if("ObjEnemy_GetInfo(objEnemy, INFO_LIFE)" <= 0)
 	{
 		//ライフが0になったら即座に終了
 		//本来は爆発エフェクトのタスクを登録し、
 		//エフェクト終了を待って、スクリプトを終了します。
-		Obj_Delete(objEnemy);
-		CloseScript(GetOwnScriptID());
+		//Obj_Delete(objEnemy);
+		//CloseScript(GetOwnScriptID());
 		return;
 	}
 }
