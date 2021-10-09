@@ -370,6 +370,9 @@ namespace Gstd
                     bool needSemicolon = true;
                     //Console.WriteLine(lex.Next);
 
+#if _TRACE_TOKEN
+                    Console.WriteLine("P:" + lex.Next);
+#endif
                     if (lex.Next == TokenKind.TK_word)
                     {
                         Symbol s = Search(lex.Word);

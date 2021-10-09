@@ -389,9 +389,9 @@ namespace Gstd
                     return new Value();
                 }
 
-                Value result = argv[0];
+                Value result = new Value(argv[0]);
                 result.Append(machine.Engine.GetArrayType(argv[1].GetDataType()), argv[1]);
-                return result;
+                return new Value(result);
             }
             private static Value concatenate(ScriptMachine machine, int argc, Value[] argv)
             {
@@ -411,10 +411,9 @@ namespace Gstd
                     return new Value();
                 }
 
-                Value result = argv[0];
-                Console.WriteLine(String.Format("{0}-{1}",argv[0].LengthAsArray(),argv[1].LengthAsArray()));
+                Value result = new Value(argv[0]);
                 result.Concatenate(argv[1]);
-                return result;
+                return new Value(result);
             }
             private static Value compare(ScriptMachine machine, int argc, Value[] argv)
             {

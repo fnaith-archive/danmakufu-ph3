@@ -28,6 +28,11 @@
 #include<string>
 #include<map>
 
+// debug
+//#include<iostream>
+//#define _TRACE_VALUE
+//#define _TRACE_COMMAND
+//#define _TRACE_TOKEN
 
 //重複宣言チェックをしない
 //#define __SCRIPT_H__NO_CHECK_DUPLICATED
@@ -247,8 +252,16 @@ namespace gstd
 	class value
 	{
 	public:
+#ifdef _TRACE_VALUE
+		static int counter;
+		int id;
+#endif
 		value() : data(NULL)
 		{
+#ifdef _TRACE_VALUE
+			id = -1;
+			if (is_target()) throw std::exception("V1");
+#endif
 		}
 
 		value(type_data * t, long double v)
@@ -257,6 +270,10 @@ namespace gstd
 			data->ref_count = 1;
 			data->type = t;
 			data->real_value = v;
+#ifdef _TRACE_VALUE
+			id = counter++;
+			if (is_target()) throw std::exception("V2");
+#endif
 		}
 
 		value(type_data * t, wchar_t v)
@@ -265,6 +282,10 @@ namespace gstd
 			data->ref_count = 1;
 			data->type = t;
 			data->char_value = v;
+#ifdef _TRACE_VALUE
+			id = counter++;
+			if (is_target()) throw std::exception("V3");
+#endif
 		}
 
 		value(type_data * t, bool v)
@@ -273,6 +294,10 @@ namespace gstd
 			data->ref_count = 1;
 			data->type = t;
 			data->boolean_value = v;
+#ifdef _TRACE_VALUE
+			id = counter++;
+			if (is_target()) throw std::exception("V4");
+#endif
 		}
 
 		value(type_data * t, std::wstring v);
@@ -282,6 +307,10 @@ namespace gstd
 			data = source.data;
 			if(data != NULL)
 				++(data->ref_count);
+#ifdef _TRACE_VALUE
+			id = 10000 + source.id;
+			if (is_target()) throw std::exception("V5");
+#endif
 		}
 
 		~value()
@@ -291,6 +320,14 @@ namespace gstd
 
 		value & operator = (value const & source)
 		{
+#ifdef _TRACE_VALUE
+			if (is_target() || source.is_target())
+			{
+				std::cout << "V:assign this " << to_mbcs(this->as_string()) << std::endl;
+				std::cout << "V:assign source " << to_mbcs(source.as_string()) << std::endl;
+			}
+			id = source.id;
+#endif
 			if(source.data != NULL)
 			{
 				++(source.data->ref_count);
@@ -305,11 +342,24 @@ namespace gstd
 			return data != NULL;
 		}
 
+#ifdef _TRACE_VALUE
+		bool is_target() const
+		{
+			return false;// id == 20000;
+		}
+#endif
+
 		void set(type_data * t, long double v)
 		{
 			unique();
 			data->type = t;
 			data->real_value = v;
+#ifdef _TRACE_VALUE
+			if (is_target())
+			{
+				std::cout << "V:set double " << to_mbcs(this->as_string()) << std::endl;
+			}
+#endif
 		}
 
 		void set(type_data * t, bool v)
@@ -317,6 +367,12 @@ namespace gstd
 			unique();
 			data->type = t;
 			data->boolean_value = v;
+#ifdef _TRACE_VALUE
+			if (is_target())
+			{
+				std::cout << "V:set bool " << to_mbcs(this->as_string()) << std::endl;
+			}
+#endif
 		}
 
 		void append(type_data * t, value const & x);
@@ -345,6 +401,12 @@ namespace gstd
 				data = new body(* data);
 				data->ref_count = 1;
 			}
+#ifdef _TRACE_VALUE
+			if (is_target())
+			{
+				std::cout << "V:unique " << to_mbcs(this->as_string()) << std::endl;
+			}
+#endif
 		}
 
 		void overwrite(value const & source);	//危険！外から呼ぶな
@@ -506,6 +568,9 @@ namespace gstd
 			   pc_compare_le, pc_compare_ne, pc_dup, pc_dup2, pc_loop_ascent, pc_loop_back, pc_loop_count, pc_loop_descent, pc_loop_if,
 			   pc_pop, pc_push_value, pc_push_variable, pc_push_variable_writable, pc_swap, pc_yield
 		};
+#ifdef _TRACE_COMMAND
+		static std::string command_kind_to_name(command_kind the_command);
+#endif
 
 		struct block;
 
@@ -539,23 +604,38 @@ namespace gstd
 
 			code(int the_line, command_kind the_command) : line(the_line), command(the_command)
 			{
+#ifdef _TRACE_COMMAND
+				std::cout << "C1:" << script_engine::command_kind_to_name(the_command) << std::endl;
+#endif
 			}
 
 			code(int the_line, command_kind the_command, int the_level, unsigned the_variable) : line(the_line), command(the_command), level(the_level), variable(the_variable)
 			{
+#ifdef _TRACE_COMMAND
+				std::cout << "C2:" << script_engine::command_kind_to_name(the_command) << std::endl;
+#endif
 			}
 
 			code(int the_line, command_kind the_command, block * the_sub, int the_arguments) : line(the_line), command(the_command), sub(the_sub),
 			   arguments(the_arguments)
 			   {
+#ifdef _TRACE_COMMAND
+				std::cout << "C3:" << script_engine::command_kind_to_name(the_command) << std::endl;
+#endif
 			}
 
 			code(int the_line, command_kind the_command, int the_ip) : line(the_line), command(the_command), ip(the_ip)
 			{
+#ifdef _TRACE_COMMAND
+				std::cout << "C4:" << script_engine::command_kind_to_name(the_command) << std::endl;
+#endif
 			}
 
 			code(int the_line, command_kind the_command, value const & the_data) : line(the_line), command(the_command), data(the_data)
 			{
+#ifdef _TRACE_COMMAND
+				std::cout << "C5:" << script_engine::command_kind_to_name(the_command) << std::endl;
+#endif
 			}
 		};
 

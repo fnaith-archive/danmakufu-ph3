@@ -1,5 +1,8 @@
 using System.Diagnostics;
 using System.Text;
+#if _TRACE_VALUE
+using System;
+#endif
 
 namespace Gstd
 {
@@ -7,10 +10,17 @@ namespace Gstd
     {
         sealed class Value // TODO prevent pass TypeData
         {
+#if _TRACE_VALUE
+            static int counter = 0;
+            public int id;
+#endif
             private Body data;
             public Value()
             {
+#if _TRACE_VALUE
+                id = -1;
                 data = null;
+#endif
             }
             public Value(TypeData t, double v)
             {
@@ -18,6 +28,9 @@ namespace Gstd
                 data.RefCount = 1;
                 data.Type = t;
                 data.RealValue = v;
+#if _TRACE_VALUE
+                id = counter++;
+#endif
             }
             public Value(TypeData t, char v)
             {
@@ -25,6 +38,9 @@ namespace Gstd
                 data.RefCount = 1;
                 data.Type = t;
                 data.CharValue = v;
+#if _TRACE_VALUE
+                id = counter++;
+#endif
             }
             public Value(TypeData t, bool v)
             {
@@ -32,6 +48,9 @@ namespace Gstd
                 data.RefCount = 1;
                 data.Type = t;
                 data.BooleanValue = v;
+#if _TRACE_VALUE
+                id = counter++;
+#endif
             }
             public Value(TypeData t, string v)
             {
@@ -42,6 +61,9 @@ namespace Gstd
                 {
                     data.ArrayValue.Add(new Value(t.Element, ch));
                 }
+#if _TRACE_VALUE
+                id = counter++;
+#endif
             }
             public Value(Value source)
             {
@@ -50,13 +72,30 @@ namespace Gstd
                 {
                     ++(data.RefCount);
                 }
+#if _TRACE_VALUE
+                id = 10000+source.id;
+#endif
             }
             ~Value() // TODO remove
             {
                 Release();
             }
+#if _TRACE_VALUE
+            private bool IsTarget()
+            {
+                return false;//id == 3;
+            }
+#endif
             public void Assign(Value source) // TODO use copy
             {
+#if _TRACE_VALUE
+                if (IsTarget() || source.IsTarget())
+                {
+                    Console.WriteLine("V:Assign this " + AsString());
+                    Console.WriteLine("V:Assign source " + source.AsString());
+                }
+                id = source.id;
+#endif
                 if (source.data != null)
                 {
                     ++(source.data.RefCount);
@@ -73,18 +112,36 @@ namespace Gstd
                 Unique();
                 data.Type = t;
                 data.RealValue = v;
+#if _TRACE_VALUE
+                if (IsTarget())
+                {
+                    Console.WriteLine("V:set double " + AsString());
+                }
+#endif
             }
             public void Set(TypeData t, bool v)
             {
                 Unique();
                 data.Type = t;
                 data.BooleanValue = v;
+#if _TRACE_VALUE
+                if (IsTarget())
+                {
+                    Console.WriteLine("V:set bool " + AsString());
+                }
+#endif
             }
             public void Append(TypeData t, Value x)
             {
                 Unique();
                 data.Type = t;
                 data.ArrayValue.Add(x);
+#if _TRACE_VALUE
+                if (IsTarget())
+                {
+                    Console.WriteLine("V:Append " + AsString());
+                }
+#endif
             }
             public void Concatenate(Value x)
             {
@@ -94,6 +151,12 @@ namespace Gstd
                     data.Type = x.data.Type;
                 }
                 data.ArrayValue.AddRange(x.data.ArrayValue);
+#if _TRACE_VALUE
+                if (IsTarget())
+                {
+                    Console.WriteLine("V:Concatenate " + AsString());
+                }
+#endif
             }
             public double AsReal()
             {
@@ -223,6 +286,12 @@ namespace Gstd
                     data = new Body(data);
                     data.RefCount = 1;
                 }
+#if _TRACE_VALUE
+                if (IsTarget())
+                {
+                    Console.WriteLine("V:Unique " + AsString());
+                }
+#endif
             }
             public void Overwrite(Value source)
             {
@@ -234,6 +303,12 @@ namespace Gstd
                 Release();
                 data = source.data; // TODO check logic
                 data.RefCount = 2;
+#if _TRACE_VALUE
+                if (IsTarget())
+                {
+                    Console.WriteLine("V:Overwrite " + AsString());
+                }
+#endif
             }
             private void Release() // TODO remove
             {

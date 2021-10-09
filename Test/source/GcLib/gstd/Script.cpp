@@ -73,7 +73,9 @@ long double fmodl2(long double i, long double j)
 
 
 /* value */
-
+#ifdef _TRACE_VALUE
+int value::counter = 0;
+#endif
 value::value(type_data * t, std::wstring v)
 {
 	data = new body();
@@ -81,6 +83,10 @@ value::value(type_data * t, std::wstring v)
 	data->type = t;
 	for(unsigned i = 0; i < v.size(); ++i)
 		data->array_value.push_back(value(t->get_element(), v[i]));
+#ifdef _TRACE_VALUE
+	id = counter++;
+	if (is_target()) throw std::exception("V6");
+#endif
 }
 
 void value::append(type_data * t, value const & x)
@@ -88,6 +94,12 @@ void value::append(type_data * t, value const & x)
 	unique();
 	data->type = t;
 	data->array_value.push_back(x);
+#ifdef _TRACE_VALUE
+	if (is_target())
+	{
+		std::cout << "V:append " << to_mbcs(this->as_string()) << std::endl;
+	}
+#endif
 }
 
 void value::concatenate(value const & x)
@@ -103,6 +115,12 @@ void value::concatenate(value const & x)
 	for(unsigned i = 0; i < r; ++i)
 		data->array_value[l + i] = x.data->array_value.at[i];
 	data->array_value.length = t;
+#ifdef _TRACE_VALUE
+	if (is_target())
+	{
+		std::cout << "V:concatenate " << to_mbcs(this->as_string()) << std::endl;
+	}
+#endif
 }
 
 long double value::as_real() const
@@ -266,6 +284,12 @@ void value::overwrite(value const & source)
 	release();
 	* data = * source.data;
 	data->ref_count = 2;
+#ifdef _TRACE_VALUE
+	if (is_target())
+	{
+		std::cout << "V:overwrite " << to_mbcs(this->as_string()) << std::endl;
+	}
+#endif
 
 //	* data = * source.data;
 //	++(data->ref_count);
@@ -298,6 +322,119 @@ enum token_kind
 	   tk_FUNCTION, tk_IF, tk_IN, tk_LET, tk_LOCAL, tk_LOOP, tk_OTHERS, tk_REAL, tk_RETURN, tk_SUB, tk_TASK,
 	   tk_TIMES, tk_WHILE, tk_YIELD,
 };
+#ifdef _TRACE_TOKEN
+std::string token_kind_to_name(token_kind kind)
+{
+	switch (kind)
+	{
+		case tk_end: return "tk_end";
+		case tk_invalid: return "tk_invalid";
+		case tk_word: return "tk_word";
+		case tk_real: return "tk_real";
+		case tk_char: return "tk_char";
+		case tk_string: return "tk_string";
+		case tk_open_par: return "tk_open_par";
+		case tk_close_par: return "tk_close_par";
+		case tk_open_bra: return "tk_open_bra";
+		case tk_close_bra: return "tk_close_bra";
+		case tk_open_cur: return "tk_open_cur";
+		case tk_close_cur: return "tk_close_cur";
+		case tk_open_abs: return "tk_open_abs";
+		case tk_close_abs: return "tk_close_abs";
+		case tk_comma: return "tk_comma";
+		case tk_semicolon: return "tk_semicolon";
+		case tk_tilde: return "tk_tilde";
+		case tk_assign: return "tk_assign";
+		case tk_plus: return "tk_plus";
+		case tk_minus: return "tk_minus";
+		case tk_inc: return "tk_inc";
+		case tk_dec: return "tk_dec";
+		case tk_asterisk: return "tk_asterisk";
+		case tk_slash: return "tk_slash";
+		case tk_percent: return "tk_percent";
+		case tk_caret: return "tk_caret";
+		case tk_e: return "tk_e";
+		case tk_g: return "tk_g";
+		case tk_ge: return "tk_ge";
+		case tk_l: return "tk_l";
+		case tk_le: return "tk_le";
+		case tk_ne: return "tk_ne";
+		case tk_exclamation: return "tk_exclamation";
+		case tk_ampersand: return "tk_ampersand";
+		case tk_and_then: return "tk_and_then";
+		case tk_vertical: return "tk_vertical";
+		case tk_or_else: return "tk_or_else";
+		case tk_at: return "tk_at";
+		case tk_add_assign: return "tk_add_assign";
+		case tk_subtract_assign: return "tk_subtract_assign";
+		case tk_multiply_assign: return "tk_multiply_assign";
+		case tk_divide_assign: return "tk_divide_assign";
+		case tk_remainder_assign: return "tk_remainder_assign";
+		case tk_power_assign: return "tk_power_assign";
+		case tk_range: return "tk_range";
+		case tk_ALTERNATIVE: return "tk_ALTERNATIVE";
+		case tk_ASCENT: return "tk_ASCENT";
+		case tk_BREAK: return "tk_BREAK";
+		case tk_CASE: return "tk_CASE";
+		case tk_DESCENT: return "tk_DESCENT";
+		case tk_ELSE: return "tk_ELSE";
+		case tk_FUNCTION: return "tk_FUNCTION";
+		case tk_IF: return "tk_IF";
+		case tk_IN: return "tk_IN";
+		case tk_LET: return "tk_LET";
+		case tk_LOCAL: return "tk_LOCAL";
+		case tk_LOOP: return "tk_LOOP";
+		case tk_OTHERS: return "tk_OTHERS";
+		case tk_REAL: return "tk_REAL";
+		case tk_RETURN: return "tk_RETURN";
+		case tk_SUB: return "tk_SUB";
+		case tk_TASK: return "tk_TASK";
+		case tk_TIMES: return "tk_TIMES";
+		case tk_WHILE: return "tk_WHILE";
+		case tk_YIELD: return "tk_YIELD";
+		default: return "tk_????";
+	}
+}
+#endif
+#ifdef _TRACE_COMMAND
+std::string script_engine::command_kind_to_name(script_engine::command_kind the_command)
+{
+	switch (the_command)
+	{
+		case pc_assign: return "pc_assign";
+		case pc_assign_writable: return "pc_assign_writable";
+		case pc_break_loop: return "pc_break_loop";
+		case pc_break_routine: return "pc_break_routine";
+		case pc_call: return "pc_call";
+		case pc_call_and_push_result: return "pc_call_and_push_result";
+		case pc_case_begin: return "pc_case_begin";
+		case pc_case_end: return "pc_case_end";
+		case pc_case_if: return "pc_case_if";
+		case pc_case_if_not: return "pc_case_if_not";
+		case pc_case_next: return "pc_case_next";
+		case pc_compare_e: return "pc_compare_e";
+		case pc_compare_g: return "pc_compare_g";
+		case pc_compare_ge: return "pc_compare_ge";
+		case pc_compare_l: return "pc_compare_l";
+		case pc_compare_le: return "pc_compare_le";
+		case pc_compare_ne: return "pc_compare_ne";
+		case pc_dup: return "pc_dup";
+		case pc_dup2: return "pc_dup2";
+		case pc_loop_ascent: return "pc_loop_ascent";
+		case pc_loop_back: return "pc_loop_back";
+		case pc_loop_count: return "pc_loop_count";
+		case pc_loop_descent: return "pc_loop_descent";
+		case pc_loop_if: return "pc_loop_if";
+		case pc_pop: return "pc_pop";
+		case pc_push_value: return "pc_push_value";
+		case pc_push_variable: return "pc_push_variable";
+		case pc_push_variable_writable: return "pc_push_variable_writable";
+		case pc_swap: return "pc_swap";
+		case pc_yield: return "pc_yield";
+		default: return "pc_????";
+	}
+}
+#endif
 
 class scanner
 {
@@ -2060,7 +2197,9 @@ void parser::parse_statements(script_engine::block * block)
 	for( ; ; )
 	{
 		bool need_semicolon = true;
-
+#ifdef _TRACE_TOKEN
+		std::cout << "P:" << token_kind_to_name(lex->next) << std::endl;
+#endif
 		if(lex->next == tk_word)
 		{
 			symbol * s = search(lex->word);
@@ -2912,6 +3051,9 @@ void script_machine::advance()
 		error_line = c->line;	//‚§
 		++(current->ip);
 
+#ifdef _TRACE_COMMAND
+		std::cout << "M:" << script_engine::command_kind_to_name(c->command) << std::endl;
+#endif
 		switch(c->command)
 		{
 			case script_engine::pc_assign:
@@ -3278,5 +3420,13 @@ void script_machine::advance()
 			default:
 				assert(false);
 		}
+#ifdef _TRACE_COMMAND
+		std::cout << "MS:" << current->stack.length;
+		for (int idx = 0; idx < current->stack.length; ++idx)
+		{
+			std::cout << " " << current->stack.at[idx].id << "=" << to_mbcs(current->stack.at[idx].as_string());
+		}
+		std::cout << std::endl;
+#endif
 	}
 }

@@ -5,6 +5,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <BaseOutputPath>$(SolutionDir)../../Test/bin</BaseOutputPath>
     <BaseIntermediateOutputPath>$(SolutionDir)../../Test/obj</BaseIntermediateOutputPath>
+    <DefineConstants>__TRACE_VALUE;__TRACE_COMMAND;__TRACE_TOKEN;</DefineConstants>
   </PropertyGroup>
 
 </Project>

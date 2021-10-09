@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+#if _TRACE_COMMAND
+using System;
+#endif
 
 namespace Gstd
 {
@@ -318,6 +321,9 @@ class ScriptMachine
             errorLine = c.Line;	//��
             ++(current.Ip);
 
+#if _TRACE_COMMAND
+            Console.WriteLine("M:" + c.Command);
+#endif
             switch (c.Command)
             {
                 case CommandKind.PC_assign:
@@ -346,7 +352,7 @@ class ScriptMachine
                                     string error = "A variable was changing it's value type.\r\n";
                                     RaiseError(error);
                                 }
-                                vars[c.Variable] = src;//.Assign(src);
+                                vars[c.Variable].Assign(src);
                                 stack.RemoveAt(stack.Count - 1);
                                 break;
                             }
@@ -424,8 +430,8 @@ class ScriptMachine
                             {
                                 argv[i] = currentStack[currentStack.Count - c.Arguments + i];
                             }
-                            Value ret;
-                            ret = c.Sub.Func(this, c.Arguments, argv);
+                            Value ret = new Value();
+                            ret.Assign(c.Sub.Func(this, c.Arguments, argv));
                             if (stopped)
                             {
                                 --(current.Ip);
@@ -695,7 +701,7 @@ class ScriptMachine
                     {
                         int len = current.Stack.Count;
                         Debug.Assert(len >= 2);
-                        Value t = current.Stack[len - 1];
+                        Value t = new Value(current.Stack[len - 1]);
                         current.Stack[len - 1] = current.Stack[len - 2];
                         current.Stack[len - 2] = t;
                     }
@@ -709,6 +715,14 @@ class ScriptMachine
                     Debug.Assert(false);
                     break;
             }
+#if _TRACE_COMMAND
+            Console.Write("MS:" + current.Stack.Count);
+            foreach (Value val in current.Stack)
+            {
+                Console.Write(" " + val.id + "=" + val.AsString());
+            }
+            Console.WriteLine();
+#endif
         }
     }
     public bool HasEvent(string eventName)

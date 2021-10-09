@@ -1,3 +1,7 @@
+#if _TRACE_COMMAND
+using System;
+#endif
+
 namespace Gstd
 {
     namespace Script
@@ -24,6 +28,9 @@ namespace Gstd
                 Line = line;
                 Command = command;
                 Data = new Value(); // TODO remove
+#if _TRACE_COMMAND
+                Console.WriteLine("C1:" + command);
+#endif
             }
             public Code(int line, CommandKind command, int level, int variable)
             {
@@ -32,6 +39,9 @@ namespace Gstd
                 Data = new Value(); // TODO remove
                 Level = level;
                 Variable = variable;
+#if _TRACE_COMMAND
+                Console.WriteLine("C2:" + command);
+#endif
             }
             public Code(int line, CommandKind command, Block sub, int arguments)
             {
@@ -40,6 +50,9 @@ namespace Gstd
                 Data = new Value(); // TODO remove
                 Sub = sub;
                 Arguments = arguments;
+#if _TRACE_COMMAND
+                Console.WriteLine("C3:" + command);
+#endif
             }
             public Code(int line, CommandKind command, int ip)
             {
@@ -47,12 +60,18 @@ namespace Gstd
                 Command = command;
                 Data = new Value(); // TODO remove
                 Ip = ip;
+#if _TRACE_COMMAND
+                Console.WriteLine("C4:" + command);
+#endif
             }
             public Code(int line, CommandKind command, Value data)
             {
                 Line = line;
                 Command = command;
-                Data = data;
+                Data = new Value(data);
+#if _TRACE_COMMAND
+                Console.WriteLine("C5:" + command);
+#endif
             }
         }
     }

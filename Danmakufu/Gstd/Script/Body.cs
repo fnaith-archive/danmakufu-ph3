@@ -25,7 +25,7 @@ namespace Gstd
             {
                 RefCount = source.RefCount;
                 Type = source.Type;
-                ArrayValue = source.ArrayValue;
+                ArrayValue = new List<Value>(source.ArrayValue); // TODO lazy init
                 RealValue = source.RealValue;
                 CharValue = source.CharValue;
                 BooleanValue = source.BooleanValue;
