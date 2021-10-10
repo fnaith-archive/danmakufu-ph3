@@ -30,6 +30,15 @@ namespace Gstd
                 CharValue = source.CharValue;
                 BooleanValue = source.BooleanValue;
             }
+            public void Assign(Body source)
+            {
+                RefCount = source.RefCount;
+                Type = source.Type;
+                ArrayValue = source.ArrayValue;
+                RealValue = source.RealValue;
+                CharValue = source.CharValue;
+                BooleanValue = source.BooleanValue;
+            }
         }
     }
 }

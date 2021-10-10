@@ -67,14 +67,18 @@ namespace Gstd
             }
             public Value(Value source)
             {
+#if _TRACE_VALUE
+                if (source.IsTarget())
+                {
+                    Console.WriteLine("V:Copy source " + source.id + "=" + source.AsString());
+                }
+                id = 10000 + source.id;
+#endif
                 data = source.data;
                 if (data != null)
                 {
                     ++(data.RefCount);
                 }
-#if _TRACE_VALUE
-                id = 10000+source.id;
-#endif
             }
             ~Value() // TODO remove
             {
@@ -83,16 +87,16 @@ namespace Gstd
 #if _TRACE_VALUE
             private bool IsTarget()
             {
-                return false;//id == 3;
+                return false;//id == 10001;
             }
 #endif
-            public void Assign(Value source) // TODO use copy
+            public void Assign(Value source)
             {
 #if _TRACE_VALUE
                 if (IsTarget() || source.IsTarget())
                 {
-                    Console.WriteLine("V:Assign this " + AsString());
-                    Console.WriteLine("V:Assign source " + source.AsString());
+                    Console.WriteLine("V:Assign this " + id + "=" + AsString());
+                    Console.WriteLine("V:Assign source " + source.id + "=" + source.AsString());
                 }
                 id = source.id;
 #endif
@@ -295,20 +299,22 @@ namespace Gstd
             }
             public void Overwrite(Value source)
             {
+#if _TRACE_VALUE
+                if (IsTarget() || source.IsTarget())
+                {
+                    Console.WriteLine("V:Overwrite this " + id + "=" + AsString());
+                    Console.WriteLine("V:Overwrite source " + source.id + "=" + source.AsString());
+                }
+                id = source.id;
+#endif
                 Debug.Assert(data != null);
                 if (data == source.data)
                 {
                     return;
                 }
                 Release();
-                data = source.data; // TODO check logic
+                data.Assign(source.data);
                 data.RefCount = 2;
-#if _TRACE_VALUE
-                if (IsTarget())
-                {
-                    Console.WriteLine("V:Overwrite " + AsString());
-                }
-#endif
             }
             private void Release() // TODO remove
             {

@@ -84,6 +84,8 @@ void test_ok_syntax(std::string test_dir_path)
 void test_fail_syntax(std::string test_dir_path)
 {
 	std::string script_file_paths[] = {
+		"syntax/fail/Lesson-4-Array-1.txt",
+		"syntax/fail/Lesson-4-Array-2.txt",
 		"syntax/fail/Lesson-4-LocalAndGlobalVariable-1.txt",
 		"syntax/fail/Lesson-4-LocalAndGlobalVariable-2.txt",
 		"syntax/fail/Lesson-4-LocalAndGlobalVariable-3.txt",

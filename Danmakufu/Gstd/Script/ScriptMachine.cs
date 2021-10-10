@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
-#if _TRACE_COMMAND
+#if _TRACE_COMMAND || _TRACE_FUNC
 using System;
 #endif
 
@@ -424,6 +424,17 @@ class ScriptMachine
                         Debug.Assert(currentStack.Count >= c.Arguments);
                         if (c.Sub.Func != null)
                         {
+#if _TRACE_FUNC
+                            Console.WriteLine("PC_call_and_push_result:1");
+                            foreach (Function operation in BuildInOperation.Operations)
+                            {
+                                if (operation.Callback == c.Sub.Func)
+                                {
+                                    Console.WriteLine("F:" + operation.Name);
+                                    break;
+                                }
+                            }
+#endif
                             //�l�C�e�B�u�Ăяo��
                             Value[] argv = new Value[c.Arguments];
                             for (int i = 0; i < c.Arguments; ++i)
@@ -454,6 +465,9 @@ class ScriptMachine
                         }
                         else if (c.Sub.Kind == BlockKind.BK_microthread)
                         {
+#if _TRACE_FUNC
+                            Console.WriteLine("PC_call_and_push_result:2");
+#endif
                             //�}�C�N���X���b�h�N��
                             ++(current.RefCount);
                             Environment e = NewEnvironment(current, c.Sub);
@@ -468,6 +482,9 @@ class ScriptMachine
                         }
                         else
                         {
+#if _TRACE_FUNC
+                            Console.WriteLine("PC_call_and_push_result:3");
+#endif
                             //�X�N���v�g�Ԃ̌Ăяo��
                             ++(current.RefCount);
                             Environment e = NewEnvironment(current, c.Sub);

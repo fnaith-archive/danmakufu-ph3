@@ -260,7 +260,7 @@ namespace gstd
 		{
 #ifdef _TRACE_VALUE
 			id = -1;
-			if (is_target()) throw std::exception("V1");
+			//if (is_target()) throw std::exception("V1");
 #endif
 		}
 
@@ -272,7 +272,7 @@ namespace gstd
 			data->real_value = v;
 #ifdef _TRACE_VALUE
 			id = counter++;
-			if (is_target()) throw std::exception("V2");
+			//if (is_target()) throw std::exception("V2");
 #endif
 		}
 
@@ -284,7 +284,7 @@ namespace gstd
 			data->char_value = v;
 #ifdef _TRACE_VALUE
 			id = counter++;
-			if (is_target()) throw std::exception("V3");
+			//if (is_target()) throw std::exception("V3");
 #endif
 		}
 
@@ -296,7 +296,7 @@ namespace gstd
 			data->boolean_value = v;
 #ifdef _TRACE_VALUE
 			id = counter++;
-			if (is_target()) throw std::exception("V4");
+			//if (is_target()) throw std::exception("V4");
 #endif
 		}
 
@@ -304,13 +304,17 @@ namespace gstd
 
 		value(value const & source)
 		{
+#ifdef _TRACE_VALUE
+			if (source.is_target())
+			{
+				std::cout << "V:assign source " << (source.id) << "=" << to_mbcs(source.as_string()) << std::endl;
+			}
+			id = 10000 + source.id;
+			//if (is_target()) throw std::exception("V5");
+#endif
 			data = source.data;
 			if(data != NULL)
 				++(data->ref_count);
-#ifdef _TRACE_VALUE
-			id = 10000 + source.id;
-			if (is_target()) throw std::exception("V5");
-#endif
 		}
 
 		~value()
@@ -323,8 +327,8 @@ namespace gstd
 #ifdef _TRACE_VALUE
 			if (is_target() || source.is_target())
 			{
-				std::cout << "V:assign this " << to_mbcs(this->as_string()) << std::endl;
-				std::cout << "V:assign source " << to_mbcs(source.as_string()) << std::endl;
+				std::cout << "V:assign this " << (this->id) << "=" << to_mbcs(this->as_string()) << std::endl;
+				std::cout << "V:assign source " << (source.id) << "=" << to_mbcs(source.as_string()) << std::endl;
 			}
 			id = source.id;
 #endif
@@ -345,7 +349,7 @@ namespace gstd
 #ifdef _TRACE_VALUE
 		bool is_target() const
 		{
-			return false;// id == 20000;
+			return false;//id == 10001;
 		}
 #endif
 

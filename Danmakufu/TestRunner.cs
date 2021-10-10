@@ -40,6 +40,7 @@ namespace cs
             ScriptEngine engine = new ScriptEngine(typeManager, source, funcv);
             ScriptMachine machine = new ScriptMachine(engine);
             machine.Run();
+            //logFunc(String.Format("{0} : {1}", machine.ErrorLine, machine.ErrorMessage));
             return new TestResult(engine.Error, machine.Error);
         }
         private void TestOkSyntax(string testDirPath)
@@ -77,6 +78,8 @@ namespace cs
         private void TestFailSyntax(string testDirPath)
         {
             string[] scriptFilePaths = {
+                "syntax/fail/Lesson-4-Array-1.txt",
+                "syntax/fail/Lesson-4-Array-2.txt",
                 "syntax/fail/Lesson-4-LocalAndGlobalVariable-1.txt",
                 "syntax/fail/Lesson-4-LocalAndGlobalVariable-2.txt",
                 "syntax/fail/Lesson-4-LocalAndGlobalVariable-3.txt",
@@ -119,7 +122,7 @@ namespace cs
             logFunc("ok script :");
             foreach (string scriptFilePath in scriptFilePaths)
             {
-                TestResult result = ParseScript(testDirPath + scriptFilePath);
+                TestResult result = RunScript(testDirPath + scriptFilePath);
                 if (result.engineError)
                 {
                     logErrorFunc(String.Format("\tengine error : {0}", scriptFilePath));
@@ -145,7 +148,7 @@ namespace cs
             logFunc("fail script :");
             foreach (string scriptFilePath in scriptFilePaths)
             {
-                TestResult result = ParseScript(testDirPath + scriptFilePath);
+                TestResult result = RunScript(testDirPath + scriptFilePath);
                 if (result.engineError)
                 {
                     logErrorFunc(String.Format("\tengine error : {0}", scriptFilePath));

@@ -253,7 +253,7 @@ namespace Gstd
                 }
 
                 Value result = argv[0].IndexAsArray((int)(index));
-                return result;
+                return new Value(result);
             }
             private static Value indexWritable(ScriptMachine machine, int argc, Value[] argv)
             {
@@ -284,7 +284,7 @@ namespace Gstd
 
                 Value result = argv[0].IndexAsArray((int)(index));
                 result.Unique();
-                return result;
+                return new Value(result);
             }
             private static Value slice(ScriptMachine machine, int argc, Value[] argv)
             {

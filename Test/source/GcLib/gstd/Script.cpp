@@ -85,7 +85,7 @@ value::value(type_data * t, std::wstring v)
 		data->array_value.push_back(value(t->get_element(), v[i]));
 #ifdef _TRACE_VALUE
 	id = counter++;
-	if (is_target()) throw std::exception("V6");
+	//if (is_target()) throw std::exception("V6");
 #endif
 }
 
@@ -278,18 +278,19 @@ type_data * value::get_type() const
 
 void value::overwrite(value const & source)
 {
+#ifdef _TRACE_VALUE
+	if (is_target() || source.is_target())
+	{
+		std::cout << "V:overwrite this " << (this->id) << "=" << to_mbcs(this->as_string()) << std::endl;
+		std::cout << "V:overwrite source " << (source.id) << "=" << to_mbcs(source.as_string()) << std::endl;
+	}
+#endif
 	assert(data != NULL);
 	if(data == source.data)return;
 
 	release();
 	* data = * source.data;
 	data->ref_count = 2;
-#ifdef _TRACE_VALUE
-	if (is_target())
-	{
-		std::cout << "V:overwrite " << to_mbcs(this->as_string()) << std::endl;
-	}
-#endif
 
 //	* data = * source.data;
 //	++(data->ref_count);
