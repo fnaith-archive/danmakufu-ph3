@@ -29,10 +29,13 @@
 #include<map>
 
 // debug
-//#include<iostream>
+#include<iostream>
 //#define _TRACE_VALUE
 //#define _TRACE_COMMAND
 //#define _TRACE_TOKEN
+#define _REPORT_INFO
+//#define _REPORT_OK
+#define _REPORT_FAIL
 
 //重複宣言チェックをしない
 //#define __SCRIPT_H__NO_CHECK_DUPLICATED

@@ -21,6 +21,18 @@
       <UniqueIdentifier>{122cdd0d-6ad8-4a17-9a13-9f12a9a6f150}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="source\Test">
+      <UniqueIdentifier>{3e0c4a7a-4d15-4673-bb9f-590ab4a111f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Test\Gstd">
+      <UniqueIdentifier>{89e9298f-1a89-4611-b2f8-b436068cd179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Test\Gstd\Script">
+      <UniqueIdentifier>{63e436b2-00a5-471a-9cfb-02d7ffef6f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Test\Gstd\GstdUtility">
+      <UniqueIdentifier>{7dab5028-0d62-4573-ba6e-d2bafd1d0260}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\GcLib\gstd\Application.cpp">
@@ -349,10 +361,24 @@
     <ClInclude Include="source\TouhouDanmakufu\DnhViewer\ScriptSelect.hpp">
       <Filter>source</Filter>
     </ClInclude>
+    <ClInclude Include="source\TouhouDanmakufu\Test\TestSuite.hpp">
+      <Filter>source\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\Script\ScriptMachineTest.hpp">
+      <Filter>source\Test\Gstd\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\GstdUtility\PathPropertyTest.hpp">
+      <Filter>source\Test\Gstd\GstdUtility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="source\TouhouDanmakufu\DnhViewer\DnhViewer.rc">
       <Filter>source</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\TouhouDanmakufu\Test\Gstd\Script\ScriptEngineTest.hpp">
+      <Filter>source\Test\Gstd\Script</Filter>
+    </None>
   </ItemGroup>
 </Project>

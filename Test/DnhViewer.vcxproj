@@ -58,6 +58,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);.\DirectX9c\Include</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;.\DirectX9c\Lib</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\bin_th_dnh\</OutDir>
@@ -106,7 +107,7 @@
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <IgnoreSpecificDefaultLibraries>libc.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <OutputFile>.\bin_th_dnh\DnhViewer.exe</OutputFile>
       <AdditionalDependencies>legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -270,12 +271,18 @@
     <ClInclude Include="source\TouhouDanmakufu\DnhViewer\MainWindow.hpp" />
     <ClInclude Include="source\TouhouDanmakufu\DnhViewer\ScenePanel.hpp" />
     <ClInclude Include="source\TouhouDanmakufu\DnhViewer\ScriptSelect.hpp" />
+    <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\GstdUtility\PathPropertyTest.hpp" />
+    <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\Script\ScriptMachineTest.hpp" />
+    <ClInclude Include="source\TouhouDanmakufu\Test\TestSuite.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="source\TouhouDanmakufu\DnhViewer\DnhViewer.rc">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">source\TouhouDanmakufu\DnhViewer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">source\TouhouDanmakufu\DnhViewer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\TouhouDanmakufu\Test\Gstd\Script\ScriptEngineTest.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

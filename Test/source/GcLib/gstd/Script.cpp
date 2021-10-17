@@ -3425,7 +3425,11 @@ void script_machine::advance()
 		std::cout << "MS:" << current->stack.length;
 		for (int idx = 0; idx < current->stack.length; ++idx)
 		{
-			std::cout << " " << current->stack.at[idx].id << "=" << to_mbcs(current->stack.at[idx].as_string());
+			std::cout << " "
+#ifdef _TRACE_VALUE
+				<< current->stack.at[idx].id << "=" 
+#endif
+				<< to_mbcs(current->stack.at[idx].as_string());
 		}
 		std::cout << std::endl;
 #endif

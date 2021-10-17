@@ -1,4 +1,7 @@
 /.vs
 /_temp
+*.dmp
+*.exe
+*.idl
 *.ilk
 *.pdb
