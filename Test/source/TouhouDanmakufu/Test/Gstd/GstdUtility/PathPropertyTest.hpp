@@ -19,6 +19,7 @@ namespace test
 				AssertEquals("C:\\MyDir\\", gstd::to_mbcs(PathProperty::GetFileDirectory(std::wstring(L"C:\\MyDir\\MySubDir"))));
 				AssertEquals("C:\\MyDir\\", gstd::to_mbcs(PathProperty::GetFileDirectory(std::wstring(L"C:\\MyDir\\"))));
 				AssertEquals("C:\\", gstd::to_mbcs(PathProperty::GetFileDirectory(std::wstring(L"C:\\MyDir"))));
+				AssertEquals("C:\\", gstd::to_mbcs(PathProperty::GetFileDirectory(std::wstring(L"C:\\"))));
 				AssertEquals("C:", gstd::to_mbcs(PathProperty::GetFileDirectory(std::wstring(L"C:"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileDirectory(std::wstring(L""))));
             });
@@ -27,6 +28,7 @@ namespace test
 				AssertEquals("MyDir", gstd::to_mbcs(PathProperty::GetDirectoryName(std::wstring(L"C:\\MyDir\\MySubDir"))));
 				AssertEquals("MyDir", gstd::to_mbcs(PathProperty::GetDirectoryName(std::wstring(L"C:\\MyDir\\"))));
 				AssertEquals("C:", gstd::to_mbcs(PathProperty::GetDirectoryName(std::wstring(L"C:\\MyDir"))));
+				AssertEquals("C:", gstd::to_mbcs(PathProperty::GetDirectoryName(std::wstring(L"C:\\"))));
 				AssertEquals("C:", gstd::to_mbcs(PathProperty::GetDirectoryName(std::wstring(L"C:"))));
 				//AssertEquals("", gstd::to_mbcs(PathProperty::GetDirectoryName(std::wstring(L""))));
             });
@@ -34,6 +36,7 @@ namespace test
 				AssertEquals("myfile.ext", gstd::to_mbcs(PathProperty::GetFileName(std::wstring(L"C:\\MyDir\\myfile.ext"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileName(std::wstring(L"C:\\MyDir\\"))));
 				AssertEquals("MyDir", gstd::to_mbcs(PathProperty::GetFileName(std::wstring(L"C:\\MyDir"))));
+				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileName(std::wstring(L"C:\\"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileName(std::wstring(L"C:"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileName(std::wstring(L""))));
             });
@@ -41,6 +44,7 @@ namespace test
 				AssertEquals("C:", gstd::to_mbcs(PathProperty::GetDriveName(std::wstring(L"C:\\MyDir\\myfile.ext"))));
 				AssertEquals("C:", gstd::to_mbcs(PathProperty::GetDriveName(std::wstring(L"C:\\MyDir\\"))));
 				AssertEquals("C:", gstd::to_mbcs(PathProperty::GetDriveName(std::wstring(L"C:\\MyDir"))));
+				AssertEquals("C:", gstd::to_mbcs(PathProperty::GetDriveName(std::wstring(L"C:\\"))));
 				AssertEquals("C:", gstd::to_mbcs(PathProperty::GetDriveName(std::wstring(L"C:"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetDriveName(std::wstring(L""))));
             });
@@ -48,6 +52,7 @@ namespace test
 				AssertEquals("myfile", gstd::to_mbcs(PathProperty::GetFileNameWithoutExtension(std::wstring(L"C:\\MyDir\\myfile.ext"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileNameWithoutExtension(std::wstring(L"C:\\MyDir\\"))));
 				AssertEquals("MyDir", gstd::to_mbcs(PathProperty::GetFileNameWithoutExtension(std::wstring(L"C:\\MyDir"))));
+				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileNameWithoutExtension(std::wstring(L"C:\\"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileNameWithoutExtension(std::wstring(L"C:"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileNameWithoutExtension(std::wstring(L""))));
             });
@@ -55,6 +60,7 @@ namespace test
 				AssertEquals(".ext", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L"C:\\MyDir\\myfile.ext"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L"C:\\MyDir\\"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L"C:\\MyDir"))));
+				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L"C:\\"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L"C:"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L""))));
             });
@@ -71,6 +77,7 @@ namespace test
 				AssertEquals("C:/MyDir/myfile.ext", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L"C:\\MyDir\\myfile.ext"))));
 				AssertEquals("C:/MyDir/", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L"C:\\MyDir\\"))));
 				AssertEquals("C:/MyDir", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L"C:\\MyDir"))));
+				AssertEquals("C:/", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L"C:\\"))));
 				AssertEquals("C:", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L"C:"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L""))));
             });
