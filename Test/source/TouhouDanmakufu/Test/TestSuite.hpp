@@ -1,8 +1,10 @@
 ﻿#pragma once
 
-#include <fstream>
-#include <iostream>
-#include <streambuf>
+#include<cmath>
+#include<fstream>
+#include<iostream>
+#include<streambuf>
+#include<string>
 
 namespace test
 {
@@ -45,6 +47,20 @@ namespace test
                 throw new std::exception("Assert Failed");
             }
         }
+		void AssertEquals(long expected, long actual)
+		{
+			if (expected != actual)
+			{
+				throw std::exception(std::to_string(actual).c_str());
+			}
+		}
+		void AssertEquals(long double expected, long double actual)
+		{
+			if (1.0e-06 < std::fabsl(expected - actual))
+			{
+				throw std::exception(std::to_string(actual).c_str());
+			}
+		}
         void AssertEquals(std::string expected, std::string actual)
         {
             if (expected.compare(actual) != 0)

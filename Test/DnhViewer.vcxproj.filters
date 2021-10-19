@@ -370,6 +370,9 @@
     <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\GstdUtility\PathPropertyTest.hpp">
       <Filter>source\Test\Gstd\GstdUtility</Filter>
     </ClInclude>
+    <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\MersenneTwisterTest.hpp">
+      <Filter>source\Test\Gstd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="source\TouhouDanmakufu\DnhViewer\DnhViewer.rc">
