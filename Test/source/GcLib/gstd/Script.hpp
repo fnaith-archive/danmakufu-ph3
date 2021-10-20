@@ -40,6 +40,8 @@
 //重複宣言チェックをしない
 //#define __SCRIPT_H__NO_CHECK_DUPLICATED
 
+long double fmodl2(long double i, long double j);
+
 //-------- 汎用
 namespace gstd
 {
