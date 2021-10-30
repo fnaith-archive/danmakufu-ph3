@@ -24,7 +24,7 @@ class ScriptMachine
     private bool finished;
     private bool stopped;
     private bool resuming;
-    //void* data TODO check
+    public object data;
     private bool error;
     private string errorMessage;
     private int errorLine;

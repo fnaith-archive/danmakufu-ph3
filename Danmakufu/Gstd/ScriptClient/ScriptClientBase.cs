@@ -14,7 +14,7 @@ namespace Gstd
             private static ScriptTypeManager typeManagerDefault = new ScriptTypeManager();
 
             private bool bError;
-            //private gstd::ref_count_ptr<ScriptEngineCache> cache_;
+            private ScriptEngineCache cache;
             private ScriptEngineData engine;
             private ScriptMachine machine;
 
@@ -66,7 +66,37 @@ namespace Gstd
                 engine.SetPath(path);
             }
 
-            /*public virtual void Compile();*/
+            public void Compile()
+            {
+                if (engine.GetEngine() == null)
+                {
+                    string source = /*_Include(*/engine.GetSource();//);
+                    engine.SetSource(source);
+
+                    _CreateEngine();
+                    if (engine.GetEngine().Error)
+                    {			
+                        bError = true;
+                        _RaiseErrorFromEngine();
+                    }
+                    if (cache != null && engine.GetPath().Length != 0)
+                    {
+                        cache.AddCache(engine.GetPath(), engine);
+                    }
+                }
+
+                if (machine != null)
+                {
+                    machine = null;
+                }
+                machine = new ScriptMachine(engine.GetEngine());
+                if (machine.Error)
+                {	
+                    bError = true;
+                    _RaiseErrorFromMachine();
+                }
+                machine.data = this;
+            }
             public bool Run()
             {
                 if (bError)
@@ -339,41 +369,41 @@ namespace Gstd
                     {
                         break;
                     }
-                    GstdUtility.Scanner scanner = new GstdUtility.Scanner(res);
+                    GstdUtility.Scanner scanner = new GstdUtility.Scanner(res.ToCharArray());
                     int resSize = res.Length;
                 
                     bEnd = true;
                     while (scanner.HasNext())
-                    {/*
-                        Token& tok = scanner.Next();
-                        if( tok.GetType() == Token::TK_EOF )//Eof�̎��ʎq��������t�@�C���̒����I��
+                    {
+                        Token tok = scanner.Next();
+                        if (tok.GetTokenType() == TokenType.TK_EOF)//Eof�̎��ʎq��������t�@�C���̒����I��
                         {
                             break;
                         }
-                        else if( tok.GetType() == Token::TK_SHARP)
+                        else if (tok.GetTokenType() == TokenType.TK_SHARP)
                         {
                             int posInclude = scanner.GetCurrentPointer() - 1;
-                            if(encoding == Encoding::UTF16LE)posInclude--;
 
                             tok = scanner.Next();
-                            if(tok.GetElement() != L"include" )continue;
+                            if (tok.GetElement() != "include" )
+                            {
+                                continue;
+                            }
 
                             bEnd = false;
                             int posCurrent = scanner.GetCurrentPointer();
-                            std::wstring wPath = scanner.Next().GetString();
+                            string wPath = scanner.Next().GetString();
                             bool bNeedNewLine = false;
-                            if(scanner.HasNext())
+                            if (scanner.HasNext())
                             {
                                 int posBeforeNewLine = scanner.GetCurrentPointer();
-                                if(scanner.Next().GetType() != Token::TK_NEWLINE)
+                                if (scanner.Next().GetTokenType() != TokenType.TK_NEWLINE)
                                 {
                                     int line = scanner.GetCurrentLine();
                                     source = res;
-                                    engine_->SetSource(source);
+                                    engine.SetSource(source);
 
-                                    std::wstring error;
-                                    error += L"New line is not found after #include.\r\n";
-                                    error += L"(#include��ɉ��s������܂���)";
+                                    string error = "New line is not found after #include.\r\n";
                                     _RaiseError(line, error);
                                 }
                                 scanner.SetCurrentPointer(posBeforeNewLine);
@@ -386,39 +416,36 @@ namespace Gstd
                             scanner.SetCurrentPointer(posCurrent);
 
                             // "../"����n�܂��Ă�����A�O��"./"������B
-                            if(wPath.find(L"../") == 0 || wPath.find(L"..\\") == 0)
+                            if (wPath.IndexOf("../") == 0 || wPath.IndexOf("..\\") == 0)
                             {
-                                wPath = L"./" + wPath;
+                                wPath = "./" + wPath;
                             }
 
-                            if(wPath.find(L".\\") != std::wstring::npos || wPath.find(L"./") != std::wstring::npos)
+                            if (wPath.IndexOf(".\\") != -1 || wPath.IndexOf("./") != -1)
                             {	//".\"�W�J
                                 int line = scanner.GetCurrentLine();
-                                std::wstring linePath = mapLine->GetPath(line);
-                                std::wstring tDir = PathProperty::GetFileDirectory(linePath);
+                                string linePath = mapLine.GetPath(line);
+                                string tDir = PathProperty.GetFileDirectory(linePath);
                                 //std::string tDir = PathProperty::GetFileDirectory(pathSource);
-                                wPath = tDir.substr(PathProperty::GetModuleDirectory().size()) + wPath.substr(2);
+                                //wPath = tDir.Substring(PathProperty.GetModuleDirectory().size()) + wPath.Substring(2); TODO
                             }
-                            wPath = PathProperty::GetModuleDirectory() + wPath;
-                            wPath = PathProperty::GetUnique(wPath);
+                            //wPath = PathProperty::GetModuleDirectory() + wPath; TODO
+                            //wPath = PathProperty::GetUnique(wPath); TODO
 
-                            bool bReadPath = setReadPath.find(wPath) != setReadPath.end();
-                            if(bReadPath)
+                            bool bReadPath = setReadPath.Contains(wPath);
+                            if (bReadPath)
                             {//���łɓǂݍ��܂�Ă���
-                                std::vector<char> newSource;
                                 int size1 = posInclude;
-                                int size2 = res.size() - posAfterInclude;
-                                newSource.resize(size1 + size2);
-                                memcpy(&newSource[0], &res[0], size1);
-                                memcpy(&newSource[size1], &res[posAfterInclude], size2);
+                                int size2 = res.Length - posAfterInclude;
+                                string newSource = res.Substring(0, size1) + res.Substring(size1 + posAfterInclude, size1 + size2);
                                 
                                 res = newSource;
                                 break;
                             }
 
-                            std::vector<char> placement;
-                            ref_count_ptr<FileReader> reader;
-                            reader = fileManager->GetFileReader(wPath);
+                            /*std::vector<char> placement;
+                            FileReader reader;*/
+                            /*reader = fileManager->GetFileReader(wPath);
                             if(reader == NULL || !reader->Open())
                             {
                                 int line = scanner.GetCurrentLine();
@@ -581,10 +608,10 @@ namespace Gstd
                                 }
 
                                 countTest++;
-                            }
+                            }*/
 
                             break;
-                        }*/
+                        }
                     }
                 }
 
