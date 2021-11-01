@@ -56,14 +56,30 @@ namespace test
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileNameWithoutExtension(std::wstring(L"C:"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileNameWithoutExtension(std::wstring(L""))));
             });
-            RunTest("[PathPropertyTest] GetFileExtension", [this]() {
+			RunTest("[PathPropertyTest] GetFileExtension", [this]() {
 				AssertEquals(".ext", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L"C:\\MyDir\\myfile.ext"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L"C:\\MyDir\\"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L"C:\\MyDir"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L"C:\\"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L"C:"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetFileExtension(std::wstring(L""))));
-            });
+			});
+			RunTest("[PathPropertyTest] GetModuleName", [this]() {
+				// the path of the executable file of the current process, then GetFileNameWithoutExtension
+				AssertEquals("DnhViewer", gstd::to_mbcs(PathProperty::GetModuleName()));
+			});
+			RunTest("[PathPropertyTest] GetModuleDirectory", [this]() {
+				// the path of the executable file of the current process, then GetFileDirectory
+				AssertEquals("D:\\Repository\\danmakufu-ph3\\Test\\.\\bin_th_dnh\\", gstd::to_mbcs(PathProperty::GetModuleDirectory()));
+			});
+			RunTest("[PathPropertyTest] GetDirectoryWithoutModuleDirectory", [this]() {
+				AssertEquals("MyDir\\MySubDir\\", gstd::to_mbcs(PathProperty::GetDirectoryWithoutModuleDirectory(std::wstring(L"D:\\Repository\\danmakufu-ph3\\Test\\.\\bin_th_dnh\\MyDir\\MySubDir\\myfile.ext"))));
+				AssertEquals("MyDir\\", gstd::to_mbcs(PathProperty::GetDirectoryWithoutModuleDirectory(std::wstring(L"D:\\Repository\\danmakufu-ph3\\Test\\.\\bin_th_dnh\\MyDir\\MySubDir"))));
+				AssertEquals("MyDir\\", gstd::to_mbcs(PathProperty::GetDirectoryWithoutModuleDirectory(std::wstring(L"D:\\Repository\\danmakufu-ph3\\Test\\.\\bin_th_dnh\\MyDir\\"))));
+				AssertEquals("", gstd::to_mbcs(PathProperty::GetDirectoryWithoutModuleDirectory(std::wstring(L"D:\\Repository\\danmakufu-ph3\\Test\\.\\bin_th_dnh\\MyDir"))));
+				AssertEquals("", gstd::to_mbcs(PathProperty::GetDirectoryWithoutModuleDirectory(std::wstring(L"D:\\Repository\\danmakufu-ph3\\Test\\.\\bin_th_dnh\\"))));
+				AssertEquals("C:\\MyDir\\MySubDir\\", gstd::to_mbcs(PathProperty::GetDirectoryWithoutModuleDirectory(std::wstring(L"C:\\MyDir\\MySubDir\\myfile.ext"))));
+			});
 			RunTest("[PathPropertyTest] GetRelativeDirectory", [this]() {
 				AssertEquals("..\\..\\x\\y\\file\\", gstd::to_mbcs(PathProperty::GetRelativeDirectory(std::wstring(L"C:\\a\\b\\path\\"), std::wstring(L"C:\\a\\x\\y\\file\\"))));
 				AssertEquals("..\\..\\x\\y\\file\\", gstd::to_mbcs(PathProperty::GetRelativeDirectory(std::wstring(L"C:\\a\\b\\path"), std::wstring(L"C:\\a\\x\\y\\file\\"))));
