@@ -13,7 +13,7 @@ namespace test
 		}
 		void Run() override
 		{
-			RunTest("[PathPropertyTest] MersenneTwister long seed 0", [this]() {
+			RunTest("[MersenneTwisterTest] MersenneTwister long seed 0", [this]() {
 				long numbers[] = {
 					1178568022, 1273124119, 1535857466, 1813046880, 1294424481,
 					1842424189, 1170127713, 1819459251, 909791748, 1339092841,
@@ -26,7 +26,7 @@ namespace test
 					AssertEquals(number, mt.GetInt());
 				}
 			});
-			RunTest("[PathPropertyTest] MersenneTwister long seed 42", [this]() {
+			RunTest("[MersenneTwisterTest] MersenneTwister long seed 42", [this]() {
 				long numbers[] = {
 					804318771, 1710563033, 2041643438, 393923207, 1571945013,
 					1674373667, 1285609310, 1281725962, 335047475, 957418556,
@@ -39,7 +39,7 @@ namespace test
 					AssertEquals(number, mt.GetInt());
 				}
 			});
-			RunTest("[PathPropertyTest] MersenneTwister real", [this]() {
+			RunTest("[MersenneTwisterTest] MersenneTwister real", [this]() {
 				long double numbers[] = {
 					0.548814, 0.592845, 0.715189, 0.844266, 0.602763,
 					0.857946, 0.544883, 0.847252, 0.423655, 0.623564,
@@ -52,7 +52,7 @@ namespace test
 					AssertEquals(number, mt.GetReal());
 				}
 			});
-			RunTest("[PathPropertyTest] MersenneTwister real min max", [this]() {
+			RunTest("[MersenneTwisterTest] MersenneTwister real min max", [this]() {
 				MersenneTwister mt(0);
 				AssertEquals(3.64644, mt.GetReal(2, 5));
 			});

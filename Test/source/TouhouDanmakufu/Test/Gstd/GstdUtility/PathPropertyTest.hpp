@@ -80,6 +80,12 @@ namespace test
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetDirectoryWithoutModuleDirectory(std::wstring(L"D:\\Repository\\danmakufu-ph3\\Test\\.\\bin_th_dnh\\"))));
 				AssertEquals("C:\\MyDir\\MySubDir\\", gstd::to_mbcs(PathProperty::GetDirectoryWithoutModuleDirectory(std::wstring(L"C:\\MyDir\\MySubDir\\myfile.ext"))));
 			});
+			RunTest("[PathPropertyTest] GetPathWithoutModuleDirectory", [this]() {
+				// TODO dirModule needs Canonicalize
+				// dirModule => D:/Repository/danmakufu-ph3/Test/./bin_th_dnh/
+				// path => D:/Repository/danmakufu-ph3/Test/bin_th_dnh/MyDir/MySubDir/myfile.ext
+				AssertEquals("D:/Repository/danmakufu-ph3/Test/bin_th_dnh/MyDir/MySubDir/myfile.ext", gstd::to_mbcs(PathProperty::GetPathWithoutModuleDirectory(std::wstring(L"D:\\Repository\\danmakufu-ph3\\Test\\bin_th_dnh\\MyDir\\MySubDir\\myfile.ext"))));
+			});
 			RunTest("[PathPropertyTest] GetRelativeDirectory", [this]() {
 				AssertEquals("..\\..\\x\\y\\file\\", gstd::to_mbcs(PathProperty::GetRelativeDirectory(std::wstring(L"C:\\a\\b\\path\\"), std::wstring(L"C:\\a\\x\\y\\file\\"))));
 				AssertEquals("..\\..\\x\\y\\file\\", gstd::to_mbcs(PathProperty::GetRelativeDirectory(std::wstring(L"C:\\a\\b\\path"), std::wstring(L"C:\\a\\x\\y\\file\\"))));
@@ -89,14 +95,28 @@ namespace test
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetRelativeDirectory(std::wstring(L"C:\\a\\b\\path"), std::wstring(L"D:\\a\\x\\y\\file"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::GetRelativeDirectory(std::wstring(L"C:\\a\\b\\path"), std::wstring(L""))));
             });
-            RunTest("[PathPropertyTest] ReplaceYenToSlash", [this]() {
+			RunTest("[PathPropertyTest] ReplaceYenToSlash", [this]() {
 				AssertEquals("C:/MyDir/myfile.ext", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L"C:\\MyDir\\myfile.ext"))));
 				AssertEquals("C:/MyDir/", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L"C:\\MyDir\\"))));
 				AssertEquals("C:/MyDir", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L"C:\\MyDir"))));
 				AssertEquals("C:/", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L"C:\\"))));
 				AssertEquals("C:", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L"C:"))));
 				AssertEquals("", gstd::to_mbcs(PathProperty::ReplaceYenToSlash(std::wstring(L""))));
-            });
+			});
+			RunTest("[PathPropertyTest] Canonicalize", [this]() {
+				AssertEquals("C:\\name_1\\name_3", gstd::to_mbcs(PathProperty::Canonicalize(std::wstring(L"C:\\name_1\\.\\name_2\\..\\name_3"))));
+				AssertEquals("C:\\name_2\\name_3", gstd::to_mbcs(PathProperty::Canonicalize(std::wstring(L"C:\\name_1\\..\\name_2\\.\\name_3"))));
+				AssertEquals("C:\\name_1\\name_2\\name_4", gstd::to_mbcs(PathProperty::Canonicalize(std::wstring(L"C:\\name_1\\name_2\\.\\name_3\\..\\name_4"))));
+				AssertEquals("C:\\name_1\\name_2", gstd::to_mbcs(PathProperty::Canonicalize(std::wstring(L"C:\\name_1\\.\\name_2\\.\\name_3\\..\\name_4\\.."))));
+				AssertEquals("C:\\", gstd::to_mbcs(PathProperty::Canonicalize(std::wstring(L"C:\\.."))));
+			});
+			RunTest("[PathPropertyTest] GetUnique", [this]() {
+				AssertEquals("C:/name_1/name_3", gstd::to_mbcs(PathProperty::GetUnique(std::wstring(L"C:\\name_1\\.\\name_2\\..\\name_3"))));
+				AssertEquals("C:/name_2/name_3", gstd::to_mbcs(PathProperty::GetUnique(std::wstring(L"C:\\name_1\\..\\name_2\\.\\name_3"))));
+				AssertEquals("C:/name_1/name_2/name_4", gstd::to_mbcs(PathProperty::GetUnique(std::wstring(L"C:\\name_1\\name_2\\.\\name_3\\..\\name_4"))));
+				AssertEquals("C:/name_1/name_2", gstd::to_mbcs(PathProperty::GetUnique(std::wstring(L"C:\\name_1\\.\\name_2\\.\\name_3\\..\\name_4\\.."))));
+				AssertEquals("C:/", gstd::to_mbcs(PathProperty::GetUnique(std::wstring(L"C:\\.."))));
+			});
         }
 	};
 }
