@@ -32,10 +32,13 @@ namespace Gstd
 			virtual bool Initialize();
 			void EndLoadThread();
 			bool AddArchiveFile(std::wstring path);
-			bool RemoveArchiveFile(std::wstring path);
-			ref_count_ptr<FileReader> GetFileReader(std::wstring path);
+			bool RemoveArchiveFile(std::wstring path);*/
+			public FileReader GetFileReader(string path)
+			{
+				return null; // TODO
+			}
 
-			void AddLoadThreadEvent(ref_count_ptr<LoadThreadEvent> event);
+			/*void AddLoadThreadEvent(ref_count_ptr<LoadThreadEvent> event);
 			void AddLoadThreadListener(FileManager::LoadThreadListener* listener);
 			void RemoveLoadThreadListener(FileManager::LoadThreadListener* listener);
 			void WaitForThreadLoadComplete();*/

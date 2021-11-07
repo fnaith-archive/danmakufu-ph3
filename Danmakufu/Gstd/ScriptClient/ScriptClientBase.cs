@@ -427,10 +427,10 @@ namespace Gstd
                                 string linePath = mapLine.GetPath(line);
                                 string tDir = PathProperty.GetFileDirectory(linePath);
                                 //std::string tDir = PathProperty::GetFileDirectory(pathSource);
-                                //wPath = tDir.Substring(PathProperty.GetModuleDirectory().size()) + wPath.Substring(2); TODO
+                                wPath = tDir.Substring(PathProperty.GetModuleDirectory().Length) + wPath.Substring(2);
                             }
-                            //wPath = PathProperty::GetModuleDirectory() + wPath; TODO
-                            //wPath = PathProperty::GetUnique(wPath); TODO
+                            wPath = PathProperty.GetModuleDirectory() + wPath;
+                            wPath = PathProperty.GetUnique(wPath);
 
                             bool bReadPath = setReadPath.Contains(wPath);
                             if (bReadPath)
@@ -443,90 +443,41 @@ namespace Gstd
                                 break;
                             }
 
-                            /*std::vector<char> placement;
-                            FileReader reader;*/
-                            /*reader = fileManager->GetFileReader(wPath);
-                            if(reader == NULL || !reader->Open())
+                            List<char> placement = new List<char>();
+                            FileReader reader;
+                            reader = fileManager.GetFileReader(wPath);
+                            if (reader == null || !reader.Open())
                             {
                                 int line = scanner.GetCurrentLine();
                                 source = res;
-                                engine_->SetSource(source);
+                                engine.SetSource(source);
 
-                                std::wstring error;
-                                error += StringUtility::Format(L"#Include file is not found[%s].\r\n", wPath.c_str());
-                                error += StringUtility::Format(L"(#include�Œu������t�@�C��[%s]��������܂���)", wPath.c_str());
+                                string error = "#Include file is not found[%s].\r\n";
+                                //error += StringUtility::Format(L"#Include file is not found[%s].\r\n", wPath.c_str());
+                                //error += StringUtility::Format(L"(#include�Œu������t�@�C��[%s]��������܂���)", wPath.c_str());
                                 _RaiseError(line, error);
                             }
 
                             //�t�@�C����ǂݍ��ݍŌ�ɉ��s��t��
                             int targetBomSize = 0;
-                            int targetEncoding = Encoding::SHIFT_JIS;
-                            if(reader->GetFileSize() >= 2)
+                            if (reader.GetFileSize() >= 2)
                             {
-                                char data[2];
-                                reader->Read(&data[0], 2);
-                                if(Encoding::IsUtf16Le(&data[0], 2))
-                                {
-                                    targetEncoding = Encoding::UTF16LE;
-                                    targetBomSize = Encoding::GetBomSize(&data[0], 2);
-                                }
                                 //�t�@�C���|�C���^���ŏ��ɖ߂�
-                                reader->SetFilePointerBegin();
+                                reader.SetFilePointerBegin();
                             }
 
-                            if(targetEncoding == Encoding::UTF16LE)
-                            {
-                                //�ǂݍ��ݑΏۂ�UTF16LE
-                                int newLineSize = bNeedNewLine ? 4 : 0;
-                                reader->Seek(targetBomSize);
-                                placement.resize(reader->GetFileSize() - targetBomSize + newLineSize); //-BOM�ǂݍ��ݕ�+�Ō�̉��s
-                                int readSize = reader->GetFileSize() - targetBomSize;
-                                reader->Read(&placement[0], readSize);
-                                memcpy(&placement[readSize], L"\r\n", newLineSize);
-
-                                //�����悪ShiftJIS�̏ꍇ�A�������UTF16LE�ɕϊ�����B
-                                if(encoding == Encoding::SHIFT_JIS)
-                                {
-                                    encoding = Encoding::UTF16LE;
-                                    int resSize = res.size();
-                                    std::string sRes = std::string(&res[0], &res[resSize]);
-                                    std::wstring wRes = StringUtility::ConvertMultiToWide(sRes);
-
-                                    int dataSize = wRes.size() * sizeof(wchar_t);
-                                    res.resize(dataSize + 2);
-                                    memcpy(&res[0], Encoding::BOM_UTF16LE, 2);
-                                    memcpy(&res[2], &wRes[0], dataSize);
-
-                                    //�ēxscan���Ȃ���
-                                    break;
-                                }
-                            }
-                            else
-                            {
+                            /*{
                                 //�ǂݍ��ݑΏۂ�ShiftJis
                                 int newLineSize = bNeedNewLine ? 2 : 0;
-                                placement.resize(reader->GetFileSize() + newLineSize);
+                                placement.resize(reader.GetFileSize() + newLineSize);
                                 reader->Read(&placement[0], reader->GetFileSize());
                                 memcpy(&placement[reader->GetFileSize()], "\r\n", newLineSize);
-
-                                //�����悪UTF16LE�̏ꍇ�A�ǂݍ��񂾃f�[�^��UTF16LE�ɕϊ�����B
-                                if(encoding == Encoding::UTF16LE)
-                                {
-                                    int placementSize = placement.size();
-                                    std::string sPlacement = std::string(&placement[0], &placement[placementSize]);
-                                    std::wstring wPlacement = StringUtility::ConvertMultiToWide(sPlacement);
-
-                                    int dataSize = wPlacement.size() * sizeof(wchar_t);
-                                    placement.resize(dataSize);
-                                    memcpy(&placement[0], &wPlacement[0], dataSize);
-                                }
-
-                            }
-                            mapLine->AddEntry(wPath,
+                            }*/
+                            mapLine.AddEntry(wPath,
                                 scanner.GetCurrentLine(), 
-                                StringUtility::CountCharacter(placement, '\n') + 1);
+                                StringUtility.CountCharacter(placement, '\n') + 1);
 
-                            {//�u��
+                            /*{//�u��
                                 std::vector<char> newSource;
                                 int size1 = posInclude;
                                 int size2 = res.size() - posAfterInclude;

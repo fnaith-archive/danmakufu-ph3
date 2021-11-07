@@ -94,7 +94,29 @@ namespace test
                 //AssertEquals("", PathProperty.GetFileExtension("C:"));
                 //AssertEquals("", PathProperty.GetFileExtension(""));
             });
-            Run("[PathPropertyTest] GetRelativeDirectory", () => { // TODO
+            Run("[PathPropertyTest] GetModuleName", () => {
+                AssertEquals("Danmakufu", PathProperty.GetModuleName());
+            });
+            Run("[PathPropertyTest] GetModuleDirectory", () => {
+                AssertEquals("/Users/wilson/Desktop/ph3/Test/bin/Debug/net5.0/", PathProperty.GetModuleDirectory());
+            });
+            Run("[PathPropertyTest] GetDirectoryWithoutModuleDirectory", () => {
+                //AssertEquals("", PathProperty.GetDirectoryWithoutModuleDirectory("/Users/wilson/Desktop/ph3/Test/bin/Debug/net5.0/"));
+				AssertEquals("MyDir/MySubDir/", PathProperty.GetDirectoryWithoutModuleDirectory("/Users/wilson/Desktop/ph3/Test/bin/Debug/net5.0/MyDir/MySubDir/myfile.ext"));
+				AssertEquals("MyDir/", PathProperty.GetDirectoryWithoutModuleDirectory("/Users/wilson/Desktop/ph3/Test/bin/Debug/net5.0/MyDir/MySubDir"));
+				AssertEquals("MyDir/", PathProperty.GetDirectoryWithoutModuleDirectory("/Users/wilson/Desktop/ph3/Test/bin/Debug/net5.0/MyDir/"));
+				AssertEquals("", PathProperty.GetDirectoryWithoutModuleDirectory("/Users/wilson/Desktop/ph3/Test/bin/Debug/net5.0/MyDir"));
+				AssertEquals("", PathProperty.GetDirectoryWithoutModuleDirectory("/Users/wilson/Desktop/ph3/Test/bin/Debug/net5.0/"));
+				AssertEquals("/a/b/path/", PathProperty.GetDirectoryWithoutModuleDirectory("/a/b/path/"));
+            });
+            Run("[PathPropertyTest] GetPathWithoutModuleDirectory", () => {
+                AssertEquals("MyDir/MySubDir/myfile.ext", PathProperty.GetPathWithoutModuleDirectory("/Users/wilson/Desktop/ph3/Test/bin/Debug/net5.0/MyDir/MySubDir/myfile.ext"));
+                // TODO dirModule needs Canonicalize
+                // dirModule => D:/Repository/danmakufu-ph3/Test/./bin_th_dnh/
+                // path => D:/Repository/danmakufu-ph3/Test/bin_th_dnh/MyDir/MySubDir/myfile.ext
+                //AssertEquals("D:/Repository/danmakufu-ph3/Test/bin_th_dnh/MyDir/MySubDir/myfile.ext", PathProperty.GetPathWithoutModuleDirectory(std::wstring(L"D:\\Repository\\danmakufu-ph3\\Test\\bin_th_dnh\\MyDir\\MySubDir\\myfile.ext"))));
+            });
+            Run("[PathPropertyTest] GetRelativeDirectory", () => {
                 AssertEquals("../../x/y/file/", PathProperty.GetRelativeDirectory("/a/b/path/", "/a/x/y/file/"));
                 AssertEquals("../../x/y/file/", PathProperty.GetRelativeDirectory("/a/b/path", "/a/x/y/file/"));
                 AssertEquals("../../x/y/", PathProperty.GetRelativeDirectory("/a/b/path/", "/a/x/y/file"));
@@ -121,6 +143,30 @@ namespace test
                 //AssertEquals("C:/", PathProperty.ReplaceYenToSlash("C:\\"));
                 //AssertEquals("C:", PathProperty.ReplaceYenToSlash("C:"));
                 //AssertEquals("", PathProperty.ReplaceYenToSlash(""));
+            });
+            Run("[PathPropertyTest] Canonicalize", () => {
+                AssertEquals("/name_1/name_3", PathProperty.Canonicalize("/name_1/./name_2/../name_3"));
+                AssertEquals("/name_2/name_3", PathProperty.Canonicalize("/name_1/../name_2/./name_3"));
+                AssertEquals("/name_1/name_2/name_4", PathProperty.Canonicalize("/name_1/name_2/./name_3/../name_4"));
+                AssertEquals("/name_1/name_2", PathProperty.Canonicalize("/name_1/./name_2/./name_3/../name_4/.."));
+                AssertEquals("/", PathProperty.Canonicalize("/.."));
+                //AssertEquals("C:\\name_1\\name_3", PathProperty.Canonicalize("C:\\name_1\\.\\name_2\\..\\name_3"));
+                //AssertEquals("C:\\name_2\\name_3", PathProperty.Canonicalize("C:\\name_1\\..\\name_2\\.\\name_3"));
+                //AssertEquals("C:\\name_1\\name_2\\name_4", PathProperty.Canonicalize("C:\\name_1\\name_2\\.\\name_3\\..\\name_4"));
+                //AssertEquals("C:\\name_1\\name_2", PathProperty.Canonicalize("C:\\name_1\\.\\name_2\\.\\name_3\\..\\name_4\\.."));
+                //AssertEquals("C:\\", PathProperty.Canonicalize("C:\\.."));
+            });
+            Run("[PathPropertyTest] GetUnique", () => {
+                AssertEquals("/name_1/name_3", PathProperty.GetUnique("/name_1/./name_2/../name_3"));
+                AssertEquals("/name_2/name_3", PathProperty.GetUnique("/name_1/../name_2/./name_3"));
+                AssertEquals("/name_1/name_2/name_4", PathProperty.GetUnique("/name_1/name_2/./name_3/../name_4"));
+                AssertEquals("/name_1/name_2", PathProperty.GetUnique("/name_1/./name_2/./name_3/../name_4/.."));
+                AssertEquals("/", PathProperty.GetUnique("/.."));
+                //AssertEquals("C:/name_1/name_3", PathProperty.GetUnique("C:\\name_1\\.\\name_2\\..\\name_3"));
+                //AssertEquals("C:/name_2/name_3", PathProperty.GetUnique("C:\\name_1\\..\\name_2\\.\\name_3"));
+                //AssertEquals("C:/name_1/name_2/name_4", PathProperty.GetUnique("C:\\name_1\\name_2\\.\\name_3\\..\\name_4"));
+                //AssertEquals("C:/name_1/name_2", PathProperty.GetUnique("C:\\name_1\\.\\name_2\\.\\name_3\\..\\name_4\\.."));
+                //AssertEquals("C:/", PathProperty.GetUnique("C:\\.."));
             });
         }
     }

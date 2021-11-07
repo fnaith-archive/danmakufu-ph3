@@ -69,10 +69,41 @@ namespace Gstd
             {
                 return Path.GetExtension(path);
             }
-            //public static string GetModuleName() // TODO remove
-            //public static string GetModuleDirectory() // TODO remove
-            //public static string GetDirectoryWithoutModuleDirectory(string path) // TODO remove
-            //public static string GetPathWithoutModuleDirectory(string path) // TODO remove
+            public static string GetModuleName()
+            {
+                string path = System.Reflection.Assembly.GetEntryAssembly().Location;
+                return GetFileNameWithoutExtension(path);
+            }
+            public static string GetModuleDirectory()
+            {
+                string path = System.Reflection.Assembly.GetEntryAssembly().Location;
+                return GetFileDirectory(path);
+            }
+            public static string GetDirectoryWithoutModuleDirectory(string path)
+            {
+				string res = GetFileDirectory(path);
+				string dirModule = GetModuleDirectory();
+				if (res.StartsWith(dirModule))
+				{
+					res = res.Substring(dirModule.Length);
+				}
+				return res;
+            }
+            public static string GetPathWithoutModuleDirectory(string path)
+            {
+                string dirModule = GetModuleDirectory();
+                dirModule = Canonicalize(dirModule);
+                dirModule = ReplaceYenToSlash(dirModule);
+                path = Canonicalize(path);
+                path = ReplaceYenToSlash(path);
+
+                string res = path;
+                if (res.StartsWith(dirModule))
+                {
+                    res = res.Substring(dirModule.Length);
+                }
+                return res;
+            }
             public static string GetRelativeDirectory(string from, string to)
             {
                 try
@@ -94,8 +125,17 @@ namespace Gstd
                 string res = path.Replace(@"\", @"/");
                 return res;
             }
-            //public static string Canonicalize(string srcPath) // TODO remove
-            //public static string GetUnique(string srcPath) // TODO remove
+            public static string Canonicalize(string srcPath)
+            {
+                return Path.GetFullPath(srcPath);
+            }
+            public static string GetUnique(string srcPath)
+            {
+                string res = srcPath.Replace(@"\", @"/");
+                res = Canonicalize(res);
+                res = ReplaceYenToSlash(res);
+                return res;
+            }
         }
     }
 }
