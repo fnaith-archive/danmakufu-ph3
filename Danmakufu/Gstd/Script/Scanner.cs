@@ -4,16 +4,16 @@ namespace Gstd
 {
     namespace Script
     {
-        class Scanner
+        sealed class Scanner
         {
             private char[] source;
             private int current;
             private TokenKind next;
-            private string word;
+            private string word = "";
             private int line;
             private double realValue;
             private char charValue;
-            private string stringValue;
+            private string stringValue = "";
             public TokenKind Next
             {
                 get => next;
@@ -129,177 +129,177 @@ namespace Gstd
                 char ch = CurrentChar();
                 if (ch == '\0' || current >= source.Length)
                 {
-                    next = TokenKind.TK_end;
+                    next = TokenKind.tk_end;
                     return;
                 }
 
                 switch (ch)
                 {
                     case '[':
-                        next = TokenKind.TK_open_bra;
+                        next = TokenKind.tk_open_bra;
                         ch = NextChar();
                         break;
                     case ']':
-                        next = TokenKind.TK_close_bra;
+                        next = TokenKind.tk_close_bra;
                         ch = NextChar();
                         break;
                     case '(':
-                        next = TokenKind.TK_open_par;
+                        next = TokenKind.tk_open_par;
                         ch = NextChar();
                         if (ch == '|')
                         {
-                            next = TokenKind.TK_open_abs; // TODO check
+                            next = TokenKind.tk_open_abs; // TODO check
                             ch = NextChar();
                         }
                         break;
                     case ')':
-                        next = TokenKind.TK_close_par;
+                        next = TokenKind.tk_close_par;
                         ch = NextChar();
                         break;
                     case '{':
-                        next = TokenKind.TK_open_cur;
+                        next = TokenKind.tk_open_cur;
                         ch = NextChar();
                         break;
                     case '}':
-                        next = TokenKind.TK_close_cur;
+                        next = TokenKind.tk_close_cur;
                         ch = NextChar();
                         break;
                     case '@':
-                        next = TokenKind.TK_at;
+                        next = TokenKind.tk_at;
                         ch = NextChar();
                         break;
                     case ',':
-                        next = TokenKind.TK_comma;
+                        next = TokenKind.tk_comma;
                         ch = NextChar();
                         break;
                     case ';':
-                        next = TokenKind.TK_semicolon;
+                        next = TokenKind.tk_semicolon;
                         ch = NextChar();
                         break;
                     case '~':
-                        next = TokenKind.TK_tilde;
+                        next = TokenKind.tk_tilde;
                         ch = NextChar();
                         break;
                     case '*':
-                        next = TokenKind.TK_asterisk;
+                        next = TokenKind.tk_asterisk;
                         ch = NextChar();
                         if (ch == '=')
                         {
-                            next = TokenKind.TK_multiply_assign;
+                            next = TokenKind.tk_multiply_assign;
                             ch = NextChar();
                         }
                         break;
                     case '/':
-                        next = TokenKind.TK_slash;
+                        next = TokenKind.tk_slash;
                         ch = NextChar();
                         if (ch == '=')
                         {
-                            next = TokenKind.TK_divide_assign;
+                            next = TokenKind.tk_divide_assign;
                             ch = NextChar();
                         }
                         break;
                     case '%':
-                        next = TokenKind.TK_percent;
+                        next = TokenKind.tk_percent;
                         ch = NextChar();
                         if (ch == '=')
                         {
-                            next = TokenKind.TK_remainder_assign;
+                            next = TokenKind.tk_remainder_assign;
                             ch = NextChar();
                         }
                         break;
                     case '^':
-                        next = TokenKind.TK_caret;
+                        next = TokenKind.tk_caret;
                         ch = NextChar();
                         if (ch == '=')
                         {
-                            next = TokenKind.TK_power_assign;
+                            next = TokenKind.tk_power_assign;
                             ch = NextChar();
                         }
                         break;
                     case '=':
-                        next = TokenKind.TK_assign;
+                        next = TokenKind.tk_assign;
                         ch = NextChar();
                         if (ch == '=')
                         {
-                            next = TokenKind.TK_e;
+                            next = TokenKind.tk_e;
                             ch = NextChar();
                         }
                         break;
                     case '>':
-                        next = TokenKind.TK_g;
+                        next = TokenKind.tk_g;
                         ch = NextChar();
                         if (ch == '=')
                         {
-                            next = TokenKind.TK_ge;
+                            next = TokenKind.tk_ge;
                             ch = NextChar();
                         }
                         break;
                     case '<':
-                        next = TokenKind.TK_l;
+                        next = TokenKind.tk_l;
                         ch = NextChar();
                         if (ch == '=')
                         {
-                            next = TokenKind.TK_le;
+                            next = TokenKind.tk_le;
                             ch = NextChar();
                         }
                         break;
                     case '!':
-                        next = TokenKind.TK_exclamation;
+                        next = TokenKind.tk_exclamation;
                         ch = NextChar();
                         if (ch == '=')
                         {
-                            next = TokenKind.TK_ne;
+                            next = TokenKind.tk_ne;
                             ch = NextChar();
                         }
                         break;
                     case '+':
-                        next = TokenKind.TK_plus;
+                        next = TokenKind.tk_plus;
                         ch = NextChar();
                         if (ch == '+')
                         {
-                            next = TokenKind.TK_inc;
+                            next = TokenKind.tk_inc;
                             ch = NextChar();
                         }
                         else if (ch == '=')
                         {
-                            next = TokenKind.TK_add_assign;
+                            next = TokenKind.tk_add_assign;
                             ch = NextChar();
                         }
                         break;
                     case '-':
-                        next = TokenKind.TK_minus;
+                        next = TokenKind.tk_minus;
                         ch = NextChar();
                         if (ch == '-')
                         {
-                            next = TokenKind.TK_dec;
+                            next = TokenKind.tk_dec;
                             ch = NextChar();
                         }
                         else if (ch == '=')
                         {
-                            next = TokenKind.TK_subtract_assign;
+                            next = TokenKind.tk_subtract_assign;
                             ch = NextChar();
                         }
                         break;
                     case '&':
-                        next = TokenKind.TK_ampersand;
+                        next = TokenKind.tk_ampersand;
                         ch = NextChar();
                         if (ch == '&')
                         {
-                            next = TokenKind.TK_and_then;
+                            next = TokenKind.tk_and_then;
                             ch = NextChar();
                         }
                         break;
                     case '|':
-                        next = TokenKind.TK_vertical;
+                        next = TokenKind.tk_vertical;
                         ch = NextChar();
                         if (ch == '|')
                         {
-                            next = TokenKind.TK_or_else;
+                            next = TokenKind.tk_or_else;
                             ch = NextChar();
                         }
                         else if (ch == ')')
                         {
-                            next = TokenKind.TK_close_abs; // TODO check
+                            next = TokenKind.tk_close_abs; // TODO check
                             ch = NextChar();
                         }
                         break;
@@ -307,7 +307,7 @@ namespace Gstd
                         ch = NextChar();
                         if (ch == '.')
                         {
-                            next = TokenKind.TK_range;
+                            next = TokenKind.tk_range;
                             ch = NextChar();
                         }
                         else
@@ -320,7 +320,7 @@ namespace Gstd
                     case '\"':
                         {
                             char q = CurrentChar();
-                            next = (q == '\"') ? TokenKind.TK_string : TokenKind.TK_char;
+                            next = (q == '\"') ? TokenKind.tk_string : TokenKind.tk_char;
                             ch = NextChar();
                             char pre = ch;
                             string s = "";
@@ -365,7 +365,7 @@ namespace Gstd
                     case '\\':
                         {
                             ch = NextChar();
-                            next = TokenKind.TK_char;
+                            next = TokenKind.tk_char;
                             char c = ch;
                             ch = NextChar();
                             switch (c)
@@ -401,7 +401,7 @@ namespace Gstd
                     default:
                         if (char.IsDigit(ch))
                         {
-                            next = TokenKind.TK_real;
+                            next = TokenKind.tk_real;
                             realValue = 0.0;
                             do
                             {
@@ -425,7 +425,7 @@ namespace Gstd
                         }
                         else if (Char.IsLetter(ch) || ch == '_')
                         {
-                            next = TokenKind.TK_word;
+                            next = TokenKind.tk_word;
                             word = ""; // TODO use substring
                             do
                             {
@@ -435,49 +435,49 @@ namespace Gstd
                             while (Char.IsLetter(ch) || ch == '_' || char.IsDigit(ch));
                             
                             if (word == "alternative") // TODO use switch
-                                next = TokenKind.TK_ALTERNATIVE;
+                                next = TokenKind.tk_ALTERNATIVE;
                             else if (word == "ascent")
-                                next = TokenKind.TK_ASCENT;
+                                next = TokenKind.tk_ASCENT;
                             else if (word == "break")
-                                next = TokenKind.TK_BREAK;
+                                next = TokenKind.tk_BREAK;
                             else if (word == "case")
-                                next = TokenKind.TK_CASE;
+                                next = TokenKind.tk_CASE;
                             else if (word == "descent")
-                                next = TokenKind.TK_DESCENT;
+                                next = TokenKind.tk_DESCENT;
                             else if (word == "else")
-                                next = TokenKind.TK_ELSE;
+                                next = TokenKind.tk_ELSE;
                             else if (word == "function")
-                                next = TokenKind.TK_FUNCTION;
+                                next = TokenKind.tk_FUNCTION;
                             else if (word == "if")
-                                next = TokenKind.TK_IF;
+                                next = TokenKind.tk_IF;
                             else if (word == "in")
-                                next = TokenKind.TK_IN;
+                                next = TokenKind.tk_IN;
                             else if (word == "let" || word == "var")
-                                next = TokenKind.TK_LET;
+                                next = TokenKind.tk_LET;
                             else if (word == "local")
-                                next = TokenKind.TK_LOCAL;
+                                next = TokenKind.tk_LOCAL;
                             else if (word == "loop")
-                                next = TokenKind.TK_LOOP;
+                                next = TokenKind.tk_LOOP;
                             else if (word == "others")
-                                next = TokenKind.TK_OTHERS;
+                                next = TokenKind.tk_OTHERS;
                             else if (word == "real")
-                                next = TokenKind.TK_REAL;
+                                next = TokenKind.tk_REAL;
                             else if (word == "return")
-                                next = TokenKind.TK_RETURN;
+                                next = TokenKind.tk_RETURN;
                             else if (word == "sub")
-                                next = TokenKind.TK_SUB;
+                                next = TokenKind.tk_SUB;
                             else if (word == "task")
-                                next = TokenKind.TK_TASK;
+                                next = TokenKind.tk_TASK;
                             else if (word == "times")
-                                next = TokenKind.TK_TIMES;
+                                next = TokenKind.tk_TIMES;
                             else if (word == "while")
-                                next = TokenKind.TK_WHILE;
+                                next = TokenKind.tk_WHILE;
                             else if (word == "yield")
-                                next = TokenKind.TK_YIELD;
+                                next = TokenKind.tk_YIELD;
                         }
                         else
                         {
-                            next = TokenKind.TK_invalid;
+                            next = TokenKind.tk_invalid;
                         }
                         break;
                 }

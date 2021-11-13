@@ -4,10 +4,10 @@ namespace Gstd
 {
     namespace GstdUtility
     {
-        class Token
+        sealed class Token
         {
             private TokenType type;
-            private string element;
+            private string element = "";
             private int posStart;
             private int posEnd;
             public Token()
@@ -23,7 +23,6 @@ namespace Gstd
                 posStart = start;
                 posEnd = end;
             }
-            /*virtual ~Token(){};*/
             public TokenType GetTokenType()
             {
                 return type;

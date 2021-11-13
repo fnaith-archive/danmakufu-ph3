@@ -6,7 +6,7 @@ namespace Gstd
     {
         sealed class Scope : Dictionary<string, Symbol>
         {
-            public BlockKind Kind { get; set; } // TODO remove set
+            public BlockKind Kind { get; }
             public Scope(BlockKind kind)
             {
                 Kind = kind;

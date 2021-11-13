@@ -12,14 +12,23 @@ namespace Gstd
                 {
                     return "";
                 }
+#if _WINDOWS
+                string fileDirectory = Path.GetDirectoryName(path);
+                if (null == fileDirectory)
+                {
+                    fileDirectory = Path.GetPathRoot(path);
+                }
+                else if ("\\" != fileDirectory && !fileDirectory.EndsWith("\\"))
+                {
+                    fileDirectory += '\\';
+                }
+                return fileDirectory;
+#else
                 if ("/" == path)
                 {
                     return "/";
                 }
                 string fileDirectory = Path.GetDirectoryName(path);
-#if _WINDOWS
-                return fileDirectory
-#else
                 if (null == fileDirectory)
                 {
                     fileDirectory = "";
@@ -34,17 +43,26 @@ namespace Gstd
             public static string GetDirectoryName(string path)
             {
                 string dir = GetFileDirectory(path);
-                if ("" == dir || "/" == dir)
+                if ("" == dir)
                 {
                     return "";
                 }
 #if _WINDOWS
                 dir = dir.Replace(@"\", @"/");
+#else
+                if ("/" == dir)
+                {
+                    return "";
+                }
 #endif
                 string[] strs = dir.Split('/');
                 if (strs.Length < 2)
                 {
+#if _WINDOWS
+                    return Path.GetPathRoot(path);
+#else
                     return "";
+#endif
                 }
                 return strs[strs.Length - 2];
             }
@@ -52,13 +70,19 @@ namespace Gstd
             {
                 return Path.GetFileName(path);
             }
-            public static string GetDriveName(string path) // TODO remove
+            public static string GetDriveName(string path)
             {
                 string driveName = Path.GetPathRoot(path);
                 if (null == driveName)
                 {
                     return "";
                 }
+#if _WINDOWS
+                if (driveName.EndsWith("\\"))
+                {
+                    driveName = driveName.Remove(driveName.Length - 1);
+                }
+#endif
                 return driveName;
             }
             public static string GetFileNameWithoutExtension(string path)
@@ -93,9 +117,15 @@ namespace Gstd
             {
                 string dirModule = GetModuleDirectory();
                 dirModule = Canonicalize(dirModule);
+#if _WINDOWS
+#else
                 dirModule = ReplaceYenToSlash(dirModule);
+#endif
                 path = Canonicalize(path);
+#if _WINDOWS
+#else
                 path = ReplaceYenToSlash(path);
+#endif
 
                 string res = path;
                 if (res.StartsWith(dirModule))

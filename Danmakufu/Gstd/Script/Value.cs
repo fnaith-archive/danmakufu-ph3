@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Text;
 #if _TRACE_VALUE
@@ -8,7 +9,7 @@ namespace Gstd
 {
     namespace Script
     {
-        sealed class Value // TODO prevent pass TypeData
+        sealed class Value : System.IDisposable// TODO prevent pass TypeData
         {
 #if _TRACE_VALUE
             static int counter = 0;
@@ -19,7 +20,6 @@ namespace Gstd
             {
 #if _TRACE_VALUE
                 id = -1;
-                data = null;
 #endif
             }
             public Value(TypeData t, double v)
@@ -80,17 +80,11 @@ namespace Gstd
                     ++(data.RefCount);
                 }
             }
-            ~Value() // TODO remove
+            public void Dispose()
             {
                 Release();
             }
-#if _TRACE_VALUE
-            private bool IsTarget()
-            {
-                return false;//id == 10001;
-            }
-#endif
-            public void Assign(Value source)
+            public void CopyFrom(Value source)
             {
 #if _TRACE_VALUE
                 if (IsTarget() || source.IsTarget())
@@ -111,6 +105,12 @@ namespace Gstd
             {
                 return data != null;
             }
+#if _TRACE_VALUE
+            private bool IsTarget()
+            {
+                return false;//id == 10001;
+            }
+#endif
             public void Set(TypeData t, double v)
             {
                 Unique();
@@ -170,12 +170,12 @@ namespace Gstd
                 }
                 switch (data.Type.Kind)
                 {
-                    case TypeKind.TK_REAL: return data.RealValue;
-                    case TypeKind.TK_CHAR: return data.CharValue;
-                    case TypeKind.TK_BOOLEAN: return data.BooleanValue ? 1 : 0;
-                    case TypeKind.TK_ARRAY:
+                    case TypeKind.tk_real: return data.RealValue;
+                    case TypeKind.tk_char: return data.CharValue;
+                    case TypeKind.tk_boolean: return data.BooleanValue ? 1 : 0;
+                    case TypeKind.tk_array:
                         double number;
-                        if (data.Type.Element.Kind == TypeKind.TK_CHAR && double.TryParse(AsString(), out number))
+                        if (data.Type.Element.Kind == TypeKind.tk_char && double.TryParse(AsString(), out number))
                         {
                             return number;
                         }
@@ -193,10 +193,10 @@ namespace Gstd
                 }
                 switch (data.Type.Kind)
                 {
-                    case TypeKind.TK_REAL: return (char) data.RealValue;
-                    case TypeKind.TK_CHAR: return data.CharValue;
-                    case TypeKind.TK_BOOLEAN: return data.BooleanValue ? '1' : '0';
-                    case TypeKind.TK_ARRAY: return '\0';
+                    case TypeKind.tk_real: return (char) data.RealValue;
+                    case TypeKind.tk_char: return data.CharValue;
+                    case TypeKind.tk_boolean: return data.BooleanValue ? '1' : '0';
+                    case TypeKind.tk_array: return '\0';
                     default:
                         Debug.Assert(false);
                         return '\0';
@@ -210,10 +210,10 @@ namespace Gstd
                 }
                 switch (data.Type.Kind)
                 {
-                    case TypeKind.TK_REAL: return data.RealValue != 0;
-                    case TypeKind.TK_CHAR: return data.CharValue != '\0';
-                    case TypeKind.TK_BOOLEAN: return data.BooleanValue;
-                    case TypeKind.TK_ARRAY: return data.ArrayValue.Count != 0;
+                    case TypeKind.tk_real: return data.RealValue != 0;
+                    case TypeKind.tk_char: return data.CharValue != '\0';
+                    case TypeKind.tk_boolean: return data.BooleanValue;
+                    case TypeKind.tk_array: return data.ArrayValue.Count != 0;
                     default:
                         Debug.Assert(false);
                         return false;
@@ -227,12 +227,12 @@ namespace Gstd
                 }
                 switch (data.Type.Kind)
                 {
-                    case TypeKind.TK_REAL: return data.RealValue.ToString();
-                    case TypeKind.TK_CHAR: return data.CharValue.ToString();
-                    case TypeKind.TK_BOOLEAN: return data.BooleanValue ? "true" : "false";
-                    case TypeKind.TK_ARRAY:
+                    case TypeKind.tk_real: return data.RealValue.ToString();
+                    case TypeKind.tk_char: return data.CharValue.ToString();
+                    case TypeKind.tk_boolean: return data.BooleanValue ? "true" : "false";
+                    case TypeKind.tk_array:
                         StringBuilder sb = new StringBuilder();
-                        if (data.Type.Element.Kind == TypeKind.TK_CHAR)
+                        if (data.Type.Element.Kind == TypeKind.tk_char)
                         {
                             foreach (Value v in data.ArrayValue)
                             {
@@ -262,12 +262,12 @@ namespace Gstd
             }
             public int LengthAsArray()
             {
-                Debug.Assert(data != null && data.Type.Kind == TypeKind.TK_ARRAY);
+                Debug.Assert(data != null && data.Type.Kind == TypeKind.tk_array);
                 return data.ArrayValue.Count;
             }
             public Value IndexAsArray(int i)
             {
-                Debug.Assert(data != null && data.Type.Kind == TypeKind.TK_ARRAY);
+                Debug.Assert(data != null && data.Type.Kind == TypeKind.tk_array);
                 Debug.Assert(i < data.ArrayValue.Count);
                 return data.ArrayValue[i];
             }

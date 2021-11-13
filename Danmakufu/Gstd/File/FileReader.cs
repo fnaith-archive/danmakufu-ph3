@@ -4,13 +4,14 @@ namespace Gstd
 {
     namespace File
     {
-        abstract class FileReader : Reader
+        abstract class FileReader : IReader
         {
-            private string pathOriginal;
+            private string pathOriginal = "";
             private void _SetOriginalPath(string path)
             {
                 pathOriginal = path;
             }
+            public abstract int Read(byte[] buf, int size);
             public abstract bool Open();
             public abstract void Close();
             public abstract int GetFileSize();
@@ -26,7 +27,6 @@ namespace Gstd
             {
                 return false;
             }
-
             public string GetOriginalPath()
             {
                 return pathOriginal;
@@ -34,7 +34,7 @@ namespace Gstd
             public string ReadAllString()
             {
                 SetFilePointerBegin();
-                return ReadString(GetFileSize());
+                return Reader.ReadString(this, GetFileSize());
             }
         }
     }

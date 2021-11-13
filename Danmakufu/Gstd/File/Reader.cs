@@ -1,13 +1,15 @@
-// https://stackoverflow.com/questions/21691677/how-to-retrieve-integer-value-from-binary-file-in-c-sharp
+// https://docs.microsoft.com/zh-tw/dotnet/api/system.io.binaryreader.readbytes?view=net-5.0
 
 namespace Gstd
 {
     namespace File
     {
-        abstract class Reader // TODO
+        public interface IReader
         {
-            //public virtual ~Reader(){};
-            //public virtual DWORD Read(LPVOID buf,DWORD size) = 0;
+            int Read(byte[] buf, int size);
+        }
+        sealed class Reader // TODO
+        {
             /*public template <typename T> DWORD Read(T& data)
             {
                 return Read(&data, sizeof(T));
@@ -20,12 +22,11 @@ namespace Gstd
             //public float ReadFloat(){float num; Read(num);return num;}
             //public double ReadDouble(){double num; Read(num);return num;}
 
-            public string ReadString(int size)
+            public static string ReadString(IReader reader, int size)
             {
-                string res = "";
-                //res.resize(size);
-                //Read(&res[0], size);
-                return res;
+                byte[] buffer = new byte[size];
+                reader.Read(buffer, size);
+                return System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length);
             }
         }
     }

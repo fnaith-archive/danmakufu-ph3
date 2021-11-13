@@ -5,13 +5,13 @@ namespace Gstd
 {
     namespace GstdUtility
     {
-        class Scanner
+        sealed class Scanner
         {
             private char[] buffer;
             private int pointer;//���̈ʒu
-            private Token token;//���݂̃g�[�N��
+            private Token token = new Token();
             private bool bPermitSignNumber;
-            private List<Token> listDebugToken;
+            private List<Token> listDebugToken = new List<Token>();
 
             private char _CurrentChar()
             {
@@ -27,16 +27,17 @@ namespace Gstd
             {
                 if (HasNext() == false)
                 {
-                    //Logger::WriteTop(L"�I�[�ُ픭��->");
+                    //Logger::WriteTop(L"�I�[�ُ픭��->"); TODO
 
                     int size = buffer.Length;
-                    //string source = GetString(0, size);
-                    //string target = StringUtility::Format(L"�����͑Ώ� -> \r\n%s...", source.c_str());
-                    //Logger::WriteTop(target);
+                    string source = GetString(0, size);
+                    string target = " -> \r\n" + source + "...";//StringUtility::Format(L"�����͑Ώ� -> \r\n%s...", source.c_str());
+                    //Logger::WriteTop(target); TODO
 
                     int index = 1;
                     foreach (Token token in listDebugToken)
                     {
+                        // TODO
                         //std::wstring log = StringUtility::Format(L"  %2d token -> type=%2d, element=%s, start=%d, end=%d",
                         //    index, token.GetType(), token.GetElement().c_str(), token.GetStartPointer(), token.GetEndPointer());
                         //Logger::WriteTop(log);
@@ -123,8 +124,6 @@ namespace Gstd
                 bPermitSignNumber = true;
                 buffer = buf;
                 pointer = 0;
-                token = new Token();
-                listDebugToken = new List<Token>();
 
                 SetPointerBegin();
             }
@@ -177,7 +176,7 @@ namespace Gstd
                     case '"':
                     {
                         ch = _NextChar();//1�i�߂�
-                        //while( ch != '"' )ch = _NextChar();//���̃_�u���N�I�[�e�[�V�����܂Ői�߂�
+                        //while ( ch != '"' )ch = _NextChar();//���̃_�u���N�I�[�e�[�V�����܂Ői�߂�
                         char pre = ch;
                         while (true)
                         {
@@ -283,7 +282,7 @@ namespace Gstd
                     }
                 }
 
-                if( type == TokenType.TK_STRING)
+                if ( type == TokenType.TK_STRING)
                 {
                     int pPosStart = posStart;
                     int pPosEnd = pointer;
@@ -318,7 +317,7 @@ namespace Gstd
             }
             public void CheckIdentifer(Token tok, string id)
             {
-                if(tok.GetTokenType() != TokenType.TK_ID || tok.GetIdentifier() != id)
+                if (tok.GetTokenType() != TokenType.TK_ID || tok.GetIdentifier() != id)
                 {
                     string str = /*StringUtility::Format(L*/"CheckID error[%s]:";//,tok.element_.c_str());
                     _RaiseError(str);

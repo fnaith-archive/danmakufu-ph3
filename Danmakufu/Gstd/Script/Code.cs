@@ -8,26 +8,19 @@ namespace Gstd
     {
         sealed class Code
         {
-            public int Line { get; set; } // TODO remove set
-            public CommandKind Command { get; set; } // TODO remove set
-            public Value Data { get; set; } // TODO remove set
+            public int Line { get; }
+            public CommandKind Command { get; }
+            public Value Data { get; } = new Value();
             // TODO use union
-            public int Level { get; set; } // TODO remove set
-            public int Variable { get; set; } // TODO remove set
-            public Block Sub { get; set; } // TODO remove set
-            public int Arguments { get; set; } // TODO remove set
-            public int Ip { get; set; } // TODO remove set
-            public Code() // TODO remove
-            {
-                Line = 0;
-                Command = CommandKind.PC_assign; // TODO remove
-                Data = new Value(); // TODO remove
-            }
+            public int Level { get; }
+            public int Variable { get; }
+            public Block Sub { get; }
+            public int Arguments { get; }
+            public int Ip { get; }
             public Code(int line, CommandKind command)
             {
                 Line = line;
                 Command = command;
-                Data = new Value(); // TODO remove
 #if _TRACE_COMMAND
                 Console.WriteLine("C1:" + command);
 #endif
@@ -36,7 +29,6 @@ namespace Gstd
             {
                 Line = line;
                 Command = command;
-                Data = new Value(); // TODO remove
                 Level = level;
                 Variable = variable;
 #if _TRACE_COMMAND
@@ -47,7 +39,6 @@ namespace Gstd
             {
                 Line = line;
                 Command = command;
-                Data = new Value(); // TODO remove
                 Sub = sub;
                 Arguments = arguments;
 #if _TRACE_COMMAND
@@ -58,7 +49,6 @@ namespace Gstd
             {
                 Line = line;
                 Command = command;
-                Data = new Value(); // TODO remove
                 Ip = ip;
 #if _TRACE_COMMAND
                 Console.WriteLine("C4:" + command);

@@ -8,7 +8,7 @@
     <DefineConstants>
       __TRACE_VALUE;__TRACE_COMMAND;__TRACE_TOKEN;__TRACE_FUNC;
       _REPORT_INFO;__REPORT_OK;_REPORT_FAIL;
-      __WINDOWS;
+      _WINDOWS;
       __UNITY;
     </DefineConstants>
   </PropertyGroup>

@@ -2,7 +2,7 @@ namespace Gstd
 {
     namespace File
     {
-        abstract class ManagedFileReader
+        abstract class ManagedFileReader// : FileReader
         {
             private FileType type;
             //private File file;

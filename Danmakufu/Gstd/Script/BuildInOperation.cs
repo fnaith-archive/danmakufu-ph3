@@ -69,16 +69,16 @@ namespace Gstd
                 Debug.Assert(argv[0].HasData());
                 switch (argv[0].GetDataType().Kind)
                 {
-                    case TypeKind.TK_REAL:
+                    case TypeKind.tk_real:
                         return new Value(argv[0].GetDataType(), argv[0].AsReal() - 1);
 
-                    case TypeKind.TK_CHAR:
+                    case TypeKind.tk_char:
                         {
                             char c = argv[0].AsChar();
                             --c;
                             return new Value(argv[0].GetDataType(), c);
                         }
-                    case TypeKind.TK_BOOLEAN:
+                    case TypeKind.tk_boolean:
                         return new Value(argv[0].GetDataType(), false);
                     default:
                         {
@@ -94,16 +94,16 @@ namespace Gstd
                 Debug.Assert(argv[0].HasData());
                 switch (argv[0].GetDataType().Kind)
                 {
-                    case TypeKind.TK_REAL:
+                    case TypeKind.tk_real:
                         return new Value(argv[0].GetDataType(), argv[0].AsReal() + 1);
 
-                    case TypeKind.TK_CHAR:
+                    case TypeKind.tk_char:
                         {
                             char c = argv[0].AsChar();
                             ++c;
                             return new Value(argv[0].GetDataType(), c);
                         }
-                    case TypeKind.TK_BOOLEAN:
+                    case TypeKind.tk_boolean:
                         return new Value(argv[0].GetDataType(), true);
                     default:
                         {
@@ -140,7 +140,7 @@ namespace Gstd
             private static Value add(ScriptMachine machine, int argc, Value[] argv)
             {
                 Debug.Assert(argc == 2);
-                if (argv[0].GetDataType().Kind == TypeKind.TK_ARRAY)
+                if (argv[0].GetDataType().Kind == TypeKind.tk_array)
                 {
                     if (argv[0].GetDataType() != argv[1].GetDataType())
                     {
@@ -172,7 +172,7 @@ namespace Gstd
             private static Value subtract(ScriptMachine machine, int argc, Value[] argv)
             {
                 Debug.Assert(argc == 2);
-                if (argv[0].GetDataType().Kind == TypeKind.TK_ARRAY)
+                if (argv[0].GetDataType().Kind == TypeKind.tk_array)
                 {
                     if (argv[0].GetDataType() != argv[1].GetDataType())
                     {
@@ -229,7 +229,7 @@ namespace Gstd
             {
                 Debug.Assert(argc == 2);
 
-                if (argv[0].GetDataType().Kind != TypeKind.TK_ARRAY)
+                if (argv[0].GetDataType().Kind != TypeKind.tk_array)
                 {
                     string error = "This variables does not allow to array index operation.\r\n";
                     machine.RaiseError(error);
@@ -259,7 +259,7 @@ namespace Gstd
             {
                 Debug.Assert(argc == 2);
 
-                if (argv[0].GetDataType().Kind != TypeKind.TK_ARRAY)
+                if (argv[0].GetDataType().Kind != TypeKind.tk_array)
                 {
                     string error = "This variables does not allow to array index operation.\r\n";
                     machine.RaiseError(error);
@@ -290,7 +290,7 @@ namespace Gstd
             {
                 Debug.Assert(argc == 3);
 
-                if (argv[0].GetDataType().Kind != TypeKind.TK_ARRAY)
+                if (argv[0].GetDataType().Kind != TypeKind.tk_array)
                 {
                     string error = "This variables does not allow to array slice operation.\r\n";
                     machine.RaiseError(error);
@@ -335,7 +335,7 @@ namespace Gstd
             {
                 Debug.Assert(argc == 2);
 
-                if (argv[0].GetDataType().Kind != TypeKind.TK_ARRAY)
+                if (argv[0].GetDataType().Kind != TypeKind.tk_array)
                 {
                     string error = "This variables does not allow to array erase operation.\r\n";
                     machine.RaiseError(error);
@@ -375,7 +375,7 @@ namespace Gstd
             {
                 Debug.Assert(argc == 2);
 
-                if (argv[0].GetDataType().Kind != TypeKind.TK_ARRAY)
+                if (argv[0].GetDataType().Kind != TypeKind.tk_array)
                 {
                     string error = "This variables does not allow to array append operation.\r\n";
                     machine.RaiseError(error);
@@ -397,7 +397,7 @@ namespace Gstd
             {
                 Debug.Assert(argc == 2);
 
-                if (argv[0].GetDataType().Kind != TypeKind.TK_ARRAY || argv[1].GetDataType().Kind != TypeKind.TK_ARRAY)
+                if (argv[0].GetDataType().Kind != TypeKind.tk_array || argv[1].GetDataType().Kind != TypeKind.tk_array)
                 {
                     string error = "This variables does not allow to array concatenate operation.\r\n";
                     machine.RaiseError(error);
@@ -423,7 +423,7 @@ namespace Gstd
 
                     switch (argv[0].GetDataType().Kind)
                     {
-                        case TypeKind.TK_REAL:
+                        case TypeKind.tk_real:
                             {
                                 double a = argv[0].AsReal();
                                 double b = argv[1].AsReal();
@@ -431,7 +431,7 @@ namespace Gstd
                             }
                             break;
 
-                        case TypeKind.TK_CHAR:
+                        case TypeKind.tk_char:
                             {
                                 char a = argv[0].AsChar();
                                 char b = argv[1].AsChar();
@@ -439,7 +439,7 @@ namespace Gstd
                             }
                             break;
 
-                        case TypeKind.TK_BOOLEAN:
+                        case TypeKind.tk_boolean:
                             {
                                 bool a = argv[0].AsBoolean();
                                 bool b = argv[1].AsBoolean();
@@ -447,7 +447,7 @@ namespace Gstd
                             }
                             break;
 
-                        case TypeKind.TK_ARRAY:
+                        case TypeKind.tk_array:
                             {
                                 for (int i = 0; i < argv[0].LengthAsArray(); ++i)
                                 {

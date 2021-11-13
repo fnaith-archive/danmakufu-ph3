@@ -57,10 +57,6 @@ namespace gstd
     **********************************************************/
     public abstract class Reader : System.IDisposable
     {
-            public virtual void Dispose()
-            {
-            }
-            public abstract uint Read(object buf, uint size);
 // C++ TO C# CONVERTER WARNING: The original C++ template specifier was replaced with a C# generic specifier, which may not produce the same behavior:
 // ORIGINAL LINE: template <typename T>
             public uint Read<T>(T data)
@@ -109,210 +105,6 @@ namespace gstd
                 Read(num);
                 return num;
             }
-
-            public string ReadString(int size)
-            {
-                string res = "";
-                res.resize(size);
-                Read(res[0], (uint)size);
-                return res;
-            }
-    }
-
-    /**********************************************************
-    //FileReader
-    **********************************************************/
-    public abstract class FileReader : Reader
-    {
-// C++ TO C# CONVERTER TODO TASK: C# has no concept of a 'friend' class:
-//        friend FileManager;
-            protected string pathOriginal_ = "";
-            protected void _SetOriginalPath(string path)
-            {
-                pathOriginal_ = path;
-            }
-
-            public abstract bool Open();
-            public abstract void Close();
-            public abstract int GetFileSize();
-            public abstract bool SetFilePointerBegin();
-            public abstract bool SetFilePointerEnd();
-            public abstract bool Seek(int offset);
-            public abstract int GetFilePointer();
-            public virtual bool IsArchived()
-            {
-                return false;
-            }
-            public virtual bool IsCompressed()
-            {
-                return false;
-            }
-
-            public string GetOriginalPath()
-            {
-                return pathOriginal_;
-            }
-            public string ReadAllString()
-            {
-                SetFilePointerBegin();
-                return ReadString(GetFileSize());
-            }
-    }
-
-    /**********************************************************
-    //ByteBuffer
-    **********************************************************/
-// C++ TO C# CONVERTER TODO TASK: Multiple inheritance is not available in C#:
-    public class ByteBuffer : Writer, Reader
-    {
-            protected int reserve_;
-            protected int size_;
-            protected int offset_;
-            protected string data_;
-
-            protected int _GetReservedSize()
-            {
-                return reserve_;
-            }
-
-            protected void _Resize(int size)
-            {
-                string oldData = data_;
-                int oldSize = size_;
-
-            // C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the following C++ macro:
-                data_ = global::new(_NORMAL_BLOCK, __FILE__, __LINE__) char[size];
-                ZeroMemory(data_, size);
-
-                // ���̃f�[�^��R�s�[
-                int sizeCopy = System.Math.Min(size, oldSize);
-// C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-                memcpy(data_, oldData, sizeCopy);
-                reserve_ = size;
-                size_ = size;
-
-                // �Â��f�[�^��폜
-                oldData = null;
-            }
-
-
-            /**********************************************************
-            //ByteBuffer
-            **********************************************************/
-            public ByteBuffer()
-            {
-                data_ = null;
-                Clear();
-            }
-
-            public ByteBuffer(ByteBuffer buffer)
-            {
-                data_ = null;
-                Clear();
-                Copy(buffer);
-            }
-
-            public override void Dispose()
-            {
-                Clear();
-                if (data_ != null)
-                {
-                    Arrays.DeleteArray(data_);
-                }
-                base.Dispose();
-            }
-
-            public void Copy(ByteBuffer src)
-            {
-                if (data_ != null && src.reserve_ != reserve_)
-                {
-                    data_ = null;
-            // C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the following C++ macro:
-                    data_ = global::new(_NORMAL_BLOCK, __FILE__, __LINE__) char[src.reserve_];
-                    ZeroMemory(data_, src.reserve_);
-                }
-
-                offset_ = src.offset_;
-                reserve_ = src.reserve_;
-                size_ = src.size_;
-
-// C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-                memcpy(data_, src.data_, reserve_);
-            }
-
-            public void Clear()
-            {
-                if (data_ != null)
-                {
-                    data_ = null;
-                }
-
-            // C++ TO C# CONVERTER TODO TASK: There is no direct equivalent in C# to the following C++ macro:
-                data_ = global::new(_NORMAL_BLOCK, __FILE__, __LINE__) char[0];
-                offset_ = 0;
-                reserve_ = 0;
-                size_ = 0;
-            }
-
-            public void Seek(int pos)
-            {
-                offset_ = pos;
-                if (offset_ < 0)
-                {
-                    offset_ = 0;
-                }
-                else if (offset_ > size_)
-                {
-                    offset_ = size_;
-                }
-            }
-
-            public void SetSize(int size)
-            {
-                _Resize(size);
-            }
-
-            public int GetSize()
-            {
-                return size_;
-            }
-            public int GetOffset()
-            {
-                return offset_;
-            }
-
-            public override uint Write(object buf, uint size)
-            {
-                if (offset_ + size > reserve_)
-                {
-                    int sizeNew = (int)((offset_ + size) * 2);
-                    _Resize(sizeNew);
-                    size_ = 0; // ���ƂōČv�Z
-                }
-
-// C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-                memcpy(data_[offset_], buf, size);
-                offset_ += size;
-                size_ = System.Math.Max(size_, offset_);
-                return size;
-            }
-
-            public override uint Read(object buf, uint size)
-            {
-// C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-                memcpy(buf, data_[offset_], size);
-                offset_ += size;
-                return size;
-            }
-
-            public string GetPointer(int offset = 0)
-            {
-                if (offset > size_)
-                {
-                    throw new gstd.wexception("ByteBuffer:�C���f�b�N�X�G���[");
-                }
-                return data_[offset];
-            }
     }
 
     /**********************************************************
@@ -323,11 +115,6 @@ namespace gstd
 // C++ TO C# CONVERTER TODO TASK: Multiple inheritance is not available in C#:
     public class File : Writer, Reader
     {
-            public enum AccessType
-            {
-                READ,
-                WRITE
-            }
             protected IntPtr hFile_;
             protected string path_ = "";
 
@@ -1552,13 +1339,6 @@ namespace gstd
     **********************************************************/
     public class ManagedFileReader : FileReader
     {
-            private enum FILETYPE
-            {
-                TYPE_NORMAL,
-                TYPE_ARCHIVED,
-                TYPE_ARCHIVED_COMPRESSED
-            }
-
             private FILETYPE type_;
             private ref_count_ptr<File> file_ = new ref_count_ptr<File>();
             private ref_count_ptr<ArchiveFileEntry> entry_ = new ref_count_ptr<ArchiveFileEntry>();
