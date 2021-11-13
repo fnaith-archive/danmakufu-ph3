@@ -33,6 +33,9 @@
     <Filter Include="source\Test\Gstd\GstdUtility">
       <UniqueIdentifier>{7dab5028-0d62-4573-ba6e-d2bafd1d0260}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\Test\Gstd\ScriptClient">
+      <UniqueIdentifier>{48fbeda2-1bb7-4fd4-b241-57049d1decde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\GcLib\gstd\Application.cpp">
@@ -375,6 +378,9 @@
     </ClInclude>
     <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\Script\BuildInOperationTest.hpp">
       <Filter>source\Test\Gstd\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\ScriptClient\ScriptClientBaseTest.hpp">
+      <Filter>source\Test\Gstd\ScriptClient</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

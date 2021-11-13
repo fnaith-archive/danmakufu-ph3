@@ -273,6 +273,7 @@
     <ClInclude Include="source\TouhouDanmakufu\DnhViewer\ScriptSelect.hpp" />
     <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\GstdUtility\PathPropertyTest.hpp" />
     <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\MersenneTwisterTest.hpp" />
+    <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\ScriptClient\ScriptClientBaseTest.hpp" />
     <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\Script\BuildInOperationTest.hpp" />
     <ClInclude Include="source\TouhouDanmakufu\Test\Gstd\Script\ScriptMachineTest.hpp" />
     <ClInclude Include="source\TouhouDanmakufu\Test\TestSuite.hpp" />

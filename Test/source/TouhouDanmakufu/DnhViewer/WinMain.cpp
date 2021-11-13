@@ -5,6 +5,7 @@
 #include"../Test/Gstd/GstdUtility/PathPropertyTest.hpp"
 #include"../Test/Gstd/MersenneTwisterTest.hpp"
 #include"../Test/Gstd/Script/BuildInOperationTest.hpp"
+#include"../Test/Gstd/ScriptClient/ScriptClientBaseTest.hpp"
 
 int APIENTRY wWinMain(HINSTANCE hInstance,
                         HINSTANCE hPrevInstance,
@@ -16,6 +17,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	(new test::PathPropertyTest())->Run();
 	(new test::MersenneTwisterTest())->Run();
 	(new test::BuildInOperationTest())->Run();
+	(new test::ScriptClientBaseTest())->Run();
 
 	return 0;
 }

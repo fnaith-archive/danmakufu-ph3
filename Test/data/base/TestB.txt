@@ -1,0 +1,10 @@
+// TestB.txt
+
+#include".\TestA.txt"
+
+function FuncB()
+{
+    return "B";
+}
+
+assert("AB" == FuncA() ~ FuncB(), "");

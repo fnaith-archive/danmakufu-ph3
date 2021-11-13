@@ -331,14 +331,21 @@ std::vector<char> ScriptClientBase::_Include(std::vector<char>& source)
 					std::wstring linePath = mapLine->GetPath(line);
 					std::wstring tDir = PathProperty::GetFileDirectory(linePath);
 					//std::string tDir = PathProperty::GetFileDirectory(pathSource);
-					wPath = tDir.substr(PathProperty::GetModuleDirectory().size()) + wPath.substr(2);
+					if (tDir.size() >= PathProperty::GetModuleDirectory().size() &&
+						0 == tDir.substr(PathProperty::GetModuleDirectory().size()).compare(PathProperty::GetModuleDirectory()))
+					{ // TODO remove after test
+						tDir = tDir.substr(PathProperty::GetModuleDirectory().size());
+					}
+					wPath = tDir + wPath.substr(2);
 				}
-				wPath = PathProperty::GetModuleDirectory() + wPath;
-				wPath = PathProperty::GetUnique(wPath);
+				
+				//wPath = PathProperty::GetModuleDirectory() + wPath; // TODO remove after test
+				wPath = L"..\\" + wPath; // TODO remove after test
+				//wPath = PathProperty::GetUnique(wPath); // TODO remove after test
 
 				bool bReadPath = setReadPath.find(wPath) != setReadPath.end();
 				if(bReadPath)
-				{//すでに読み込まれていた
+				{//すでに読み?まれていた
 					std::vector<char> newSource;
 					int size1 = posInclude;
 					int size2 = res.size() - posAfterInclude;
@@ -410,13 +417,13 @@ std::vector<char> ScriptClientBase::_Include(std::vector<char>& source)
 				}
 				else
 				{
-					//読み込み対象がShiftJis
+					//読み?み対象がShiftJis
 					int newLineSize = bNeedNewLine ? 2 : 0;
-					placement.resize(reader->GetFileSize() + newLineSize);
+					placement.resize(reader->GetFileSize() + newLineSize + 2);
 					reader->Read(&placement[0], reader->GetFileSize());
 					memcpy(&placement[reader->GetFileSize()], "\r\n", newLineSize);
 
-					//結合先がUTF16LEの場合、読み込んだデータをUTF16LEに変換する。
+					//??先がUTF16LEの場?、読み?んだデータをUTF16LEに変換する。
 					if(encoding == Encoding::UTF16LE)
 					{
 						int placementSize = placement.size();

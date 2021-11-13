@@ -1,0 +1,8 @@
+// TestA.txt
+
+function FuncA()
+{
+    return "A";
+}
+
+assert("A" == FuncA(), "");
