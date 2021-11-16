@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Gstd
@@ -6,20 +7,28 @@ namespace Gstd
     {
         sealed class ScriptFileLineMap
         {
-            private List<Entry> listEntry;
+            private List<Entry> listEntry = new List<Entry>();
             public ScriptFileLineMap()
             {
-                listEntry = new List<Entry>();
             }
 			public void AddEntry(string path, int lineAdd, int lineCount)
             {
+                //Console.WriteLine(String.Format(">> {0} {1} {2}",path,  lineAdd,  lineCount));
                 Entry entryNew = new Entry();
                 entryNew.Path = path;
                 entryNew.LineStartOriginal = 1;
                 entryNew.LineEndOriginal = lineCount;
                 entryNew.LineStart = lineAdd;
                 entryNew.LineEnd = entryNew.LineStart + lineCount - 1;
-                if (listEntry.Count == 0)
+                foreach (Entry entry in listEntry)
+                {
+                    if (lineAdd >= entry.LineStart && lineAdd <= entry.LineEnd)
+                    {
+                        entry.LineEnd += lineCount - 1;
+                    }
+                }
+                listEntry.Insert(0, entryNew);
+                /*if (listEntry.Count == 0)
                 {
                     listEntry.Add(entryNew);
                     return;
@@ -63,21 +72,27 @@ namespace Gstd
                     
                     if (itrInsert < listEntry.Count)
                     {
-                        itrInsert++;
+                        //itrInsert++;
                     }
-                    listEntry.Insert(itrInsert, entryNew);
                     listEntry.Insert(itrInsert, entryNew2);
+                    listEntry.Insert(itrInsert, entryNew);
                 }
 
                 for(; itrInsert < listEntry.Count; ++itrInsert)
                 {
                     Entry entry = listEntry[itrInsert];
-                    entry.LineStart += lineCount - 1;
-                    entry.LineEnd += lineCount - 1;
-                }
+                    //entry.LineStart += lineCount - 1;
+                    //entry.LineEnd += lineCount - 1;
+                }*/
             }
 			public Entry GetEntry(int line)
             {
+                /*Console.WriteLine(String.Format("{0}",listEntry.Count));
+                foreach (Entry entry in listEntry)
+                {
+                    Console.WriteLine(String.Format("{0} {1} {2} {3} {4}",
+                    entry.Path, entry.LineStart, entry.LineEnd, entry.LineStartOriginal, entry.LineEndOriginal));
+                }*/
                 foreach (Entry entry in listEntry)
                 {
                     if (line >= entry.LineStart && line <= entry.LineEnd)
@@ -92,9 +107,9 @@ namespace Gstd
                 Entry entry = GetEntry(line);
                 return entry.Path;
             }
-			public List<Entry> GetEntryList()
+			public List<Entry> GetEntryList() // TODO remove
             {
-                return listEntry;
+                return new List<Entry>(listEntry);
             }
         }
     }

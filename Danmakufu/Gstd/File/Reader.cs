@@ -6,7 +6,7 @@ namespace Gstd
     {
         public interface IReader
         {
-            int Read(byte[] buf, int size);
+            int Read(char[] buf, int size);
         }
         sealed class Reader // TODO
         {
@@ -24,9 +24,9 @@ namespace Gstd
 
             public static string ReadString(IReader reader, int size)
             {
-                byte[] buffer = new byte[size];
+                char[] buffer = new char[size];
                 reader.Read(buffer, size);
-                return System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                return new string(buffer);
             }
         }
     }

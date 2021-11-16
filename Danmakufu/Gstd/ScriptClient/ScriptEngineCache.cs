@@ -7,12 +7,11 @@ namespace Gstd
     {
         sealed class ScriptEngineCache
         {
-            private Dictionary<string, ScriptEngineData> cache;
+            private Dictionary<string, ScriptEngineData> cache = new Dictionary<string, ScriptEngineData>();
 
             public ScriptEngineCache()
             {
             }
-            //public virtual ~ScriptEngineCache();
             public void Clear()
             {
                 cache.Clear();

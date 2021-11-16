@@ -4,7 +4,7 @@ namespace Gstd
 {
     namespace File
     {
-        sealed class ByteBuffer : IReader, IWriter, System.IDisposable
+        sealed class ByteBuffer// : IReader, IWriter, System.IDisposable
         {
             private int reserve;
             private int size;

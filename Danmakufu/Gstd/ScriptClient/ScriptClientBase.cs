@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Gstd.GstdUtility;
 using Gstd.Script;
@@ -7,7 +8,7 @@ namespace Gstd
 {
     namespace ScriptClient
     {
-        sealed class ScriptClientBase
+        sealed class ScriptClientBase : System.IDisposable
         {
             public const int ID_SCRIPT_FREE = -1;
             //public static script_type_manager* GetDefaultScriptTypeManager(){return &typeManagerDefault_;}
@@ -41,22 +42,58 @@ namespace Gstd
                 //commonDataManager_ = new ScriptCommonDataManager();
                 //mt_ = new MersenneTwister();
                 //mt_->Initialize(timeGetTime());
+                func = new List<Function>(); // TODO remove
                 //_AddFunction(commonFunction, sizeof(commonFunction)/sizeof(function));
             }
-            /*public virtual ~ScriptClientBase();
-            public void SetScriptEngineCache(gstd::ref_count_ptr<ScriptEngineCache> cache){cache_ = cache;}*/
+            public void Dispose()
+            {
+                if (machine != null)
+                {
+                    machine.Dispose();
+                }
+                machine = null;
+                engine = null;
+            }
+            /*public void SetScriptEngineCache(gstd::ref_count_ptr<ScriptEngineCache> cache){cache_ = cache;}*/
             public ScriptEngineData GetEngine()
             {
                 return engine;
             }
-            /*public virtual bool SetSourceFromFile(string path);*/
+            public bool SetSourceFromFile(string path)
+            {
+                path = PathProperty.GetUnique(path);
+                if (cache != null && cache.IsExists(path))
+                {
+                    engine = cache.GetCache(path);
+                    return true;
+                }
+
+                engine.SetPath(path);
+                FileManager fileManager = new FileManager(); // TODO remove
+                fileManager.Initialize(); // TODO remove
+                FileReader reader = FileManager.GetBase().GetFileReader(path);
+                
+                if (reader == null)
+                {
+                    throw new Exception(/*ErrorUtility.GetFileNotFoundErrorMessage*/(path));
+                }
+                if (!reader.Open())
+                {
+                    throw new Exception(/*ErrorUtility.GetFileNotFoundErrorMessage*/(path));
+                }
+
+                int size = reader.GetFileSize();
+                char[] source = new char[size];
+                reader.Read(source, size);
+                this.SetSource(new string(source));
+                return true;
+            }
             public void SetSource(string source)
             {
                 engine.SetSource(source);
                 ScriptFileLineMap mapLine = engine.GetScriptFileLineMap();
                 mapLine.AddEntry(engine.GetPath(), 1, StringUtility.CountCharacter(source, '\n') + 1);
             }
-
             public string GetPath()
             {
                 return engine.GetPath();
@@ -65,12 +102,11 @@ namespace Gstd
             {
                 engine.SetPath(path);
             }
-
             public void Compile()
             {
                 if (engine.GetEngine() == null)
                 {
-                    string source = /*_Include(*/engine.GetSource();//);
+                    string source = _Include(engine.GetSource());
                     engine.SetSource(source);
 
                     _CreateEngine();
@@ -161,7 +197,6 @@ namespace Gstd
                 int res = machine.GetThreadCount();
                 return res;
             }
-
             public void AddArgumentValue(Value v)
             {
                 listValueArg.Add(v);
@@ -177,7 +212,6 @@ namespace Gstd
             {
                 return valueRes;
             }
-
             public Value CreateRealValue(double r)
             {
                 ScriptTypeManager typeManager = GetEngine().GetEngine().TypeManager;
@@ -323,13 +357,9 @@ namespace Gstd
                 int lineOriginal = entry.LineEndOriginal - (entry.LineEnd - line);
 
                 string fileName = PathProperty.GetFileName(entry.Path);
+                Console.WriteLine(">>> {0} {1} {2}",  entry.LineEndOriginal ,entry.LineEnd, line);
 
-                string str = //StringUtility::Format(L"%s\r\n%s \r\n%s line(�s)=%d\r\n\r\n��\r\n%s\r\n�`�`�`",
-                    message/*.c_str(),
-                    entry.path_.c_str(),
-                    fileName.c_str(),
-                    lineOriginal, 
-                    errorPos.c_str())*/;
+                string str = String.Format("{0}\r\n{1}\r\n{2} line(s)={3}\r\n\r\n{4}\r\n", message, entry.Path, fileName, lineOriginal, errorPos);
                 throw new ScriptException(str);
             }
             private string _GetErrorLineSource(int line)
@@ -437,13 +467,14 @@ namespace Gstd
                             {//���łɓǂݍ��܂�Ă���
                                 int size1 = posInclude;
                                 int size2 = res.Length - posAfterInclude;
+                                //Console.WriteLine(String.Format("{0} {1} {2}\n{3}", size1, res.Length, posAfterInclude, res));
                                 string newSource = res.Substring(0, size1) + res.Substring(size1 + posAfterInclude, size1 + size2);
                                 
                                 res = newSource;
                                 break;
                             }
 
-                            List<char> placement = new List<char>();
+                            char[] placement = null;
                             FileReader reader;
                             reader = fileManager.GetFileReader(wPath);
                             if (reader == null || !reader.Open())
@@ -466,32 +497,34 @@ namespace Gstd
                                 reader.SetFilePointerBegin();
                             }
 
-                            /*{
-                                //�ǂݍ��ݑΏۂ�ShiftJis
-                                int newLineSize = bNeedNewLine ? 2 : 0;
-                                placement.resize(reader.GetFileSize() + newLineSize);
-                                reader->Read(&placement[0], reader->GetFileSize());
-                                memcpy(&placement[reader->GetFileSize()], "\r\n", newLineSize);
-                            }*/
+                            //�ǂݍ��ݑΏۂ�ShiftJis
+                            int newLineSize = 2;
+                            int fileSize = reader.GetFileSize();
+                            placement = new char[fileSize + newLineSize];
+                            reader.Read(placement, fileSize);
+                            placement[fileSize + 0] = '\r';
+                            placement[fileSize + 1] = '\n';
+
                             mapLine.AddEntry(wPath,
                                 scanner.GetCurrentLine(), 
                                 StringUtility.CountCharacter(placement, '\n') + 1);
 
-                            /*{//�u��
-                                std::vector<char> newSource;
+                            {//�u��
+                                char[] newSource;
                                 int size1 = posInclude;
-                                int size2 = res.size() - posAfterInclude;
-                                int sizeP = placement.size();
-                                newSource.resize(size1 + sizeP +size2);
-                                memcpy(&newSource[0], &res[0], size1);
-                                memcpy(&newSource[size1], &placement[0], sizeP);
-                                memcpy(&newSource[size1 + sizeP], &res[posAfterInclude], size2);
+                                int size2 = res.Length - posAfterInclude;
+                                int sizeP = placement.Length;
+                                newSource = new char[size1 + sizeP + size2];
+                                char[] resArr = res.ToCharArray();
+                                Array.Copy(resArr, 0, newSource, 0, size1);
+                                Array.Copy(placement, 0, newSource, size1, sizeP);
+                                Array.Copy(resArr, posAfterInclude, newSource, size1 + sizeP, size2);
 
-                                res = newSource;
+                                res = new string(newSource);
                             }
-                            setReadPath.insert(wPath);
+                            setReadPath.Add(wPath);
 
-                            if(false)
+                            /*if(false)
                             {
                                 static int countTest = 0;
                                 static std::wstring tPath = L"";

@@ -11,7 +11,7 @@ namespace Gstd
             {
                 pathOriginal = path;
             }
-            public abstract int Read(byte[] buf, int size);
+            public abstract int Read(char[] buf, int size);
             public abstract bool Open();
             public abstract void Close();
             public abstract int GetFileSize();

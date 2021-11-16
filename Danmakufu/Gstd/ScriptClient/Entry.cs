@@ -8,7 +8,7 @@ namespace Gstd
             public int LineEnd { get; set; } // TODO remove set
             public int LineStartOriginal { get; set; } // TODO remove set
             public int LineEndOriginal { get; set; } // TODO remove set
-            public string Path { get; set; } // TODO remove set
+            public string Path { get; set; } = ""; // TODO remove set
             public Entry()
             {
             }

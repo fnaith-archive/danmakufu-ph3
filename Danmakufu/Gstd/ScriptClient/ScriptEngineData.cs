@@ -7,7 +7,7 @@ namespace Gstd
     {
         sealed class ScriptEngineData
         {
-            private string path;
+            private string path = "";
             private string source;
             private ScriptEngine engine;
             private ScriptFileLineMap mapLine;
@@ -16,8 +16,6 @@ namespace Gstd
             {
                 mapLine = new ScriptFileLineMap();
             }
-            //public virtual ~ScriptEngineData();
-
             public void SetPath(string path)
             {
                 this.path = path;

@@ -22,6 +22,7 @@ namespace cs
             new ScriptEngineTest(readDataFunc, logInfo, logOk, logError).Run();
             new ScriptMachineTest(readDataFunc, logInfo, logOk, logError).Run();
             new PathPropertyTest(readDataFunc, logInfo, logOk, logError).Run();
+            new ScriptClientBaseTest(readDataFunc, logInfo, logOk, logError).Run();
         }
     }
 }

@@ -101,7 +101,11 @@ namespace Gstd
             public static string GetModuleDirectory()
             {
                 string path = System.Reflection.Assembly.GetEntryAssembly().Location;
-                return GetFileDirectory(path);
+#if _WINDOWS
+                return "D:\\Repository\\danmakufu-ph3\\Danmakufu\\test"; // TODO GetFileDirectory(path);
+#else
+                return "/Users/wilson/Desktop/ph3/danmakufu-ph3/Danmakufu"; // TODO GetFileDirectory(path);
+#endif
             }
             public static string GetDirectoryWithoutModuleDirectory(string path)
             {

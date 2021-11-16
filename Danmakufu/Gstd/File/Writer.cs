@@ -6,7 +6,7 @@ namespace Gstd
     {
         public interface IWriter
         {
-            int Write(byte[] buf, int size);
+            int Write(char[] buf, int size);
         }
         sealed class Writer
         {

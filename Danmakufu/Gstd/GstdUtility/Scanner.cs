@@ -282,11 +282,11 @@ namespace Gstd
                     }
                 }
 
-                if ( type == TokenType.TK_STRING)
+                if (type == TokenType.TK_STRING)
                 {
                     int pPosStart = posStart;
                     int pPosEnd = pointer;
-                    string str = new string(buffer, pPosStart, pPosEnd);
+                    string str = new string(buffer, pPosStart, pPosEnd - pPosStart);
                     str = str.Replace(@"\", @"/");
 
                     token = new Token(type, str, posStart, pointer);
@@ -295,7 +295,7 @@ namespace Gstd
                 {
                     int pPosStart = posStart;
                     int pPosEnd = pointer;
-                    string str = new string(buffer, pPosStart, pPosEnd);
+                    string str = new string(buffer, pPosStart, pPosEnd - pPosStart);
                     token = new Token(type, str, posStart, pointer);
                 }
 
@@ -361,7 +361,7 @@ namespace Gstd
             }
             public string GetString(int start, int end)
             {
-                string res = new string(buffer, start, end);
+                string res = new string(buffer, start, end - start);
                 return res;
             }
             //bool CompareMemory(int start, int end, const char* data); TODO remove
