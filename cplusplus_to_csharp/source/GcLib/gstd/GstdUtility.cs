@@ -338,74 +338,6 @@ namespace gstd
                 return s.Substring(0, length);
             }
 
-            public static string Trim(string str)
-            {
-                if (str.Length == 0)
-                {
-                    return str;
-                }
-
-                string wstr = StringUtility.ConvertMultiToWide(str);
-                int left = 0;
-                for (; left < wstr.Length; left++)
-                {
-                    char wch = wstr[left];
-                    if (wch != 0x20 && wch != 0x09)
-                    {
-                        break;
-                    }
-                }
-
-                int right = wstr.Length - 1;
-                for (; right >= 0; right--)
-                {
-                    char wch = wstr[right];
-                    if (wch != 0x20 && wch != 0x09 && wch != 0x0 && wch != '\r' && wch != '\n')
-                    {
-                        right++;
-                        break;
-                    }
-                }
-
-                string wres = wstr;
-                if (left <= right)
-                {
-                    wres = wstr.Substring(left, right - left);
-                }
-
-                string res = StringUtility.ConvertWideToMulti(wres);
-                return res;
-            }
-
-            // ----------------------------------------------------------------
-            // std::wstring.size�͕�������Ԃ��B�o�C�g���ł͂Ȃ��B
-            // ----------------------------------------------------------------
-            public static List<string> Split(string str, string delim)
-            {
-                List<string> res = new List<string>();
-                Split(str, delim, res);
-                return new List<string>(res);
-            }
-
-            public static void Split(string str, string delim, List<string> res)
-            {
-// C++ TO C# CONVERTER TODO TASK: C# does not have an equivalent to pointers to value types:
-// ORIGINAL LINE: char* wsource = (char*)str.c_str();
-                char wsource = (string)str;
-                string pStr = null;
-// C++ TO C# CONVERTER TODO TASK: C# does not have an equivalent to pointers to value types:
-// ORIGINAL LINE: char* cDelim = const_cast<char*>(delim.c_str());
-// C++ TO C# CONVERTER TODO TASK: There is no equivalent to 'const_cast' in C#:
-                char cDelim = const_cast<char>(delim);
-                while ((pStr = wcstok(pStr == null ? wsource : null, cDelim)) != null)
-                {
-                    // ?
-                    string s = pStr;
-                    // s = s.substr(0, s.size() - 1);//\0?
-                    res.Add(s);
-                }
-            }
-
             public static string Format(ref string str, params object[] LegacyParamArray)
             {
                 string res;
@@ -472,33 +404,6 @@ namespace gstd
                 return wres;
             }
 
-            public static int CountCharacter(string str, char c)
-            {
-                int count = 0;
-                string pbuf = str[0];
-                string ebuf = str[str.Length - 1];
-                while (pbuf <= ebuf)
-                {
-                    if (pbuf == c)
-                    {
-                        count++;
-                    }
-                }
-                return count;
-            }
-
-            public static int ToInteger(string s)
-            {
-                return _wtoi(s);
-            }
-
-            public static double ToDouble(string s)
-            {
-                string stopscan;
-                return wcstod(s, stopscan);
-                // return _wtof(s.c_str());
-            }
-
             public static string Replace(string source, string pattern, string placement)
             {
                 string res = ReplaceAll(source, pattern, placement, 1);
@@ -540,42 +445,6 @@ namespace gstd
             {
                 length = System.Math.Min(s.Length - 1, length);
                 return s.Substring(0, length);
-            }
-
-            public static string Trim(string str)
-            {
-                if (str.Length == 0)
-                {
-                    return str;
-                }
-
-                int left = 0;
-                for (; left < str.Length; left++)
-                {
-                    char wch = str[left];
-                    if (wch != 0x20 && wch != 0x09)
-                    {
-                        break;
-                    }
-                }
-
-                int right = str.Length - 1;
-                for (; right >= 0; right--)
-                {
-                    char wch = str[right];
-                    if (wch != 0x20 && wch != 0x09 && wch != 0x0 && wch != '\r' && wch != '\n')
-                    {
-                        right++;
-                        break;
-                    }
-                }
-
-                string res = str;
-                if (left <= right)
-                {
-                    res = str.Substring(left, right - left);
-                }
-                return res;
             }
 
             public static int CountAsciiSizeCharacter(string str)
@@ -685,33 +554,6 @@ namespace gstd
                 return res;
             }
     }
-    public class Math
-    {
-            public static double DegreeToRadian(double angle)
-            {
-                return angle * GlobalMembers.PAI / 180;
-            }
-            public static double RadianToDegree(double angle)
-            {
-                return angle * 180 / GlobalMembers.PAI;
-            }
-
-
-            // ================================================================
-            // Math
-            public static void InitializeFPU()
-            {
-                __asm
-                {
-                    finit
-                };
-            }
-
-            public static double Round(double val)
-            {
-                return floorl(val + 0.5);
-            }
-    }
 
     // ================================================================
     // ByteOrder
@@ -723,7 +565,6 @@ namespace gstd
                 ENDIAN_LITTLE,
                 ENDIAN_BIG
             }
-
 
             // ================================================================
             // ByteOrder

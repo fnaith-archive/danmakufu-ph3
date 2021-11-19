@@ -121,6 +121,54 @@ namespace Gstd
                 }
                 return data[offset];
             }
+            public int ReadInteger()
+            {
+                int num = BitConverter.ToInt32(data, offset);
+                offset += 4;
+                return num;
+            }
+            public double ReadDouble()
+            {
+                double num = BitConverter.ToDouble(data, offset);
+                offset += 8;
+                return num;
+            }
+            public char ReadCharacter()
+            {
+                char num = BitConverter.ToChar(data, offset);
+                offset += 2;
+                return num;
+            }
+            public bool ReadBoolean()
+            {
+                bool num = BitConverter.ToBoolean(data, offset);
+                offset += 1;
+                return num;
+            }
+			public void WriteInteger(int num)
+            {
+                byte[] byteArray = BitConverter.GetBytes(num);
+                Array.Copy(byteArray, 0, data, offset, 4);
+                offset += 4;
+            }
+			public void WriteDouble(double num)
+            {
+                byte[] byteArray = BitConverter.GetBytes(num);
+                Array.Copy(byteArray, 0, data, offset, 8);
+                offset += 8;
+            }
+			public void WriteCharacter(char ch)
+            {
+                byte[] byteArray = BitConverter.GetBytes(ch);
+                Array.Copy(byteArray, 0, data, offset, 2);
+                offset += 2;
+            }
+			public void WriteBoolean(bool b)
+            {
+                byte[] byteArray = BitConverter.GetBytes(b);
+                Array.Copy(byteArray, 0, data, offset, 1);
+                offset += 1;
+            }
         }
     }
 }

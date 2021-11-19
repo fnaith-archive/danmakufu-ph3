@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Gstd.GstdUtility;
 using Gstd.Script;
 using Gstd.File;
+using Gstd.MersenneTwister;
 
 namespace Gstd
 {
@@ -11,7 +12,10 @@ namespace Gstd
         sealed class ScriptClientBase : System.IDisposable
         {
             public const int ID_SCRIPT_FREE = -1;
-            //public static script_type_manager* GetDefaultScriptTypeManager(){return &typeManagerDefault_;}
+            public static ScriptTypeManager GetDefaultScriptTypeManager()
+            {
+                return typeManagerDefault;
+            }
             private static ScriptTypeManager typeManagerDefault = new ScriptTypeManager();
 
             private bool bError;
@@ -19,31 +23,33 @@ namespace Gstd
             private ScriptEngineData engine;
             private ScriptMachine machine;
 
-            private List<Function> func;
-            /*private ref_count_ptr<MersenneTwister> mt_;
-            private gstd::ref_count_ptr<ScriptCommonDataManager> commonDataManager_;*/
+            private List<Function> func = new List<Function>();
+            public MersenneTwister.MersenneTwister mt; // TODO private
+            private ScriptCommonDataManager commonDataManager;
             private int mainThreadID;
             private long idScript;
 
             /*private gstd::CriticalSection criticalSection_;*/
 
-            private List<Value> listValueArg;
-            private Value valueRes;
+            public List<Value> listValueArg; // TODO private
+            public Value valueRes; // TODO private
             
             public ScriptClientBase()
             {
                 bError = false;
+                cache = new ScriptEngineCache();
                 engine = new ScriptEngineData();
                 machine = null;
                 mainThreadID = -1;
                 idScript = ID_SCRIPT_FREE;
+                listValueArg = new List<Value>();
                 valueRes = new Value();
 
-                //commonDataManager_ = new ScriptCommonDataManager();
-                //mt_ = new MersenneTwister();
-                //mt_->Initialize(timeGetTime());
-                func = new List<Function>(); // TODO remove
-                //_AddFunction(commonFunction, sizeof(commonFunction)/sizeof(function));
+                commonDataManager = new ScriptCommonDataManager();
+                mt = new MersenneTwister.MersenneTwister();
+                mt.Initialize((uint)System.Environment.TickCount);
+                func = new List<Function>();
+                _AddFunction(BuildInFunction.commonFunction);
             }
             public void Dispose()
             {
@@ -54,7 +60,10 @@ namespace Gstd
                 machine = null;
                 engine = null;
             }
-            /*public void SetScriptEngineCache(gstd::ref_count_ptr<ScriptEngineCache> cache){cache_ = cache;}*/
+            public void SetScriptEngineCache(ScriptEngineCache cache)
+            {
+                this.cache = cache;
+            }
             public ScriptEngineData GetEngine()
             {
                 return engine;
@@ -323,7 +332,10 @@ namespace Gstd
                     machine.RaiseError(error);
                 }
             }*/
-            /*public ScriptCommonDataManager* GetCommonDataManager(){return commonDataManager_.GetPointer();}*/
+            public ScriptCommonDataManager GetCommonDataManager()
+            {
+                return commonDataManager;
+            }
 
             private void _AddFunction(string name, Callback f, int arguments)
             {
