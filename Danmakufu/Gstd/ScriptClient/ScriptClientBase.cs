@@ -369,7 +369,7 @@ namespace Gstd
                 int lineOriginal = entry.LineEndOriginal - (entry.LineEnd - line);
 
                 string fileName = PathProperty.GetFileName(entry.Path);
-                Console.WriteLine(">>> {0} {1} {2}",  entry.LineEndOriginal ,entry.LineEnd, line);
+                //Console.WriteLine(">>> {0} {1} {2}",  entry.LineEndOriginal ,entry.LineEnd, line);
 
                 string str = String.Format("{0}\r\n{1}\r\n{2} line(s)={3}\r\n\r\n{4}\r\n", message, entry.Path, fileName, lineOriginal, errorPos);
                 throw new ScriptException(str);

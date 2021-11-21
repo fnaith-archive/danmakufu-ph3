@@ -13,20 +13,41 @@ namespace test
 		}
 		void Run() override
 		{
-			TestBaseScript();
+			TestOkBase();
+			TestFailBase();
 		}
 	private:
-		void TestBaseScript()
+		void TestOkBase()
 		{
 			std::string scriptFilePaths[] = {
-				//"..\\data\\base\\TestA.txt"
-				"..\\data\\base\\TestB.txt"
+				"..\\data\\base\\ok\\FuncA.txt",
+				"..\\data\\base\\ok\\FuncB.txt",
+				"..\\data\\base\\ok\\rtos.txt",
+				"..\\data\\base\\ok\\vtos.txt"
 			};
 			LogInfo("[ScriptClientBaseTest] ok base");
 			for (const std::string &scriptFilePath : scriptFilePaths)
 			{
 				bool result = RunScript(scriptFilePath);
 				if (result)
+				{
+					LogFail("\tclient base error : " + scriptFilePath);
+					continue;
+				}
+				LogOk("\tok : " + scriptFilePath);
+			}
+		}
+		void TestFailBase()
+		{
+			std::string scriptFilePaths[] = {
+				"..\\data\\base\\fail\\FuncA.txt",
+				"..\\data\\base\\fail\\FuncB.txt"
+			};
+			LogInfo("[ScriptClientBaseTest] fail base");
+			for (const std::string &scriptFilePath : scriptFilePaths)
+			{
+				bool result = RunScript(scriptFilePath);
+				if (!result)
 				{
 					LogFail("\tclient base error : " + scriptFilePath);
 					continue;

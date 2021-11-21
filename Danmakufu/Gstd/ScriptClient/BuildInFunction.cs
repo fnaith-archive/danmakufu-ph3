@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using Gstd.GstdUtility;
 using Gstd.Script;
@@ -35,8 +36,8 @@ namespace Gstd
                 new Function("IntToString", new Callback(Func_IntToString), 1),
                 new Function("itoa", new Callback(Func_ItoA), 1),
                 new Function("rtoa", new Callback(Func_RtoA), 1),
-                //new Function("rtos", new Callback(Func_RtoS), 2), TODO
-                //new Function("vtos", new Callback(Func_VtoS), 2), TODO
+                new Function("rtos", new Callback(Func_RtoS), 2),
+                new Function("vtos", new Callback(Func_VtoS), 2),
                 new Function("atoi", new Callback(Func_AtoI), 1),
                 new Function("ator", new Callback(Func_AtoR), 1),
                 new Function("TrimString", new Callback(Func_TrimString), 1),
@@ -182,12 +183,210 @@ namespace Gstd
                 string res = argv[0].AsReal().ToString();
                 return new Value(machine.Engine.GetStringType(), res);
             }
-            /*private static Value Func_RtoS(ScriptMachine machine, int argc, Value[] argv) TODO
+            private static Value Func_RtoS(ScriptMachine machine, int argc, Value[] argv)
             {
+                string res = "";
+                string fmtV = argv[0].AsString();
+                double num = argv[1].AsReal();
+
+                try
+                {
+                    bool bF = false;
+                    int countIS = 0;
+                    int countI0 = 0;
+                    int countF = 0;
+
+                    for (int iCh = 0 ; iCh < fmtV.Length ; iCh++)
+                    {
+                        char ch = fmtV[iCh];
+
+                        if (ch == '#')
+                        {
+                            if (countI0 > 0 || bF || countF > 0)
+                            {
+                                throw new Exception("not leading #");
+                            }
+                            countIS++;
+                        }
+                        else if (ch == '.' && bF)
+                        {
+                            throw new Exception(". after bF");
+                        }
+                        else if (ch == '.')
+                        {
+                            bF = true;
+                        }
+                        else if (ch == '0')
+                        {
+                            if (bF)
+                            {
+                                countF++;
+                            }
+                            else
+                            {
+                                countI0++;
+                            }
+                        }
+                    }
+
+                    if (num < 0)
+                    {
+                        --countIS;
+                    }
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < countIS; ++i)
+                    {
+                        sb.Append(' ');
+                    }
+                    sb.Append("{0:");
+                    sb.Append(fmtV.Replace("#", ""));
+                    sb.Append('}');
+                    string fmt = sb.ToString();
+                    res = String.Format(fmt, num);
+                }
+                catch
+                {
+                    res = "error format";
+                }
+
+                return new Value(machine.Engine.GetStringType(), res);
             }
-            private static Value Func_VtoS(ScriptMachine machine, int argc, Value[] argv) TODO
+            private static Value Func_VtoS(ScriptMachine machine, int argc, Value[] argv)
             {
-            }*/
+                string res = "";
+                string fmtV = argv[0].AsString();
+
+                try
+                {
+                    char formatType = fmtV[fmtV.Length - 1];
+                    switch (formatType)
+                    {
+                        case 'd':
+                        {
+                            fmtV = fmtV.Remove(fmtV.Length - 1);
+                            bool rightPadding = '-' == fmtV[0];
+                            if (rightPadding)
+                            {
+                                fmtV = fmtV.Substring(1);
+                            }
+                            bool padZero = '0' == fmtV[0];
+                            if (padZero)
+                            {
+                                fmtV = fmtV.Substring(1);
+                            }
+                            int width;
+                            if (!int.TryParse(fmtV, out width))
+                            {
+                                throw new Exception("error d format");
+                            }
+                            int num = (int)argv[1].AsReal();
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append("{0,");
+                            if (rightPadding)
+                            {
+                                sb.Append('-');
+                            }
+                            sb.Append(width);
+                            sb.Append('}');
+                            string fmt = sb.ToString();
+                            res = String.Format(fmt, num);
+                            if (padZero)
+                            {
+                                res = res.Replace(" ", "0");
+                            }
+                            break;
+                        }
+                        case 'f':
+                        {
+                            fmtV = fmtV.Remove(fmtV.Length - 1);
+                            bool rightPadding = '-' == fmtV[0];
+                            if (rightPadding)
+                            {
+                                fmtV = fmtV.Substring(1);
+                            }
+                            bool padZero = '0' == fmtV[0];
+                            if (padZero)
+                            {
+                                fmtV = fmtV.Substring(1);
+                            }
+                            string[] widths = fmtV.Split('.');
+                            if (widths.Length > 2)
+                            {
+                                throw new Exception("error f format");
+                            }
+                            int width1;
+                            if (!int.TryParse(widths[0], out width1))
+                            {
+                                throw new Exception("error f format");
+                            }
+                            int width2 = 0;
+                            if (widths.Length == 2 && !int.TryParse(widths[1], out width2))
+                            {
+                                throw new Exception("error f format");
+                            }
+                            int width = width1 + width2;
+                            if (widths.Length == 2)
+                            {
+                                ++width;
+                            }
+                            double num = argv[1].AsReal();
+                            if (num < 0)
+                            {
+                                --width1;
+                            }
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append("{0,");
+                            if (rightPadding)
+                            {
+                                sb.Append('-');
+                            }
+                            sb.Append(width);
+                            sb.Append(':');
+                            if (padZero)
+                            {
+                                for (int i = 0; i < width1; ++i)
+                                {
+                                    sb.Append('0');
+                                }
+                                if (widths.Length == 2)
+                                {
+                                    sb.Append('.');
+                                    for (int i = 0; i < width2; ++i)
+                                    {
+                                        sb.Append('0');
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                sb.Append('F');
+                                sb.Append(width2);
+                            }
+                            sb.Append('}');
+                            string fmt = sb.ToString();
+                            res = String.Format(fmt, num);
+                            break;
+                        }
+                        case 's':
+                        {
+                            if ("s" != fmtV)
+                            {
+                                throw new Exception("error s format");
+                            }
+                            res = argv[1].AsString();
+                            break;
+                        }
+                        default:
+                            throw new Exception("error format");
+                    }
+                }
+                catch
+                {
+                    res = "error format";
+                }
+
+                return new Value(machine.Engine.GetStringType(), res);
+            }
             private static Value Func_AtoI(ScriptMachine machine, int argc, Value[] argv)
             {
                 string str = argv[0].AsString();
@@ -263,6 +462,7 @@ namespace Gstd
             {
                 string msg = argv[0].AsString();
                 Logger.Logger.WriteTop(msg);
+                //Console.WriteLine(msg);
                 return new Value();
             }
             private static Value Func_RaiseError(ScriptMachine machine, int argc, Value[] argv)

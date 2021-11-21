@@ -10,19 +10,40 @@ namespace test
         }
         public override void Run()
         {
-            TestBaseScript();
+            TestOkBase();
+            TestFailBase();
         }
-        private void TestBaseScript()
+        private void TestOkBase()
         {
             string[] scriptFilePaths = {
-                "./test/data/base/FuncA.txt",
-                "./test/data/base/FuncB.txt"
+                "./test/data/base/ok/FuncA.txt",
+                "./test/data/base/ok/FuncB.txt",
+                "./test/data/base/ok/rtos.txt",
+                "./test/data/base/ok/vtos.txt"
             };
-            LogInfo("[ScriptClientBaseTest] base script");
+            LogInfo("[ScriptClientBaseTest] ok base");
             foreach (string scriptFilePath in scriptFilePaths)
             {
                 bool result = RunScript(scriptFilePath);
                 if (result)
+                {
+                    LogFail(String.Format("\tclient base error : {0}", scriptFilePath));
+                    continue;
+                }
+                LogOk(String.Format("\tok : {0}", scriptFilePath));
+            }
+        }
+        private void TestFailBase()
+        {
+            string[] scriptFilePaths = {
+                "./test/data/base/fail/FuncA.txt",
+                "./test/data/base/fail/FuncB.txt"
+            };
+            LogInfo("[ScriptClientBaseTest] fail base");
+            foreach (string scriptFilePath in scriptFilePaths)
+            {
+                bool result = RunScript(scriptFilePath);
+                if (!result)
                 {
                     LogFail(String.Format("\tclient base error : {0}", scriptFilePath));
                     continue;
@@ -46,7 +67,7 @@ namespace test
             }
             catch (Exception e)
             {
-                LogFail(String.Format("{0}", e.ToString()));
+                //LogFail(String.Format("{0}", e.ToString()));
                 return true;
             }
         }

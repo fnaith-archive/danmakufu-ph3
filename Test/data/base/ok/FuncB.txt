@@ -1,6 +1,6 @@
-// TestB.txt
+// FuncB.txt
 
-#include".\TestA.txt"
+#include".\FuncA.txt"
 
 function FuncB()
 {

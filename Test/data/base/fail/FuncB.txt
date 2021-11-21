@@ -1,0 +1,3 @@
+// FuncB.txt
+
+#include".\FuncA.txt"

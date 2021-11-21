@@ -1,0 +1,3 @@
+// FuncA.txt
+
+assert(false), "");

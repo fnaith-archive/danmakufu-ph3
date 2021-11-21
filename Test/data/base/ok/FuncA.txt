@@ -1,4 +1,4 @@
-// TestA.txt
+// FuncA.txt
 
 function FuncA()
 {
