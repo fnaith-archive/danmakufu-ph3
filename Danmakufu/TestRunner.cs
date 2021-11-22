@@ -23,6 +23,7 @@ namespace cs
             new ScriptMachineTest(readDataFunc, logInfo, logOk, logError).Run();
             new PathPropertyTest(readDataFunc, logInfo, logOk, logError).Run();
             new ScriptClientBaseTest(readDataFunc, logInfo, logOk, logError).Run();
+            new MersenneTwisterTest(readDataFunc, logInfo, logOk, logError).Run();
         }
     }
 }

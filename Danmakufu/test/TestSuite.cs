@@ -45,6 +45,20 @@ namespace test
                 throw new Exception("Assert Failed");
             }
         }
+        protected void AssertEquals(int expected, int actual)
+        {
+            if (expected != actual)
+            {
+                throw new Exception(actual.ToString());
+            }
+        }
+        protected void AssertEquals(double expected, double actual)
+        {
+            if (1.0e-06 < Math.Abs(expected - actual))
+            {
+                throw new Exception(actual.ToString());
+            }
+        }
         protected void AssertEquals(string expected, string actual)
         {
             if (expected != actual)
