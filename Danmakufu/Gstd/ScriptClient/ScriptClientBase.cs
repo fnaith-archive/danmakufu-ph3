@@ -9,7 +9,7 @@ namespace Gstd
 {
     namespace ScriptClient
     {
-        sealed class ScriptClientBase : System.IDisposable
+        class ScriptClientBase : System.IDisposable
         {
             public const int ID_SCRIPT_FREE = -1;
             public static ScriptTypeManager GetDefaultScriptTypeManager()
