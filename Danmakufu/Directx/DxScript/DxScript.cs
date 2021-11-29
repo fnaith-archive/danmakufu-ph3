@@ -1,12 +1,9 @@
 using Gstd.ScriptClient;
 
-namespace Directx
+namespace Directx.DxScript
 {
-    namespace DxScript
+    class DxScript : ScriptClientBase
     {
-        class DxScript : ScriptClientBase
-        {
-             // TODO
-        }
+        // TODO
     }
 }

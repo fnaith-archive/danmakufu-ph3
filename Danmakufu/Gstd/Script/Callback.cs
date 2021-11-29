@@ -1,7 +1,4 @@
-namespace Gstd
+namespace Gstd.Script
 {
-    namespace Script
-    {
-        delegate Value Callback(ScriptMachine machine, int argc, Value[] argv);
-    }
+    delegate Value Callback(ScriptMachine machine, int argc, Value[] argv);
 }

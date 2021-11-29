@@ -1,12 +1,9 @@
 using Directx.DxScript;
 
-namespace Directx
+namespace Directx.ScriptManager
 {
-    namespace ScriptManager
+    class ManagedScript : DxScript.DxScript // TODO LoadObject
     {
-        class ManagedScript : DxScript.DxScript // TODO LoadObject
-        {
-             // TODO
-        }
+        // TODO
     }
 }

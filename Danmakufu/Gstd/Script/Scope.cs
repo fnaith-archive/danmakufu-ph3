@@ -1,16 +1,13 @@
 using System.Collections.Generic;
 
-namespace Gstd
+namespace Gstd.Script
 {
-    namespace Script
+    sealed class Scope : Dictionary<string, Symbol>
     {
-        sealed class Scope : Dictionary<string, Symbol>
+        public BlockKind Kind { get; }
+        public Scope(BlockKind kind)
         {
-            public BlockKind Kind { get; }
-            public Scope(BlockKind kind)
-            {
-                Kind = kind;
-            }
+            Kind = kind;
         }
     }
 }

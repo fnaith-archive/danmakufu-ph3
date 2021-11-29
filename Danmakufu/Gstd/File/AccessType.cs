@@ -1,11 +1,8 @@
-namespace Gstd
+namespace Gstd.File
 {
-    namespace File
+    enum AccessType
     {
-        enum AccessType
-        {
-            READ,
-            WRITE
-        }
+        READ,
+        WRITE
     }
 }

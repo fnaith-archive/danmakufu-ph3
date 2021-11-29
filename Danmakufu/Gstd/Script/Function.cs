@@ -1,18 +1,15 @@
-namespace Gstd
+namespace Gstd.Script
 {
-    namespace Script
+    sealed class Function
     {
-        sealed class Function
+        public string Name { get; }
+        public Callback Callback { get; }
+        public int Arguments { get; }
+        public Function(string name, Callback callback, int arguments)
         {
-            public string Name { get; }
-            public Callback Callback { get; }
-            public int Arguments { get; }
-            public Function(string name, Callback callback, int arguments)
-            {
-                Name = name;
-                Callback = callback;
-                Arguments = arguments;
-            }
+            Name = name;
+            Callback = callback;
+            Arguments = arguments;
         }
     }
 }

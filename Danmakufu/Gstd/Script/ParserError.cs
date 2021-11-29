@@ -1,14 +1,11 @@
 using System;
 
-namespace Gstd
+namespace Gstd.Script
 {
-    namespace Script
+    sealed class ParserError : Exception
     {
-        sealed class ParserError : Exception
+        public ParserError(string message) : base(message)
         {
-            public ParserError(string message) : base(message)
-            {
-            }
         }
     }
 }

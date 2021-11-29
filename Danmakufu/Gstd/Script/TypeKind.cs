@@ -1,13 +1,10 @@
-namespace Gstd
+namespace Gstd.Script
 {
-    namespace Script
+    enum TypeKind
     {
-        enum TypeKind
-        {
-            tk_real = 0,
-            tk_char = 1,
-            tk_boolean = 2,
-            tk_array = 3
-        }
+        tk_real = 0,
+        tk_char = 1,
+        tk_boolean = 2,
+        tk_array = 3
     }
 }

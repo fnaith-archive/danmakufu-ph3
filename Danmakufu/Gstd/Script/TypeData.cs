@@ -1,19 +1,16 @@
-namespace Gstd
+namespace Gstd.Script
 {
-    namespace Script
+    sealed class TypeData
     {
-        sealed class TypeData
+        public TypeKind Kind { get; }
+        public TypeData Element{ get; }
+        public TypeData(TypeKind kind, TypeData element=null)
         {
-            public TypeKind Kind { get; }
-            public TypeData Element{ get; }
-            public TypeData(TypeKind kind, TypeData element=null)
-            {
-                Kind = kind;
-                Element = element;
-            }
-            public TypeData(TypeData source) : this(source.Kind, source.Element)
-            {
-            }
+            Kind = kind;
+            Element = element;
+        }
+        public TypeData(TypeData source) : this(source.Kind, source.Element)
+        {
         }
     }
 }

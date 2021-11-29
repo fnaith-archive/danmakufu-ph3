@@ -1,12 +1,9 @@
-namespace Gstd
+namespace Gstd.File
 {
-    namespace File
+    enum FileType
     {
-        enum FileType
-        {
-            TYPE_NORMAL,
-            TYPE_ARCHIVED,
-            TYPE_ARCHIVED_COMPRESSED
-        }
+        TYPE_NORMAL,
+        TYPE_ARCHIVED,
+        TYPE_ARCHIVED_COMPRESSED
     }
 }

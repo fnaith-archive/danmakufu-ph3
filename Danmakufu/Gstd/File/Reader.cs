@@ -1,33 +1,30 @@
 // https://docs.microsoft.com/zh-tw/dotnet/api/system.io.binaryreader.readbytes?view=net-5.0
 
-namespace Gstd
+namespace Gstd.File
 {
-    namespace File
+    public interface IReader
     {
-        public interface IReader
+        int Read(char[] buf, int size);
+    }
+    sealed class Reader // TODO
+    {
+        /*public template <typename T> DWORD Read(T& data)
         {
-            int Read(char[] buf, int size);
-        }
-        sealed class Reader // TODO
-        {
-            /*public template <typename T> DWORD Read(T& data)
-            {
-                return Read(&data, sizeof(T));
-            }*/
-            //public bool ReadBoolean(){bool res; Read(res);return res;}
-            //public char ReadCharacter(){char res; Read(res);return res;}
-            //public short ReadShort(){short res; Read(res);return res;}
-            //public int ReadInteger(){int num; Read(num);return num;}
-            //public _int64 ReadInteger64(){_int64 num; Read(num);return num;}
-            //public float ReadFloat(){float num; Read(num);return num;}
-            //public double ReadDouble(){double num; Read(num);return num;}
+            return Read(&data, sizeof(T));
+        }*/
+        //public bool ReadBoolean(){bool res; Read(res);return res;}
+        //public char ReadCharacter(){char res; Read(res);return res;}
+        //public short ReadShort(){short res; Read(res);return res;}
+        //public int ReadInteger(){int num; Read(num);return num;}
+        //public _int64 ReadInteger64(){_int64 num; Read(num);return num;}
+        //public float ReadFloat(){float num; Read(num);return num;}
+        //public double ReadDouble(){double num; Read(num);return num;}
 
-            public static string ReadString(IReader reader, int size)
-            {
-                char[] buffer = new char[size];
-                reader.Read(buffer, size);
-                return new string(buffer);
-            }
+        public static string ReadString(IReader reader, int size)
+        {
+            char[] buffer = new char[size];
+            reader.Read(buffer, size);
+            return new string(buffer);
         }
     }
 }
