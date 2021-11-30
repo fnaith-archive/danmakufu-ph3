@@ -1,6 +1,6 @@
 namespace Gstd.Script
 {
-    sealed class TypeData
+    public sealed class TypeData
     {
         public TypeKind Kind { get; }
         public TypeData Element{ get; }

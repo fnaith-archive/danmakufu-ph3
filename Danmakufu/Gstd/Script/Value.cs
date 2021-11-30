@@ -7,7 +7,7 @@ using System;
 
 namespace Gstd.Script
 {
-    sealed class Value : System.IDisposable// TODO prevent pass TypeData
+    public sealed class Value : System.IDisposable// TODO prevent pass TypeData
     {
 #if _TRACE_VALUE
         static int counter = 0;

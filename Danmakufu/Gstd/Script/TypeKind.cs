@@ -1,6 +1,6 @@
 namespace Gstd.Script
 {
-    enum TypeKind
+    public enum TypeKind
     {
         tk_real = 0,
         tk_char = 1,
