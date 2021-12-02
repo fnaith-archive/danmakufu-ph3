@@ -4,7 +4,7 @@ using Gstd.Script;
 using Gstd.ScriptClient;
 using Directx.DxScript;
 
-namespace Common.DnhScript
+namespace Directx.DxScript
 {
     public abstract class DxScriptObjectBase : IDisposable
     {

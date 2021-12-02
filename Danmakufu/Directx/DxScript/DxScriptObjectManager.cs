@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Gstd.Script;
-using Directx;
 
-namespace Common.DnhScript
+namespace Directx.DxScript
 {
     public class DxScriptObjectManager : IDisposable
     {
