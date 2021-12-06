@@ -142,21 +142,6 @@ public class StgControlScript : DnhScript
         // �X�N���v�g���̃L���b�V��
         protected SortedDictionary<string, ref_count_ptr<ScriptInformation>> mapScriptInfo_ = new SortedDictionary<string, ref_count_ptr<ScriptInformation>>();
 
-        public StgControlScript(StgSystemController systemController)
-        {
-            systemController_ = systemController;
-            scriptManager_ = null;
-// C++ TO C# CONVERTER WARNING: This 'sizeof' ratio was replaced with a direct reference to the array length:
-// ORIGINAL LINE: _AddFunction(stgControlFunction, sizeof(stgControlFunction) / sizeof(function));
-            _AddFunction(GlobalMembers.stgControlFunction, GlobalMembers.stgControlFunction.Length);
-
-            bLoad_ = false;
-            bEndScript_ = false;
-            bAutoDeleteObject_ = false;
-
-            SetScriptEngineCache(systemController.GetScriptEngineCache());
-            commonDataManager_.CopyFrom(systemController.GetCommonDataManager());
-        }
 
         // STG���䋤�ʊ֐��F���ʃf�[�^
 

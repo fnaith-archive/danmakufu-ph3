@@ -464,13 +464,6 @@ namespace directx
 // C++ TO C# CONVERTER TODO TASK: Multiple inheritance is not available in C#:
     public class ManagedScript : DxScript, gstd.FileManager.LoadObject
     {
-// C++ TO C# CONVERTER TODO TASK: C# has no concept of a 'friend' class:
-//        friend ScriptManager;
-// C++ TO C# CONVERTER NOTE: Enums must be named in C#, so the following enum has been named by the converter:
-            public enum AnonymousEnum2
-            {
-                TYPE_ALL = -1
-            }
 
             protected ScriptManager scriptManager_;
 
@@ -485,17 +478,6 @@ namespace directx
             protected int typeEvent_;
             protected List<gstd.value> listValueEvent_ = new List<gstd.value>();
 
-            public ManagedScript()
-            {
-                scriptManager_ = null;
-// C++ TO C# CONVERTER WARNING: This 'sizeof' ratio was replaced with a direct reference to the array length:
-// ORIGINAL LINE: _AddFunction(commonFunction, sizeof(commonFunction) / sizeof(function));
-                _AddFunction(GlobalMembers.commonFunction, GlobalMembers.commonFunction.Length);
-
-                bLoad_ = false;
-                bEndScript_ = false;
-                bAutoDeleteObject_ = false;
-            }
 
             public virtual void SetScriptManager(ScriptManager manager)
             {

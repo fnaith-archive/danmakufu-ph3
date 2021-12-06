@@ -49,7 +49,7 @@ namespace Gstd.ScriptClient
             func = new List<Function>();
             _AddFunction(BuildInFunction.commonFunction);
         }
-        public void Dispose()
+        public virtual void Dispose()
         {
             if (machine != null)
             {
@@ -340,7 +340,7 @@ namespace Gstd.ScriptClient
             Function tFunc = new Function(name, f, arguments);
             func.Add(tFunc);
         }
-        private void _AddFunction(Function[] functions)
+        protected void _AddFunction(Function[] functions)
         {
             foreach (Function f in functions)
             {

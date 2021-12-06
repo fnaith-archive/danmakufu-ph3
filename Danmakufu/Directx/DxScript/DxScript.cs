@@ -22,6 +22,18 @@ namespace Directx.DxScript
         public const int CODE_UTF8 = CP_UTF8,
         public const int CODE_UTF16LE,
         public const int CODE_UTF16BE*/
+
+            public DxScript()
+            {
+                _AddFunction(DxFunction.dxFunction);
+                //objManager_ = new DxScriptObjectManager(); TODO
+            }
+
+            public override void Dispose()
+            {
+                // _ClearResource(); TODO
+                base.Dispose();
+            }
         // TODO
     }
 }

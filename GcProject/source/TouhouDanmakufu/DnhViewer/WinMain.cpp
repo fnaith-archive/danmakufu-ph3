@@ -36,7 +36,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	}
 //	catch(...)
 //	{
-//		Logger::WriteTop("•s–¾‚ÈƒGƒ‰[");
+//		Logger::WriteTop("ï¿½sï¿½ï¿½ï¿½ÈƒGï¿½ï¿½ï¿½[");
 //	}
 
 	EApplication::DeleteInstance();

@@ -1958,32 +1958,6 @@ namespace directx
     **********************************************************/
     public class DxScript : gstd.ScriptClientBase
     {
-// C++ TO C# CONVERTER NOTE: Enums must be named in C#, so the following enum has been named by the converter:
-            public enum AnonymousEnum
-            {
-                ID_INVALID = -1,
-                OBJ_INVALID = -1,
-                OBJ_PRIMITIVE_2D = 1,
-                OBJ_SPRITE_2D,
-                OBJ_SPRITE_LIST_2D,
-                OBJ_PRIMITIVE_3D,
-                OBJ_SPRITE_3D,
-                OBJ_TRAJECTORY_3D,
-                OBJ_SHADER,
-
-                OBJ_MESH,
-                OBJ_TEXT,
-                OBJ_SOUND,
-
-                OBJ_FILE_TEXT,
-                OBJ_FILE_BINARY,
-
-                CODE_ACP = CP_ACP,
-                CODE_UTF8 = CP_UTF8,
-                CODE_UTF16LE,
-                CODE_UTF16BE
-            }
-
             protected gstd.ref_count_ptr<DxScriptObjectManager> objManager_ = new gstd.ref_count_ptr<DxScriptObjectManager>();
 
             // ���\�[�X
@@ -2013,20 +1987,6 @@ namespace directx
                     res.CopyFrom(mapTexture_[name]);
                 }
                 return new gstd.ref_count_ptr<Texture>(res);
-            }
-
-            public DxScript()
-            {
-// C++ TO C# CONVERTER WARNING: This 'sizeof' ratio was replaced with a direct reference to the array length:
-// ORIGINAL LINE: _AddFunction(dxFunction, sizeof(dxFunction) / sizeof(function));
-                _AddFunction(GlobalMembers.dxFunction, GlobalMembers.dxFunction.Length);
-                objManager_ = new DxScriptObjectManager();
-            }
-
-            public override void Dispose()
-            {
-                _ClearResource();
-                base.Dispose();
             }
 
             public void SetObjectManager(gstd.ref_count_ptr<DxScriptObjectManager> manager)

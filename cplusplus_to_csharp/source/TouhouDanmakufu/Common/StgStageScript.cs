@@ -429,24 +429,6 @@ public class StgStageScript : StgControlScript
             TARGET_PLAYER
         }
 
-        protected StgStageController stageController_;
-        public StgStageScript(StgStageController stageController) : base(stageController.GetSystemController())
-        {
-            stageController_ = stageController;
-
-            typeScript_ = (int)AnonymousEnum.TYPE_STAGE;
-// C++ TO C# CONVERTER WARNING: This 'sizeof' ratio was replaced with a direct reference to the array length:
-// ORIGINAL LINE: _AddFunction(stgFunction, sizeof(stgFunction) / sizeof(function));
-            _AddFunction(GlobalMembers.stgFunction, GlobalMembers.stgFunction.Length);
-
-            ref_count_ptr<StgStageInformation> info = stageController_.GetStageInformation();
-            mt_ = info.GetMersenneTwister();
-
-            scriptManager_ = stageController_.GetScriptManagerP();
-            StgStageScriptManager scriptManager = (StgStageScriptManager)scriptManager_;
-            SetObjectManager(scriptManager.GetObjectManager());
-        }
-
         public override void Dispose()
         {
             base.Dispose();
